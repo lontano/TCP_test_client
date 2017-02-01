@@ -1,0 +1,22 @@
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\bin\Debug\TCP_test_client.exe.config
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\bin\Debug\TCP_test_client.exe
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\bin\Debug\TCP_test_client.pdb
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\bin\Debug\TCP_test_client.xml
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.Form1.resources
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.Resources.resources
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbproj.GenerateResource.Cache
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.exe
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.xml
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.pdb
+\\dades_c.ad-ccrtv.local\dades_c\usuaris\andr_ang\carpeteswin7\documents\visual studio 2015\Projects\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbprojResolveAssemblyReference.cache
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbprojResolveAssemblyReference.cache
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.Form1.resources
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.Resources.resources
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbproj.GenerateResource.Cache
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.exe.config
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.exe
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.pdb
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.xml
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.exe
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.xml
+D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.pdb
