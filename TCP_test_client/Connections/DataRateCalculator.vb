@@ -128,9 +128,12 @@
     Public ReadOnly Property DataSize() As Integer
       Get
         Dim bytes As Integer = 0
-        For Each size As Integer In _data_size
-          bytes += size
-        Next
+        Try
+          For Each size As Integer In _data_size
+            bytes += size
+          Next
+        Catch ex As Exception
+        End Try
         Return bytes
       End Get
     End Property

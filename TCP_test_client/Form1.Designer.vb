@@ -122,7 +122,7 @@ Partial Class Form1
     Me.TextBoxSenderHost.Name = "TextBoxSenderHost"
     Me.TextBoxSenderHost.Size = New System.Drawing.Size(146, 21)
     Me.TextBoxSenderHost.TabIndex = 2
-    Me.TextBoxSenderHost.Text = "127.0.0.1"
+    Me.TextBoxSenderHost.Text = "192.168.146.76"
     '
     'LabelSenderPort
     '
