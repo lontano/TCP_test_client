@@ -19,6 +19,7 @@ Namespace Connections
 
     Public Event ErrorEvent(ByVal CiException As Exception)
     Public Event ActivityOutgoing()
+    Public Event SentData(ByRef sender As TCPSender, siData As String)
 
     Private _dataRate As New DataRateCalculator
     Public ReadOnly Property DataRate As Double
@@ -58,6 +59,7 @@ Namespace Connections
         Me.bytCommand = Encoding.UTF8.GetBytes(siData)
         Me.CPiClient.Client.Send(Me.bytCommand)
         RaiseEvent ActivityOutgoing()
+        RaiseEvent SentData(Me, siData)
         _dataRate.AddData(siData)
       Catch ex As Exception
         RaiseEvent ErrorEvent(ex)

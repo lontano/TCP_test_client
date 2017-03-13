@@ -144,7 +144,7 @@ Namespace Connections
             byteCount = networkStream.Read(inbuffer, 0, CInt(tcpClient.ReceiveBufferSize))
             '  Loop While networkStream.DataAvailable
             'End If
-            Dim incomingData(byteCount) As Byte
+            Dim incomingData(byteCount - 1) As Byte
             Array.Copy(inbuffer, incomingData, byteCount)
             dData.bData = incomingData
             dData.sData = System.Text.Encoding.UTF8.GetString(incomingData)

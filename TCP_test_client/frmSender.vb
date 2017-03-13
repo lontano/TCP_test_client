@@ -1,8 +1,7 @@
 ﻿Imports TCP_test_client.Connections
 
-Public Class Form1
+Public Class frmSender
   Private WithEvents _tcpSender As Connections.TCPSender
-  Private WithEvents _tcpReceiver As Connections.TCPReceiver
 
   Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
     If Not _tcpSender Is Nothing Then
@@ -15,10 +14,6 @@ Public Class Form1
     If Me.InvokeRequired Then
       Me.Invoke(New UpdateGUIDelegate(AddressOf UpdateGUI))
     Else
-      If Not _tcpReceiver Is Nothing Then
-        Me.LabelReceiverState.Text = "Data received " & Now.ToString
-        Me.LabelReceiverDataRate.Text = _tcpReceiver.DataRateCalculator.DataRateText & " " & _tcpReceiver.DataRateCalculator.TotalDataReceivedText
-      End If
       If Not _tcpSender Is Nothing Then
         Me.LabelSenderState.Text = "Data sent " & Now.ToString
         Me.LabelSenderDataRate.Text = _tcpSender.DataRateCalculator.DataRateText & " " & _tcpSender.DataRateCalculator.TotalDataReceivedText
@@ -31,13 +26,6 @@ Public Class Form1
     If Me.InvokeRequired Then
       Me.Invoke(New UpdateButtonsDelegate(AddressOf UpdateGUI))
     Else
-      If Not _tcpReceiver Is Nothing Then
-        Me.ButtonReceiverConnect.Text = "Disconnect"
-        Me.ButtonReceiverConnect.BackColor = Color.LightGreen
-      Else
-        Me.ButtonReceiverConnect.Text = "Connect"
-        Me.ButtonReceiverConnect.BackColor = Color.LightSalmon
-      End If
       If Not _tcpSender Is Nothing Then
         Me.ButtonSenderConnect.Text = "Disconnect"
         Me.ButtonSenderConnect.BackColor = Color.LightGreen
@@ -46,10 +34,6 @@ Public Class Form1
         Me.ButtonSenderConnect.BackColor = Color.LightSalmon
       End If
     End If
-  End Sub
-
-  Private Sub _tcpReceiver_DataReceive(ByRef sender As TCPReceiver, siData As String) Handles _tcpReceiver.DataReceive
-    UpdateGUI()
   End Sub
 
   Private Sub _tcpSender_ActivityOutgoing() Handles _tcpSender.ActivityOutgoing
@@ -67,14 +51,11 @@ Public Class Form1
     UpdateButtons()
   End Sub
 
-  Private Sub ButtonReceiverConnect_Click(sender As Object, e As EventArgs) Handles ButtonReceiverConnect.Click
-    If _tcpReceiver Is Nothing Then
-      _tcpReceiver = New Connections.TCPReceiver
-      _tcpReceiver.Listen(Me.NumericUpDownReceiverPort.Value)
-    Else
-      _tcpReceiver.Disconnect()
-      _tcpReceiver = Nothing
-    End If
-    UpdateButtons()
+  Private Sub _tcpSender_SentData(ByRef sender As TCPSender, siData As String) Handles _tcpSender.SentData
+
+    Dim itm As ListViewItem = Me.ListViewPackets.Items.Insert(0, Me.ListViewPackets.Items.Count)
+    itm.SubItems.Add(Now.ToString)
+    itm.SubItems.Add(siData.Length)
+    itm.SubItems.Add(siData)
   End Sub
 End Class

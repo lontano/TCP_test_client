@@ -20,3 +20,17 @@ D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.xml
 D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.exe
 D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.xml
 D:\GELO\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.pdb
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.exe.config
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.xml
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.exe
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.pdb
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.xml
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbprojResolveAssemblyReference.cache
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmControl.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmReceiver.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmSender.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmMain.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.Resources.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbproj.GenerateResource.Cache
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.exe
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.pdb

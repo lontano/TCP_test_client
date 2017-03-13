@@ -74,11 +74,29 @@
   <ItemGroup>
     <Compile Include="Connections\DataRateCalculator.vb" />
     <Compile Include="Connections\TCPReceiver.vb" />
-    <Compile Include="Form1.vb">
+    <Compile Include="frmControl.Designer.vb">
+      <DependentUpon>frmControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmControl.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="frmReceiver.Designer.vb">
+      <DependentUpon>frmReceiver.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmReceiver.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSender.Designer.vb">
+      <DependentUpon>frmSender.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSender.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.vb">
+      <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -99,8 +117,17 @@
     <Compile Include="Connections\TCPSender.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="frmControl.resx">
+      <DependentUpon>frmControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReceiver.resx">
+      <DependentUpon>frmReceiver.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSender.resx">
+      <DependentUpon>frmSender.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
