@@ -10,7 +10,7 @@ Imports System.IO
 
 Namespace Connections
   Public Class TCPSender
-    Private CPiClient As TcpClient
+    Private WithEvents CPiClient As TcpClient
 
     Private sPiHostName As String
     Private CPiIPAddress As IPAddress
@@ -66,6 +66,22 @@ Namespace Connections
       End Try
       Return nRes
     End Function
+
+    Public Function SendData(ByVal biData() As Byte) As Integer
+      Dim nRes As Integer = 0
+      Try
+        Me.bytCommand = biData
+        Me.CPiClient.Client.Send(Me.bytCommand)
+        RaiseEvent ActivityOutgoing()
+        Dim sData As String = System.Text.Encoding.UTF8.GetString(biData)
+        RaiseEvent SentData(Me, sData)
+        _dataRate.AddData(biData)
+      Catch ex As Exception
+        RaiseEvent ErrorEvent(ex)
+      End Try
+      Return nRes
+    End Function
+
 
     Public Sub Disconnect()
       Try

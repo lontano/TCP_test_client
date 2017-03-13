@@ -144,15 +144,18 @@ Namespace Connections
             byteCount = networkStream.Read(inbuffer, 0, CInt(tcpClient.ReceiveBufferSize))
             '  Loop While networkStream.DataAvailable
             'End If
-            Dim incomingData(byteCount - 1) As Byte
-            Array.Copy(inbuffer, incomingData, byteCount)
-            dData.bData = incomingData
-            dData.sData = System.Text.Encoding.UTF8.GetString(incomingData)
-            Me._backWorkerListener.ReportProgress(0, dData)
-            bWorker.ReportProgress(0, dData)
+            If byteCount > 0 Then
+              Dim incomingData(byteCount - 1) As Byte
+              Array.Copy(inbuffer, incomingData, byteCount)
+              dData.bData = incomingData
+              dData.sData = System.Text.Encoding.UTF8.GetString(incomingData)
+              Me._backWorkerListener.ReportProgress(0, dData)
+              bWorker.ReportProgress(0, dData)
+            End If
           End While
         End If
       Catch ex As Exception
+        Debug.Print(ex.ToString)
       End Try
     End Sub
 
