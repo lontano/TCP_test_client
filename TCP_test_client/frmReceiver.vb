@@ -64,4 +64,35 @@ Public Class frmReceiver
     End If
     UpdateButtons()
   End Sub
+
+  Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    AppNewAutosizeColumns(Me.ListViewPackets)
+  End Sub
+
+
+  'API Declaration in General Declarations
+  Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As IntPtr, ByVal wMsg As Int32, ByVal wParam As Int32, ByVal lParam As Int32) As Int32
+
+  'API Constants
+  Const SET_COLUMN_WIDTH As Long = 4126
+  Const AUTOSIZE_USEHEADER As Long = -2
+
+  'Sub To Resize
+  Private Sub AppNewAutosizeColumns(ByVal TargetListView As ListView)
+
+    Const SET_COLUMN_WIDTH As Long = 4126
+    Const AUTOSIZE_USEHEADER As Long = -2
+
+    Dim lngColumn As Long
+
+    For lngColumn = 0 To (TargetListView.Columns.Count - 1)
+
+      Call SendMessage(TargetListView.Handle,
+                SET_COLUMN_WIDTH,
+                lngColumn,
+                AUTOSIZE_USEHEADER)
+
+    Next lngColumn
+
+  End Sub
 End Class

@@ -34,6 +34,16 @@ Namespace Connections
       End Get
     End Property
 
+    Public ReadOnly Property Connected As Boolean
+      Get
+        If CPiClient Is Nothing Then
+          Return False
+        Else
+          Return CPiClient.Connected
+        End If
+      End Get
+    End Property
+
     Public Function Connect(ByVal siHost As String, ByVal niPort As Integer) As Boolean
       Try
         Me.nPiPort = niPort
@@ -56,11 +66,13 @@ Namespace Connections
     Public Function SendData(ByVal siData As String) As Integer
       Dim nRes As Integer = 0
       Try
-        Me.bytCommand = Encoding.UTF8.GetBytes(siData)
-        Me.CPiClient.Client.Send(Me.bytCommand)
-        RaiseEvent ActivityOutgoing()
-        RaiseEvent SentData(Me, siData)
-        _dataRate.AddData(siData)
+        If Not Me.CPiClient Is Nothing AndAlso Me.CPiClient.Connected Then
+          Me.bytCommand = Encoding.UTF8.GetBytes(siData)
+          Me.CPiClient.Client.Send(Me.bytCommand)
+          RaiseEvent ActivityOutgoing()
+          RaiseEvent SentData(Me, siData)
+          _dataRate.AddData(siData)
+        End If
       Catch ex As Exception
         RaiseEvent ErrorEvent(ex)
       End Try
