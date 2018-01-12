@@ -37,6 +37,7 @@ Partial Class frmReceiver
     Me.ColumnHeaderSize = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeaderTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeaderData = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+    Me.LabelStatusLabel = New System.Windows.Forms.Label()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxReceiver.SuspendLayout()
     Me.TableLayoutPanel3.SuspendLayout()
@@ -81,17 +82,19 @@ Partial Class frmReceiver
     Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
     Me.TableLayoutPanel3.Controls.Add(Me.NumericUpDownReceiverPort, 1, 1)
     Me.TableLayoutPanel3.Controls.Add(Me.Label1, 0, 1)
-    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverState, 0, 4)
-    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverDataRate, 1, 4)
+    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverState, 0, 5)
+    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverDataRate, 1, 5)
     Me.TableLayoutPanel3.Controls.Add(Me.ButtonReceiverConnect, 1, 2)
+    Me.TableLayoutPanel3.Controls.Add(Me.LabelStatusLabel, 0, 4)
     Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
-    Me.TableLayoutPanel3.RowCount = 5
+    Me.TableLayoutPanel3.RowCount = 6
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+    Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel3.Size = New System.Drawing.Size(188, 370)
     Me.TableLayoutPanel3.TabIndex = 1
@@ -176,6 +179,17 @@ Partial Class frmReceiver
     '
     Me.ColumnHeaderData.Text = "Data"
     '
+    'LabelStatusLabel
+    '
+    Me.LabelStatusLabel.AutoSize = True
+    Me.TableLayoutPanel3.SetColumnSpan(Me.LabelStatusLabel, 2)
+    Me.LabelStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.LabelStatusLabel.Location = New System.Drawing.Point(3, 295)
+    Me.LabelStatusLabel.Name = "LabelStatusLabel"
+    Me.LabelStatusLabel.Size = New System.Drawing.Size(182, 50)
+    Me.LabelStatusLabel.TabIndex = 6
+    Me.LabelStatusLabel.Text = "Label2"
+    '
     'frmReceiver
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -207,4 +221,5 @@ Partial Class frmReceiver
   Friend WithEvents ColumnHeaderSize As ColumnHeader
   Friend WithEvents ColumnHeaderTime As ColumnHeader
   Friend WithEvents ColumnHeaderData As ColumnHeader
+  Friend WithEvents LabelStatusLabel As Label
 End Class

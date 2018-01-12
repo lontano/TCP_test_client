@@ -9,6 +9,16 @@ Public Class frmSender
     End If
   End Sub
 
+  Public ReadOnly Property Connected
+    Get
+      If _tcpSender Is Nothing Then
+        Return False
+      Else
+        Return _tcpSender.Connected
+      End If
+    End Get
+  End Property
+
   Public Delegate Sub UpdateGUIDelegate()
   Public Sub UpdateGUI()
     If Me.InvokeRequired Then
@@ -27,10 +37,16 @@ Public Class frmSender
       Me.Invoke(New UpdateButtonsDelegate(AddressOf UpdateGUI))
     Else
       If Not _tcpSender Is Nothing Then
-        Me.ButtonSenderConnect.Text = "Disconnect"
-        Me.ButtonSenderConnect.BackColor = Color.LightGreen
+        If _tcpSender.Connected Then
+          Me.ButtonSenderConnect.Text = "Disconnect"
+          Me.ButtonSenderConnect.BackColor = Color.LightGreen
+        Else
+          Me.ButtonSenderConnect.Text = "Connect"
+          Me.ButtonSenderConnect.BackColor = Color.LightSalmon
+
+        End If
       Else
-        Me.ButtonSenderConnect.Text = "Connect"
+          Me.ButtonSenderConnect.Text = "Connect"
         Me.ButtonSenderConnect.BackColor = Color.LightSalmon
       End If
     End If
@@ -57,5 +73,45 @@ Public Class frmSender
     itm.SubItems.Add(Now.ToString)
     itm.SubItems.Add(siData.Length)
     itm.SubItems.Add(siData)
+  End Sub
+
+  Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    AppNewAutosizeColumns(Me.ListViewPackets)
+  End Sub
+
+
+  'API Declaration in General Declarations
+  Private Declare Function SendMessage Lib "user32.dll" Alias "SendMessageA" (ByVal hwnd As IntPtr, ByVal wMsg As Int32, ByVal wParam As Int32, ByVal lParam As Int32) As Int32
+
+  'API Constants
+  Const SET_COLUMN_WIDTH As Long = 4126
+  Const AUTOSIZE_USEHEADER As Long = -2
+
+  'Sub To Resize
+  Private Sub AppNewAutosizeColumns(ByVal TargetListView As ListView)
+
+    Const SET_COLUMN_WIDTH As Long = 4126
+    Const AUTOSIZE_USEHEADER As Long = -2
+
+    Dim lngColumn As Long
+
+    For lngColumn = 0 To (TargetListView.Columns.Count - 1)
+
+      Call SendMessage(TargetListView.Handle,
+                SET_COLUMN_WIDTH,
+                lngColumn,
+                AUTOSIZE_USEHEADER)
+
+    Next lngColumn
+
+  End Sub
+
+  Private Sub _tcpSender_ErrorEvent(CiException As Exception) Handles _tcpSender.ErrorEvent
+    Static busy As Boolean = False
+    If busy Then Exit Sub
+    busy = True
+
+    MsgBox(CiException.ToString)
+    busy = False
   End Sub
 End Class

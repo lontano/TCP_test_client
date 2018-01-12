@@ -25,6 +25,11 @@ Partial Class frmSender
     Me.components = New System.ComponentModel.Container()
     Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
     Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+    Me.ListViewPackets = New System.Windows.Forms.ListView()
+    Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+    Me.ColumnHeaderSize = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+    Me.ColumnHeaderTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+    Me.ColumnHeaderData = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.GroupBoxSender = New System.Windows.Forms.GroupBox()
     Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
     Me.NumericUpDownSenderHost = New System.Windows.Forms.NumericUpDown()
@@ -34,11 +39,6 @@ Partial Class frmSender
     Me.LabelSenderState = New System.Windows.Forms.Label()
     Me.LabelSenderDataRate = New System.Windows.Forms.Label()
     Me.ButtonSenderConnect = New System.Windows.Forms.Button()
-    Me.ListViewPackets = New System.Windows.Forms.ListView()
-    Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-    Me.ColumnHeaderSize = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-    Me.ColumnHeaderTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-    Me.ColumnHeaderData = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
@@ -64,6 +64,33 @@ Partial Class frmSender
     Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200.0!))
     Me.TableLayoutPanel1.Size = New System.Drawing.Size(633, 197)
     Me.TableLayoutPanel1.TabIndex = 2
+    '
+    'ListViewPackets
+    '
+    Me.ListViewPackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeaderNumber, Me.ColumnHeaderSize, Me.ColumnHeaderTime, Me.ColumnHeaderData})
+    Me.ListViewPackets.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ListViewPackets.Location = New System.Drawing.Point(319, 3)
+    Me.ListViewPackets.Name = "ListViewPackets"
+    Me.ListViewPackets.Size = New System.Drawing.Size(311, 194)
+    Me.ListViewPackets.TabIndex = 3
+    Me.ListViewPackets.UseCompatibleStateImageBehavior = False
+    Me.ListViewPackets.View = System.Windows.Forms.View.Details
+    '
+    'ColumnHeaderNumber
+    '
+    Me.ColumnHeaderNumber.Text = "#"
+    '
+    'ColumnHeaderSize
+    '
+    Me.ColumnHeaderSize.Text = "Size"
+    '
+    'ColumnHeaderTime
+    '
+    Me.ColumnHeaderTime.Text = "Time"
+    '
+    'ColumnHeaderData
+    '
+    Me.ColumnHeaderData.Text = "Data"
     '
     'GroupBoxSender
     '
@@ -172,33 +199,6 @@ Partial Class frmSender
     Me.ButtonSenderConnect.TabIndex = 5
     Me.ButtonSenderConnect.Text = "Connect"
     Me.ButtonSenderConnect.UseVisualStyleBackColor = True
-    '
-    'ListViewPackets
-    '
-    Me.ListViewPackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeaderNumber, Me.ColumnHeaderSize, Me.ColumnHeaderTime, Me.ColumnHeaderData})
-    Me.ListViewPackets.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.ListViewPackets.Location = New System.Drawing.Point(319, 3)
-    Me.ListViewPackets.Name = "ListViewPackets"
-    Me.ListViewPackets.Size = New System.Drawing.Size(311, 194)
-    Me.ListViewPackets.TabIndex = 3
-    Me.ListViewPackets.UseCompatibleStateImageBehavior = False
-    Me.ListViewPackets.View = System.Windows.Forms.View.Details
-    '
-    'ColumnHeaderNumber
-    '
-    Me.ColumnHeaderNumber.Text = "#"
-    '
-    'ColumnHeaderSize
-    '
-    Me.ColumnHeaderSize.Text = "Size"
-    '
-    'ColumnHeaderTime
-    '
-    Me.ColumnHeaderTime.Text = "Time"
-    '
-    'ColumnHeaderData
-    '
-    Me.ColumnHeaderData.Text = "Data"
     '
     'frmSender
     '
