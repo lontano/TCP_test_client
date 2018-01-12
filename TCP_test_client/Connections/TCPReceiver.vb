@@ -16,6 +16,7 @@ Namespace Connections
     Private CPiReceivingIPEndPoint As System.Net.IPEndPoint
     Private WithEvents _backWorkerListener As System.ComponentModel.BackgroundWorker
     Private _backWorkerClients As New List(Of System.ComponentModel.BackgroundWorker)
+    Private _tcpClients As New List(Of TcpClient)
 
     Private sPiHostName As String
     Private CPiIPAddress As IPAddress
@@ -66,6 +67,10 @@ Namespace Connections
         ''Me.CPiClient.Client.Bind(endPoint)
         'Me.CPiListener.BeginAcceptSocket.ReceiveBufferSize = 65536
 
+        Dim ip As IPAddress = IPAddress.Any
+        Dim port As Integer = Me.nPiPort
+        CPiListener = New TcpListener(ip, port)
+
         Me._backWorkerListener = New System.ComponentModel.BackgroundWorker
         Me._backWorkerListener.WorkerReportsProgress = True
         Me._backWorkerListener.WorkerSupportsCancellation = True
@@ -84,6 +89,19 @@ Namespace Connections
         Me._backWorkerListener.CancelAsync()
         Me._backWorkerListener.Dispose()
         'Me.CPiListener.Close()
+        For i As Integer = 0 To _tcpClients.Count - 1
+          _tcpClients(i).Close()
+          _tcpClients(i) = Nothing
+        Next
+        For i As Integer = 0 To _backWorkerClients.Count - 1
+          _backWorkerClients(i).CancelAsync()
+          _backWorkerClients(i).Dispose()
+        Next
+
+        _tcpClients.Clear()
+        _backWorkerClients.Clear()
+
+        Me.CPiListener.Stop()
         Me.CPiListener = Nothing
       Catch ex As Exception
         RaiseEvent ErrorEvent(Me, ex)
@@ -97,18 +115,15 @@ Namespace Connections
 
     Private Sub _backWorkerListener_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles _backWorkerListener.DoWork
       Try
-        Dim ip As IPAddress = IPAddress.Parse("127.0.0.1")
-        Dim port As Integer = Me.nPiPort
-        Dim listener As New TcpListener(ip, port)
-
-        listener.Start()
+        CPiListener.Start()
         While _backWorkerListener.CancellationPending = False
-          Dim client As TcpClient = listener.AcceptTcpClient
+          Dim client As TcpClient = CPiListener.AcceptTcpClient
           Dim clientWorker As New ComponentModel.BackgroundWorker()
           clientWorker.WorkerReportsProgress = True
           clientWorker.WorkerSupportsCancellation = True
           AddHandler clientWorker.DoWork, AddressOf _backWorkerClient_DoWork
           AddHandler clientWorker.ProgressChanged, AddressOf _backWorkerClient_ProgressChanged
+          _tcpClients.Add(client)
           _backWorkerClients.Add(clientWorker)
           clientWorker.RunWorkerAsync(client)
           _backWorkerListener.ReportProgress(0, client)
@@ -118,9 +133,11 @@ Namespace Connections
       End Try
     End Sub
 
+    Public Event NewConnection(sender As TCPReceiver, client As TcpClient)
+
     Private Sub _backWorkerListener_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs) Handles _backWorkerListener.ProgressChanged
       Try
-
+        RaiseEvent NewConnection(Me, CType(e.UserState, TcpClient))
       Catch ex As Exception
 
       End Try
@@ -149,7 +166,7 @@ Namespace Connections
               Array.Copy(inbuffer, incomingData, byteCount)
               dData.bData = incomingData
               dData.sData = System.Text.Encoding.UTF8.GetString(incomingData)
-              Me._backWorkerListener.ReportProgress(0, dData)
+              'Me._backWorkerListener.ReportProgress(0, dData)
               bWorker.ReportProgress(0, dData)
             End If
           End While

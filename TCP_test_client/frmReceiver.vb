@@ -1,4 +1,5 @@
-﻿Imports TCP_test_client.Connections
+﻿Imports System.Net.Sockets
+Imports TCP_test_client.Connections
 
 Public Class frmReceiver
   Private WithEvents _tcpReceiver As Connections.TCPReceiver
@@ -94,5 +95,16 @@ Public Class frmReceiver
 
     Next lngColumn
 
+  End Sub
+
+  Private _numConnections As Integer = 0
+
+  Private Sub _tcpReceiver_NewConnection(sender As TCPReceiver, client As TcpClient) Handles _tcpReceiver.NewConnection
+    Try
+      _numConnections += 1
+      Me.LabelStatusLabel.Text = Now.ToString & vbCrLf & "#" & _numConnections & " New connection from " & client.Client.RemoteEndPoint.ToString()
+    Catch ex As Exception
+
+    End Try
   End Sub
 End Class

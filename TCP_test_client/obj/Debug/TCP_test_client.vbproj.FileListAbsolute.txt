@@ -34,3 +34,17 @@ C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_cl
 C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbproj.GenerateResource.Cache
 C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.exe
 C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.pdb
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.exe.config
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.exe
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.pdb
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\bin\Debug\TCP_test.xml
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbprojResolveAssemblyReference.cache
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmControl.resources
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmReceiver.resources
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmSender.resources
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmMain.resources
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.Resources.resources
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbproj.GenerateResource.Cache
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.exe
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.xml
+D:\GELO\Projectes\ELECCIONS\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.pdb
