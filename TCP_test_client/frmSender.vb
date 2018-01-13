@@ -3,9 +3,12 @@
 Public Class frmSender
   Private WithEvents _tcpSender As Connections.TCPSender
 
+  Private _lastPacketSent As Integer = 0
+
   Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-    If Not _tcpSender Is Nothing Then
-      _tcpSender.SendData("New text " & Now.ToString())
+    If Not _tcpSender Is Nothing And Me.CheckBoxSendData.Checked Then
+      _tcpSender.SendData(_lastPacketSent & " New text " & Now.ToString())
+      _lastPacketSent += 1
     End If
   End Sub
 
@@ -113,5 +116,9 @@ Public Class frmSender
 
     MsgBox(CiException.ToString)
     busy = False
+  End Sub
+
+  Private Sub NumericUpDownDataSendTime_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDownDataSendTime.ValueChanged
+    Me.Timer1.Interval = Me.NumericUpDownDataSendTime.Value
   End Sub
 End Class

@@ -129,7 +129,7 @@ Namespace Connections
           _backWorkerListener.ReportProgress(0, client)
         End While
       Catch ex As Exception
-
+        MsgBox(ex.ToString)
       End Try
     End Sub
 

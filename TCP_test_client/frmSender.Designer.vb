@@ -39,10 +39,13 @@ Partial Class frmSender
     Me.LabelSenderState = New System.Windows.Forms.Label()
     Me.LabelSenderDataRate = New System.Windows.Forms.Label()
     Me.ButtonSenderConnect = New System.Windows.Forms.Button()
+    Me.CheckBoxSendData = New System.Windows.Forms.CheckBox()
+    Me.NumericUpDownDataSendTime = New System.Windows.Forms.NumericUpDown()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
     CType(Me.NumericUpDownSenderHost, System.ComponentModel.ISupportInitialize).BeginInit()
+    CType(Me.NumericUpDownDataSendTime, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SuspendLayout()
     '
     'Timer1
@@ -62,7 +65,7 @@ Partial Class frmSender
     Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
     Me.TableLayoutPanel1.RowCount = 1
     Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200.0!))
-    Me.TableLayoutPanel1.Size = New System.Drawing.Size(633, 197)
+    Me.TableLayoutPanel1.Size = New System.Drawing.Size(633, 355)
     Me.TableLayoutPanel1.TabIndex = 2
     '
     'ListViewPackets
@@ -71,7 +74,7 @@ Partial Class frmSender
     Me.ListViewPackets.Dock = System.Windows.Forms.DockStyle.Fill
     Me.ListViewPackets.Location = New System.Drawing.Point(319, 3)
     Me.ListViewPackets.Name = "ListViewPackets"
-    Me.ListViewPackets.Size = New System.Drawing.Size(311, 194)
+    Me.ListViewPackets.Size = New System.Drawing.Size(311, 349)
     Me.ListViewPackets.TabIndex = 3
     Me.ListViewPackets.UseCompatibleStateImageBehavior = False
     Me.ListViewPackets.View = System.Windows.Forms.View.Details
@@ -98,7 +101,7 @@ Partial Class frmSender
     Me.GroupBoxSender.Dock = System.Windows.Forms.DockStyle.Fill
     Me.GroupBoxSender.Location = New System.Drawing.Point(3, 3)
     Me.GroupBoxSender.Name = "GroupBoxSender"
-    Me.GroupBoxSender.Size = New System.Drawing.Size(310, 194)
+    Me.GroupBoxSender.Size = New System.Drawing.Size(310, 349)
     Me.GroupBoxSender.TabIndex = 0
     Me.GroupBoxSender.TabStop = False
     Me.GroupBoxSender.Text = "Sender"
@@ -112,19 +115,22 @@ Partial Class frmSender
     Me.TableLayoutPanel2.Controls.Add(Me.TextBoxSenderHost, 1, 0)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderPort, 0, 1)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderHost, 0, 0)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 4)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 4)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 5)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 5)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonSenderConnect, 1, 2)
+    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxSendData, 0, 4)
+    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 4)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-    Me.TableLayoutPanel2.RowCount = 5
+    Me.TableLayoutPanel2.RowCount = 6
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
-    Me.TableLayoutPanel2.Size = New System.Drawing.Size(304, 174)
+    Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+    Me.TableLayoutPanel2.Size = New System.Drawing.Size(304, 329)
     Me.TableLayoutPanel2.TabIndex = 0
     '
     'NumericUpDownSenderHost
@@ -171,7 +177,7 @@ Partial Class frmSender
     '
     Me.LabelSenderState.AutoSize = True
     Me.LabelSenderState.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderState.Location = New System.Drawing.Point(3, 149)
+    Me.LabelSenderState.Location = New System.Drawing.Point(3, 304)
     Me.LabelSenderState.Name = "LabelSenderState"
     Me.LabelSenderState.Size = New System.Drawing.Size(146, 25)
     Me.LabelSenderState.TabIndex = 4
@@ -182,7 +188,7 @@ Partial Class frmSender
     '
     Me.LabelSenderDataRate.AutoSize = True
     Me.LabelSenderDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderDataRate.Location = New System.Drawing.Point(155, 149)
+    Me.LabelSenderDataRate.Location = New System.Drawing.Point(155, 304)
     Me.LabelSenderDataRate.Name = "LabelSenderDataRate"
     Me.LabelSenderDataRate.Size = New System.Drawing.Size(146, 25)
     Me.LabelSenderDataRate.TabIndex = 4
@@ -200,11 +206,31 @@ Partial Class frmSender
     Me.ButtonSenderConnect.Text = "Connect"
     Me.ButtonSenderConnect.UseVisualStyleBackColor = True
     '
+    'CheckBoxSendData
+    '
+    Me.CheckBoxSendData.AutoSize = True
+    Me.CheckBoxSendData.Location = New System.Drawing.Point(3, 282)
+    Me.CheckBoxSendData.Name = "CheckBoxSendData"
+    Me.CheckBoxSendData.Size = New System.Drawing.Size(75, 17)
+    Me.CheckBoxSendData.TabIndex = 6
+    Me.CheckBoxSendData.Text = "Send data"
+    Me.CheckBoxSendData.UseVisualStyleBackColor = True
+    '
+    'NumericUpDownDataSendTime
+    '
+    Me.NumericUpDownDataSendTime.Location = New System.Drawing.Point(155, 282)
+    Me.NumericUpDownDataSendTime.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
+    Me.NumericUpDownDataSendTime.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+    Me.NumericUpDownDataSendTime.Name = "NumericUpDownDataSendTime"
+    Me.NumericUpDownDataSendTime.Size = New System.Drawing.Size(91, 21)
+    Me.NumericUpDownDataSendTime.TabIndex = 7
+    Me.NumericUpDownDataSendTime.Value = New Decimal(New Integer() {1000, 0, 0, 0})
+    '
     'frmSender
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-    Me.ClientSize = New System.Drawing.Size(633, 197)
+    Me.ClientSize = New System.Drawing.Size(633, 355)
     Me.Controls.Add(Me.TableLayoutPanel1)
     Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
     Me.Name = "frmSender"
@@ -214,6 +240,7 @@ Partial Class frmSender
     Me.TableLayoutPanel2.ResumeLayout(False)
     Me.TableLayoutPanel2.PerformLayout()
     CType(Me.NumericUpDownSenderHost, System.ComponentModel.ISupportInitialize).EndInit()
+    CType(Me.NumericUpDownDataSendTime, System.ComponentModel.ISupportInitialize).EndInit()
     Me.ResumeLayout(False)
 
   End Sub
@@ -233,4 +260,6 @@ Partial Class frmSender
   Friend WithEvents ColumnHeaderSize As ColumnHeader
   Friend WithEvents ColumnHeaderTime As ColumnHeader
   Friend WithEvents ColumnHeaderData As ColumnHeader
+  Friend WithEvents CheckBoxSendData As CheckBox
+  Friend WithEvents NumericUpDownDataSendTime As NumericUpDown
 End Class

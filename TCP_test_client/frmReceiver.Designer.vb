@@ -32,12 +32,12 @@ Partial Class frmReceiver
     Me.LabelReceiverState = New System.Windows.Forms.Label()
     Me.LabelReceiverDataRate = New System.Windows.Forms.Label()
     Me.ButtonReceiverConnect = New System.Windows.Forms.Button()
+    Me.LabelStatusLabel = New System.Windows.Forms.Label()
     Me.ListViewPackets = New System.Windows.Forms.ListView()
     Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeaderSize = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeaderTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeaderData = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-    Me.LabelStatusLabel = New System.Windows.Forms.Label()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxReceiver.SuspendLayout()
     Me.TableLayoutPanel3.SuspendLayout()
@@ -152,6 +152,17 @@ Partial Class frmReceiver
     Me.ButtonReceiverConnect.Text = "Connect"
     Me.ButtonReceiverConnect.UseVisualStyleBackColor = True
     '
+    'LabelStatusLabel
+    '
+    Me.LabelStatusLabel.AutoSize = True
+    Me.TableLayoutPanel3.SetColumnSpan(Me.LabelStatusLabel, 2)
+    Me.LabelStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.LabelStatusLabel.Location = New System.Drawing.Point(3, 295)
+    Me.LabelStatusLabel.Name = "LabelStatusLabel"
+    Me.LabelStatusLabel.Size = New System.Drawing.Size(182, 50)
+    Me.LabelStatusLabel.TabIndex = 6
+    Me.LabelStatusLabel.Text = "Label2"
+    '
     'ListViewPackets
     '
     Me.ListViewPackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeaderNumber, Me.ColumnHeaderSize, Me.ColumnHeaderTime, Me.ColumnHeaderData})
@@ -178,17 +189,6 @@ Partial Class frmReceiver
     'ColumnHeaderData
     '
     Me.ColumnHeaderData.Text = "Data"
-    '
-    'LabelStatusLabel
-    '
-    Me.LabelStatusLabel.AutoSize = True
-    Me.TableLayoutPanel3.SetColumnSpan(Me.LabelStatusLabel, 2)
-    Me.LabelStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelStatusLabel.Location = New System.Drawing.Point(3, 295)
-    Me.LabelStatusLabel.Name = "LabelStatusLabel"
-    Me.LabelStatusLabel.Size = New System.Drawing.Size(182, 50)
-    Me.LabelStatusLabel.TabIndex = 6
-    Me.LabelStatusLabel.Text = "Label2"
     '
     'frmReceiver
     '
