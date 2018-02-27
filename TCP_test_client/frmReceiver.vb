@@ -30,8 +30,8 @@ Public Class frmReceiver
       End If
 
       Dim itm As ListViewItem = Me.ListViewPackets.Items.Insert(0, Me.ListViewPackets.Items.Count)
-      itm.SubItems.Add(Now.ToString)
       itm.SubItems.Add(_lastPacket.Length)
+      itm.SubItems.Add(Now.ToString)
       itm.SubItems.Add(_lastPacket)
     End If
   End Sub
@@ -59,6 +59,9 @@ Public Class frmReceiver
     If _tcpReceiver Is Nothing Then
       _tcpReceiver = New Connections.TCPReceiver
       _tcpReceiver.Listen(Me.NumericUpDownReceiverPort.Value)
+
+      My.Settings.ReceiverPort = Me.NumericUpDownReceiverPort.Value
+      My.Settings.Save()
     Else
       _tcpReceiver.Disconnect()
       _tcpReceiver = Nothing
@@ -68,6 +71,7 @@ Public Class frmReceiver
 
   Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
     AppNewAutosizeColumns(Me.ListViewPackets)
+    Me.NumericUpDownReceiverPort.Value = My.Settings.ReceiverPort
   End Sub
 
 
@@ -106,5 +110,18 @@ Public Class frmReceiver
     Catch ex As Exception
 
     End Try
+  End Sub
+
+  Private Sub frmReceiver_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+    Try
+      _tcpReceiver.Disconnect()
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
+  Private Sub ButtonReset_Click(sender As Object, e As EventArgs) Handles ButtonReset.Click
+
+    Me.ListViewPackets.Items.Clear()
   End Sub
 End Class

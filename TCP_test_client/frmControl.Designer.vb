@@ -25,6 +25,7 @@ Partial Class frmControl
     Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
     Me.ButtonNewSender = New System.Windows.Forms.Button()
     Me.ButtonNewReceiver = New System.Windows.Forms.Button()
+    Me.Button1 = New System.Windows.Forms.Button()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.SuspendLayout()
     '
@@ -35,38 +36,52 @@ Partial Class frmControl
     Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
     Me.TableLayoutPanel1.Controls.Add(Me.ButtonNewSender, 0, 0)
     Me.TableLayoutPanel1.Controls.Add(Me.ButtonNewReceiver, 1, 0)
-    Me.TableLayoutPanel1.Location = New System.Drawing.Point(24, 12)
+    Me.TableLayoutPanel1.Controls.Add(Me.Button1, 0, 1)
+    Me.TableLayoutPanel1.Location = New System.Drawing.Point(36, 18)
+    Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
     Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
     Me.TableLayoutPanel1.RowCount = 2
     Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
     Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-    Me.TableLayoutPanel1.Size = New System.Drawing.Size(248, 131)
+    Me.TableLayoutPanel1.Size = New System.Drawing.Size(372, 202)
     Me.TableLayoutPanel1.TabIndex = 0
     '
     'ButtonNewSender
     '
-    Me.ButtonNewSender.Location = New System.Drawing.Point(3, 3)
+    Me.ButtonNewSender.Location = New System.Drawing.Point(4, 5)
+    Me.ButtonNewSender.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
     Me.ButtonNewSender.Name = "ButtonNewSender"
-    Me.ButtonNewSender.Size = New System.Drawing.Size(86, 40)
+    Me.ButtonNewSender.Size = New System.Drawing.Size(129, 62)
     Me.ButtonNewSender.TabIndex = 0
     Me.ButtonNewSender.Text = "New sender"
     Me.ButtonNewSender.UseVisualStyleBackColor = True
     '
     'ButtonNewReceiver
     '
-    Me.ButtonNewReceiver.Location = New System.Drawing.Point(127, 3)
+    Me.ButtonNewReceiver.Location = New System.Drawing.Point(190, 5)
+    Me.ButtonNewReceiver.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
     Me.ButtonNewReceiver.Name = "ButtonNewReceiver"
-    Me.ButtonNewReceiver.Size = New System.Drawing.Size(91, 43)
+    Me.ButtonNewReceiver.Size = New System.Drawing.Size(136, 66)
     Me.ButtonNewReceiver.TabIndex = 1
     Me.ButtonNewReceiver.Text = "New receiver"
     Me.ButtonNewReceiver.UseVisualStyleBackColor = True
     '
+    'Button1
+    '
+    Me.Button1.Location = New System.Drawing.Point(3, 104)
+    Me.Button1.Name = "Button1"
+    Me.Button1.Size = New System.Drawing.Size(180, 95)
+    Me.Button1.TabIndex = 2
+    Me.Button1.Text = "New Test"
+    Me.Button1.UseVisualStyleBackColor = True
+    '
     'frmControl
     '
-    Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+    Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-    Me.ClientSize = New System.Drawing.Size(284, 261)
+    Me.ClientSize = New System.Drawing.Size(426, 402)
     Me.Controls.Add(Me.TableLayoutPanel1)
+    Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
     Me.Name = "frmControl"
     Me.Text = "Tx/Rx test"
     Me.TableLayoutPanel1.ResumeLayout(False)
@@ -77,4 +92,5 @@ Partial Class frmControl
   Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
   Friend WithEvents ButtonNewSender As Button
   Friend WithEvents ButtonNewReceiver As Button
+  Friend WithEvents Button1 As Button
 End Class

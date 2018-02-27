@@ -95,7 +95,7 @@ Partial Class frmMain
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 4)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonSenderConnect, 1, 2)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 17)
+    Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 23)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
     Me.TableLayoutPanel2.RowCount = 5
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
@@ -103,7 +103,7 @@ Partial Class frmMain
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
-    Me.TableLayoutPanel2.Size = New System.Drawing.Size(304, 171)
+    Me.TableLayoutPanel2.Size = New System.Drawing.Size(304, 165)
     Me.TableLayoutPanel2.TabIndex = 0
     '
     'NumericUpDownSenderHost
@@ -111,7 +111,7 @@ Partial Class frmMain
     Me.NumericUpDownSenderHost.Location = New System.Drawing.Point(155, 28)
     Me.NumericUpDownSenderHost.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
     Me.NumericUpDownSenderHost.Name = "NumericUpDownSenderHost"
-    Me.NumericUpDownSenderHost.Size = New System.Drawing.Size(98, 21)
+    Me.NumericUpDownSenderHost.Size = New System.Drawing.Size(98, 27)
     Me.NumericUpDownSenderHost.TabIndex = 1
     Me.NumericUpDownSenderHost.Value = New Decimal(New Integer() {6100, 0, 0, 0})
     '
@@ -120,7 +120,7 @@ Partial Class frmMain
     Me.TextBoxSenderHost.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TextBoxSenderHost.Location = New System.Drawing.Point(155, 3)
     Me.TextBoxSenderHost.Name = "TextBoxSenderHost"
-    Me.TextBoxSenderHost.Size = New System.Drawing.Size(146, 21)
+    Me.TextBoxSenderHost.Size = New System.Drawing.Size(146, 27)
     Me.TextBoxSenderHost.TabIndex = 2
     Me.TextBoxSenderHost.Text = "192.168.146.76"
     '
@@ -150,7 +150,7 @@ Partial Class frmMain
     '
     Me.LabelSenderState.AutoSize = True
     Me.LabelSenderState.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderState.Location = New System.Drawing.Point(3, 146)
+    Me.LabelSenderState.Location = New System.Drawing.Point(3, 140)
     Me.LabelSenderState.Name = "LabelSenderState"
     Me.LabelSenderState.Size = New System.Drawing.Size(146, 25)
     Me.LabelSenderState.TabIndex = 4
@@ -161,7 +161,7 @@ Partial Class frmMain
     '
     Me.LabelSenderDataRate.AutoSize = True
     Me.LabelSenderDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderDataRate.Location = New System.Drawing.Point(155, 146)
+    Me.LabelSenderDataRate.Location = New System.Drawing.Point(155, 140)
     Me.LabelSenderDataRate.Name = "LabelSenderDataRate"
     Me.LabelSenderDataRate.Size = New System.Drawing.Size(146, 25)
     Me.LabelSenderDataRate.TabIndex = 4
@@ -201,7 +201,7 @@ Partial Class frmMain
     Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverDataRate, 1, 4)
     Me.TableLayoutPanel3.Controls.Add(Me.ButtonReceiverConnect, 1, 2)
     Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 17)
+    Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 23)
     Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
     Me.TableLayoutPanel3.RowCount = 5
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
@@ -209,7 +209,7 @@ Partial Class frmMain
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
-    Me.TableLayoutPanel3.Size = New System.Drawing.Size(305, 171)
+    Me.TableLayoutPanel3.Size = New System.Drawing.Size(305, 165)
     Me.TableLayoutPanel3.TabIndex = 1
     '
     'NumericUpDownReceiverPort
@@ -217,7 +217,7 @@ Partial Class frmMain
     Me.NumericUpDownReceiverPort.Location = New System.Drawing.Point(155, 28)
     Me.NumericUpDownReceiverPort.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
     Me.NumericUpDownReceiverPort.Name = "NumericUpDownReceiverPort"
-    Me.NumericUpDownReceiverPort.Size = New System.Drawing.Size(98, 21)
+    Me.NumericUpDownReceiverPort.Size = New System.Drawing.Size(98, 27)
     Me.NumericUpDownReceiverPort.TabIndex = 1
     Me.NumericUpDownReceiverPort.Value = New Decimal(New Integer() {6100, 0, 0, 0})
     '
@@ -236,7 +236,7 @@ Partial Class frmMain
     '
     Me.LabelReceiverState.AutoSize = True
     Me.LabelReceiverState.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelReceiverState.Location = New System.Drawing.Point(3, 146)
+    Me.LabelReceiverState.Location = New System.Drawing.Point(3, 140)
     Me.LabelReceiverState.Name = "LabelReceiverState"
     Me.LabelReceiverState.Size = New System.Drawing.Size(146, 25)
     Me.LabelReceiverState.TabIndex = 4
@@ -247,7 +247,7 @@ Partial Class frmMain
     '
     Me.LabelReceiverDataRate.AutoSize = True
     Me.LabelReceiverDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(155, 146)
+    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(155, 140)
     Me.LabelReceiverDataRate.Name = "LabelReceiverDataRate"
     Me.LabelReceiverDataRate.Size = New System.Drawing.Size(147, 25)
     Me.LabelReceiverDataRate.TabIndex = 4
@@ -267,7 +267,7 @@ Partial Class frmMain
     '
     'frmMain
     '
-    Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+    Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 21.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.ClientSize = New System.Drawing.Size(633, 197)
     Me.Controls.Add(Me.TableLayoutPanel1)

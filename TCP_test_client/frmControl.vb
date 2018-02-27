@@ -12,4 +12,10 @@
     frm.Show(Me)
     _childForms.Add(frm)
   End Sub
+
+  Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Dim frm As New frmTest
+    frm.Show(Me)
+    _childForms.Add(frm)
+  End Sub
 End Class

@@ -86,9 +86,12 @@ Namespace Connections
 
     Public Sub Disconnect()
       Try
+        Me.CPiListener.Stop()
+        Me.CPiListener = Nothing
+
         Me._backWorkerListener.CancelAsync()
         Me._backWorkerListener.Dispose()
-        'Me.CPiListener.Close()
+
         For i As Integer = 0 To _tcpClients.Count - 1
           _tcpClients(i).Close()
           _tcpClients(i) = Nothing
@@ -101,10 +104,9 @@ Namespace Connections
         _tcpClients.Clear()
         _backWorkerClients.Clear()
 
-        Me.CPiListener.Stop()
-        Me.CPiListener = Nothing
       Catch ex As Exception
         RaiseEvent ErrorEvent(Me, ex)
+        Debug.Print(ex.ToString)
       End Try
     End Sub
 
@@ -129,7 +131,8 @@ Namespace Connections
           _backWorkerListener.ReportProgress(0, client)
         End While
       Catch ex As Exception
-        MsgBox(ex.ToString)
+        RaiseEvent ErrorEvent(Me, ex)
+        Debug.Print(ex.ToString)
       End Try
     End Sub
 
@@ -139,7 +142,8 @@ Namespace Connections
       Try
         RaiseEvent NewConnection(Me, CType(e.UserState, TcpClient))
       Catch ex As Exception
-
+        RaiseEvent ErrorEvent(Me, ex)
+        Debug.Print(ex.ToString)
       End Try
     End Sub
 
@@ -148,7 +152,6 @@ Namespace Connections
         Dim tcpClient As System.Net.Sockets.TcpClient = CType(e.Argument, TcpClient)
         Dim networkStream As NetworkStream = tcpClient.GetStream()
         Dim bWorker As BackgroundWorker = CType(sender, BackgroundWorker)
-        Dim bytesRead As Integer
 
         If networkStream.CanRead() Then
           While Not bWorker.CancellationPending
@@ -172,6 +175,7 @@ Namespace Connections
           End While
         End If
       Catch ex As Exception
+        RaiseEvent ErrorEvent(Me, ex)
         Debug.Print(ex.ToString)
       End Try
     End Sub
@@ -185,6 +189,7 @@ Namespace Connections
         _dataRate.AddData(dAux.sData)
       Catch ex As Exception
         RaiseEvent ErrorEvent(Me, ex)
+        Debug.Print(ex.ToString)
       End Try
     End Sub
   End Class

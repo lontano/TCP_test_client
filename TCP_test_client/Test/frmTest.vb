@@ -1,15 +1,23 @@
 ﻿Imports TCP_test_client.Connections
 
-Public Class frmSender
+Public Class frmTest
   Private WithEvents _tcpSender As Connections.TCPSender
+  Private WithEvents _tcpReceiver As Connections.TCPReceiver
 
   Private _lastPacketSent As Integer = 0
+  Private _dictionaryPackets As New Dictionary(Of String, TestPacket)
 
   Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
     If Not _tcpSender Is Nothing And Me.CheckBoxSendData.Checked Then
       Dim wordCount As Integer = 3
-      _tcpSender.SendData(_lastPacketSent & " Palabra " & _lastPacketSent Mod wordCount & " " & Now.ToString()) ' & " <%" & _lastPacketSent Mod wordCount & "%>" & " | <%" & _lastPacketSent Mod wordCount & ":default text%>" & vbNull)
+
+      Dim packet As New TestPacket
+      packet.Text = _lastPacketSent & " This is a test packet"
+      packet.SentTime = Now
+
+      _tcpSender.SendData(packet.Text)
       _lastPacketSent += 1
+      _dictionaryPackets.Add(packet.Text, packet)
     End If
   End Sub
 
@@ -51,11 +59,11 @@ Public Class frmSender
           End If
         End If
       Else
-          Me.ButtonSenderConnect.Text = "Connect"
-          Me.ButtonSenderConnect.BackColor = Color.LightSalmon
-        End If
-
+        Me.ButtonSenderConnect.Text = "Connect"
+        Me.ButtonSenderConnect.BackColor = Color.LightSalmon
       End If
+
+    End If
   End Sub
 
   Private Sub _tcpSender_ActivityOutgoing() Handles _tcpSender.ActivityOutgoing
@@ -69,12 +77,19 @@ Public Class frmSender
     If _connectRequest Then
       If _tcpSender Is Nothing Then
         _tcpSender = New Connections.TCPSender
-        _tcpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderHost.Value)
-        My.Settings.SenderPort = Me.NumericUpDownSenderHost.Value
+        _tcpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderPort.Value)
+        My.Settings.SenderPort = Me.NumericUpDownSenderPort.Value
         My.Settings.SenderHost = Me.TextBoxSenderHost.Text
         My.Settings.Save()
       ElseIf _tcpSender.Connected = False Then
         _tcpSender.Connect(My.Settings.SenderHost, My.Settings.SenderPort)
+      End If
+
+      If _tcpReceiver Is Nothing Then
+        _tcpReceiver = New Connections.TCPReceiver
+        _tcpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
+      Else
+        _tcpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
       End If
     Else
       _tcpSender.Disconnect()
@@ -86,16 +101,16 @@ Public Class frmSender
 
   Private Sub _tcpSender_SentData(ByRef sender As TCPSender, siData As String) Handles _tcpSender.SentData
 
-    Dim itm As ListViewItem = Me.ListViewPackets.Items.Insert(0, Me.ListViewPackets.Items.Count)
+    Dim itm As ListViewItem = Me.ListViewSendPackets.Items.Insert(0, Me.ListViewSendPackets.Items.Count)
     itm.SubItems.Add(siData.Length)
     itm.SubItems.Add(Now.ToString)
     itm.SubItems.Add(siData)
   End Sub
 
   Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-    AppNewAutosizeColumns(Me.ListViewPackets)
+    AppNewAutosizeColumns(Me.ListViewSendPackets)
     Me.TextBoxSenderHost.Text = My.Settings.SenderHost
-    Me.NumericUpDownSenderHost.Value = My.Settings.SenderPort
+    Me.NumericUpDownSenderPort.Value = My.Settings.SenderPort
   End Sub
 
 
@@ -140,15 +155,20 @@ Public Class frmSender
 
   Private Sub ButtonReset_Click(sender As Object, e As EventArgs) Handles ButtonReset.Click
     _lastPacketSent = 0
-    Me.ListViewPackets.Items.Clear()
+    Me.ListViewSendPackets.Items.Clear()
+    Me.ListViewReceivePackets.Items.Clear()
+    _dictionaryPackets.Clear()
+    _minRoundTripTime = Double.MaxValue
+    _maxRoundTripTime = Double.MinValue
+    _meanRoundTripTime = 0
   End Sub
 
   Private Sub TimerReconnect_Tick(sender As Object, e As EventArgs) Handles TimerReconnect.Tick
     If _connectRequest Then
       If _tcpSender Is Nothing Then
         _tcpSender = New Connections.TCPSender
-        _tcpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderHost.Value)
-        My.Settings.SenderPort = Me.NumericUpDownSenderHost.Value
+        _tcpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderPort.Value)
+        My.Settings.SenderPort = Me.NumericUpDownSenderPort.Value
         My.Settings.SenderHost = Me.TextBoxSenderHost.Text
         My.Settings.Save()
       ElseIf _tcpSender.Connected = False Then
@@ -161,5 +181,44 @@ Public Class frmSender
   Private Sub _tcpSender_Connected() Handles _tcpSender.SocketConnected
     Me.UpdateGUI()
     UpdateButtons()
+  End Sub
+
+  Private Sub _tcpReceiver_DataReceive(ByRef sender As TCPReceiver, siData As String) Handles _tcpReceiver.DataReceive
+    Try
+      If _dictionaryPackets.ContainsKey(siData) Then
+        Dim packet As TestPacket = _dictionaryPackets(siData)
+        packet.ReceiveTime = Now
+        packet.RoundTripCompleted = True
+        AddReceivePacket(packet)
+
+      End If
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
+  Private _minRoundTripTime As Double = Double.MaxValue
+  Private _maxRoundTripTime As Double = Double.MinValue
+  Private _meanRoundTripTime As Double = 0
+
+  Private Sub AddReceivePacket(packet As TestPacket)
+    Try
+
+      Me.Invoke(Sub()
+                  Dim diff As TimeSpan = packet.ReceiveTime.Subtract(packet.SentTime)
+                  Dim itm As ListViewItem = Me.ListViewReceivePackets.Items.Insert(0, Me.ListViewReceivePackets.Items.Count)
+                  itm.SubItems.Add(diff.TotalMilliseconds)
+                  itm.SubItems.Add(Now.ToString)
+                  itm.SubItems.Add(packet.Text)
+
+                  _minRoundTripTime = Math.Min(_minRoundTripTime, diff.TotalMilliseconds)
+                  _maxRoundTripTime = Math.Max(_maxRoundTripTime, diff.TotalMilliseconds)
+                  _meanRoundTripTime = (_meanRoundTripTime * (Me.ListViewReceivePackets.Items.Count - 1) + diff.TotalMilliseconds) / Me.ListViewReceivePackets.Items.Count
+
+                  Me.LabelReceiverDataRate.Text = "Mean time " & _meanRoundTripTime & " (" & _minRoundTripTime & " to " & _maxRoundTripTime & ")"
+                End Sub)
+    Catch ex As Exception
+
+    End Try
   End Sub
 End Class
