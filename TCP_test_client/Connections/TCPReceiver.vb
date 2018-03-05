@@ -52,7 +52,7 @@ Namespace Connections
       End Get
     End Property
 
-    Public Function Listen(ByVal niPort As Integer) As Boolean
+    Public Overridable Function Listen(ByVal niPort As Integer) As Boolean
       Try
         Me.nPiPort = niPort
         'Me.CPiReceivingIPEndPoint = New System.Net.IPEndPoint(System.Net.IPAddress.Any, 0)
@@ -84,7 +84,7 @@ Namespace Connections
       End Try
     End Function
 
-    Public Sub Disconnect()
+    Public Overridable Sub Disconnect()
       Try
         Me.CPiListener.Stop()
         Me.CPiListener = Nothing
@@ -110,7 +110,7 @@ Namespace Connections
       End Try
     End Sub
 
-    Private Structure dataReturn
+    Friend Structure dataReturn
       Dim sData As String
       Dim bData() As Byte
     End Structure
@@ -183,10 +183,41 @@ Namespace Connections
     Private Sub _backWorkerClient_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
       Try
         Dim dAux As dataReturn = CType(e.UserState, dataReturn)
+        Me.RaiseReceiverEvents(dAux)
+      Catch ex As Exception
+        RaiseEvent ErrorEvent(Me, ex)
+        Debug.Print(ex.ToString)
+      End Try
+    End Sub
+
+    Friend Sub RaiseReceiverEvents(data As dataReturn)
+      Try
         RaiseEvent ActivityIncoming(Me)
-        RaiseEvent DataReceive(Me, dAux.sData)
-        RaiseEvent DataReceiveBytes(Me, dAux.bData)
-        _dataRate.AddData(dAux.sData)
+        RaiseEvent DataReceive(Me, data.sData)
+        RaiseEvent DataReceiveBytes(Me, data.bData)
+        _dataRate.AddData(data.sData)
+      Catch ex As Exception
+        RaiseEvent ErrorEvent(Me, ex)
+        Debug.Print(ex.ToString)
+      End Try
+    End Sub
+
+    Friend Sub RaiseReceiverEvents(data As String)
+      Try
+        RaiseEvent ActivityIncoming(Me)
+        RaiseEvent DataReceive(Me, data)
+        _dataRate.AddData(data)
+      Catch ex As Exception
+        RaiseEvent ErrorEvent(Me, ex)
+        Debug.Print(ex.ToString)
+      End Try
+    End Sub
+
+    Friend Sub RaiseReceiverEvents(data() As Byte)
+      Try
+        RaiseEvent ActivityIncoming(Me)
+        RaiseEvent DataReceiveBytes(Me, data)
+        _dataRate.AddData(data)
       Catch ex As Exception
         RaiseEvent ErrorEvent(Me, ex)
         Debug.Print(ex.ToString)

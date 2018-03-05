@@ -89,6 +89,42 @@ Namespace My
                 Me("ReceiverPort") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property UDPSenderHost() As String
+            Get
+                Return CType(Me("UDPSenderHost"),String)
+            End Get
+            Set
+                Me("UDPSenderHost") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property UDPSenderPort() As Integer
+            Get
+                Return CType(Me("UDPSenderPort"),Integer)
+            End Get
+            Set
+                Me("UDPSenderPort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property UDPReceiverPort() As Integer
+            Get
+                Return CType(Me("UDPReceiverPort"),Integer)
+            End Get
+            Set
+                Me("UDPReceiverPort") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

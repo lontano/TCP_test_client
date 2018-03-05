@@ -14,7 +14,13 @@
   End Sub
 
   Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-    Dim frm As New frmTest
+    Dim frm As New frmTestTCP
+    frm.Show(Me)
+    _childForms.Add(frm)
+  End Sub
+
+  Private Sub ButtonUDPTest_Click(sender As Object, e As EventArgs) Handles ButtonUDPTest.Click
+    Dim frm As New frmTestUDP
     frm.Show(Me)
     _childForms.Add(frm)
   End Sub

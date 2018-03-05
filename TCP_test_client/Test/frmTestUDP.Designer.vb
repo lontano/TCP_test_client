@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmTest
+Partial Class frmTestUDP
   Inherits System.Windows.Forms.Form
 
   'Form overrides dispose to clean up the component list.
@@ -37,6 +37,7 @@ Partial Class frmTest
     Me.CheckBoxSendData = New System.Windows.Forms.CheckBox()
     Me.NumericUpDownDataSendTime = New System.Windows.Forms.NumericUpDown()
     Me.ButtonReset = New System.Windows.Forms.Button()
+    Me.LabelReceiverDataRate = New System.Windows.Forms.Label()
     Me.SplitContainerPackets = New System.Windows.Forms.SplitContainer()
     Me.ListViewSendPackets = New System.Windows.Forms.ListView()
     Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -49,7 +50,6 @@ Partial Class frmTest
     Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.TimerReconnect = New System.Windows.Forms.Timer(Me.components)
-    Me.LabelReceiverDataRate = New System.Windows.Forms.Label()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
@@ -225,6 +225,17 @@ Partial Class frmTest
     Me.ButtonReset.Text = "Reset"
     Me.ButtonReset.UseVisualStyleBackColor = True
     '
+    'LabelReceiverDataRate
+    '
+    Me.LabelReceiverDataRate.AutoSize = True
+    Me.TableLayoutPanel2.SetColumnSpan(Me.LabelReceiverDataRate, 2)
+    Me.LabelReceiverDataRate.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(3, 298)
+    Me.LabelReceiverDataRate.Name = "LabelReceiverDataRate"
+    Me.LabelReceiverDataRate.Size = New System.Drawing.Size(364, 25)
+    Me.LabelReceiverDataRate.TabIndex = 9
+    Me.LabelReceiverDataRate.Text = "Data rate"
+    '
     'SplitContainerPackets
     '
     Me.SplitContainerPackets.Dock = System.Windows.Forms.DockStyle.Fill
@@ -303,25 +314,14 @@ Partial Class frmTest
     Me.TimerReconnect.Enabled = True
     Me.TimerReconnect.Interval = 10000
     '
-    'LabelReceiverDataRate
-    '
-    Me.LabelReceiverDataRate.AutoSize = True
-    Me.TableLayoutPanel2.SetColumnSpan(Me.LabelReceiverDataRate, 2)
-    Me.LabelReceiverDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(3, 298)
-    Me.LabelReceiverDataRate.Name = "LabelReceiverDataRate"
-    Me.LabelReceiverDataRate.Size = New System.Drawing.Size(364, 25)
-    Me.LabelReceiverDataRate.TabIndex = 9
-    Me.LabelReceiverDataRate.Text = "Data rate"
-    '
-    'frmTest
+    'frmTestUDP
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 21.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.ClientSize = New System.Drawing.Size(1616, 355)
     Me.Controls.Add(Me.TableLayoutPanel1)
     Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-    Me.Name = "frmTest"
+    Me.Name = "frmTestUDP"
     Me.Text = "Sender"
     Me.TableLayoutPanel1.ResumeLayout(False)
     Me.GroupBoxSender.ResumeLayout(False)

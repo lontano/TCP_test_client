@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="Connections\DataRateCalculator.vb" />
     <Compile Include="Connections\TCPReceiver.vb" />
+    <Compile Include="Connections\UDPReceiver.vb" />
+    <Compile Include="Connections\UDPSender.vb" />
     <Compile Include="frmControl.Designer.vb">
       <DependentUpon>frmControl.vb</DependentUpon>
     </Compile>
@@ -120,10 +122,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Connections\TCPSender.vb" />
-    <Compile Include="Test\frmTest.Designer.vb">
-      <DependentUpon>frmTest.vb</DependentUpon>
+    <Compile Include="Test\frmTestUDP.Designer.vb">
+      <DependentUpon>frmTestUDP.vb</DependentUpon>
     </Compile>
-    <Compile Include="Test\frmTest.vb">
+    <Compile Include="Test\frmTestUDP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Test\frmTestTCP.Designer.vb">
+      <DependentUpon>frmTestTCP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Test\frmTestTCP.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Test\TestPacket.vb" />
@@ -147,8 +155,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Test\frmTest.resx">
-      <DependentUpon>frmTest.vb</DependentUpon>
+    <EmbeddedResource Include="Test\frmTestUDP.resx">
+      <DependentUpon>frmTestUDP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Test\frmTestTCP.resx">
+      <DependentUpon>frmTestTCP.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

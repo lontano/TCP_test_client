@@ -64,4 +64,5 @@ C:\Users\tuboc\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_c
 C:\Users\tuboc\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.vbproj.GenerateResource.Cache
 C:\Users\tuboc\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\Newtonsoft.Json.dll
 C:\Users\tuboc\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\Newtonsoft.Json.xml
-C:\Users\tuboc\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTest.resources
+C:\Users\tuboc\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTestUDP.resources
+C:\Users\tuboc\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTestTCP.resources

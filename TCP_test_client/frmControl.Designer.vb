@@ -26,6 +26,7 @@ Partial Class frmControl
     Me.ButtonNewSender = New System.Windows.Forms.Button()
     Me.ButtonNewReceiver = New System.Windows.Forms.Button()
     Me.Button1 = New System.Windows.Forms.Button()
+    Me.ButtonUDPTest = New System.Windows.Forms.Button()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.SuspendLayout()
     '
@@ -37,6 +38,7 @@ Partial Class frmControl
     Me.TableLayoutPanel1.Controls.Add(Me.ButtonNewSender, 0, 0)
     Me.TableLayoutPanel1.Controls.Add(Me.ButtonNewReceiver, 1, 0)
     Me.TableLayoutPanel1.Controls.Add(Me.Button1, 0, 1)
+    Me.TableLayoutPanel1.Controls.Add(Me.ButtonUDPTest, 1, 1)
     Me.TableLayoutPanel1.Location = New System.Drawing.Point(36, 18)
     Me.TableLayoutPanel1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
     Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
@@ -75,6 +77,15 @@ Partial Class frmControl
     Me.Button1.Text = "New Test"
     Me.Button1.UseVisualStyleBackColor = True
     '
+    'ButtonUDPTest
+    '
+    Me.ButtonUDPTest.Location = New System.Drawing.Point(189, 104)
+    Me.ButtonUDPTest.Name = "ButtonUDPTest"
+    Me.ButtonUDPTest.Size = New System.Drawing.Size(180, 95)
+    Me.ButtonUDPTest.TabIndex = 2
+    Me.ButtonUDPTest.Text = "New Test UDP"
+    Me.ButtonUDPTest.UseVisualStyleBackColor = True
+    '
     'frmControl
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
@@ -93,4 +104,5 @@ Partial Class frmControl
   Friend WithEvents ButtonNewSender As Button
   Friend WithEvents ButtonNewReceiver As Button
   Friend WithEvents Button1 As Button
+  Friend WithEvents ButtonUDPTest As Button
 End Class

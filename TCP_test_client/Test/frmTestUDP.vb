@@ -1,21 +1,21 @@
 ﻿Imports TCP_test_client.Connections
 
-Public Class frmTest
-  Private WithEvents _tcpSender As Connections.TCPSender
-  Private WithEvents _tcpReceiver As Connections.TCPReceiver
+Public Class frmTestUDP
+  Private WithEvents _udpSender As Connections.UDPSender
+  Private WithEvents _udpReceiver As Connections.UDPReceiver
 
   Private _lastPacketSent As Integer = 0
   Private _dictionaryPackets As New Dictionary(Of String, TestPacket)
 
   Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-    If Not _tcpSender Is Nothing And Me.CheckBoxSendData.Checked Then
+    If Not _udpSender Is Nothing And Me.CheckBoxSendData.Checked Then
       Dim wordCount As Integer = 3
 
       Dim packet As New TestPacket
       packet.Text = _lastPacketSent & " This is a test packet"
       packet.SentTime = Now
 
-      _tcpSender.SendData(packet.Text)
+      _udpSender.SendData(packet.Text)
       _lastPacketSent += 1
       _dictionaryPackets.Add(packet.Text, packet)
     End If
@@ -23,10 +23,10 @@ Public Class frmTest
 
   Public ReadOnly Property Connected
     Get
-      If _tcpSender Is Nothing Then
+      If _udpSender Is Nothing Then
         Return False
       Else
-        Return _tcpSender.Connected
+        Return _udpSender.Connected
       End If
     End Get
   End Property
@@ -36,9 +36,9 @@ Public Class frmTest
     If Me.InvokeRequired Then
       Me.Invoke(New UpdateGUIDelegate(AddressOf UpdateGUI))
     Else
-      If Not _tcpSender Is Nothing Then
+      If Not _udpSender Is Nothing Then
         Me.LabelSenderState.Text = "Data sent " & Now.ToString
-        Me.LabelSenderDataRate.Text = _tcpSender.DataRateCalculator.DataRateText & " " & _tcpSender.DataRateCalculator.TotalDataReceivedText
+        'Me.LabelSenderDataRate.Text = _udpSender.DataRateCalculator.DataRateText & " " & _udpSender.DataRateCalculator.TotalDataReceivedText
       End If
     End If
   End Sub
@@ -49,8 +49,8 @@ Public Class frmTest
       Me.Invoke(New UpdateButtonsDelegate(AddressOf UpdateGUI))
     Else
       If _connectRequest Then
-        If Not _tcpSender Is Nothing Then
-          If _tcpSender.Connected Then
+        If Not _udpSender Is Nothing Then
+          If _udpSender.Connected Then
             Me.ButtonSenderConnect.Text = "Connect"
             Me.ButtonSenderConnect.BackColor = Color.LightGreen
           Else
@@ -66,7 +66,7 @@ Public Class frmTest
     End If
   End Sub
 
-  Private Sub _tcpSender_ActivityOutgoing() Handles _tcpSender.ActivityOutgoing
+  Private Sub _tcpSender_ActivityOutgoing() Handles _udpSender.ActivityOutgoing
     UpdateGUI()
   End Sub
 
@@ -75,32 +75,33 @@ Public Class frmTest
   Private Sub ButtonSenderConnect_Click(sender As Object, e As EventArgs) Handles ButtonSenderConnect.Click
     _connectRequest = Not _connectRequest
     If _connectRequest Then
-      If _tcpSender Is Nothing Then
-        _tcpSender = New Connections.TCPSender
-        _tcpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderPort.Value)
-        My.Settings.SenderPort = Me.NumericUpDownSenderPort.Value
-        My.Settings.SenderHost = Me.TextBoxSenderHost.Text
+      If _udpSender Is Nothing Then
+        _udpSender = New Connections.UDPSender
+        _udpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderPort.Value)
+        My.Settings.UDPSenderPort = Me.NumericUpDownSenderPort.Value
+        My.Settings.UDPSenderHost = Me.TextBoxSenderHost.Text
         My.Settings.Save()
-      ElseIf _tcpSender.Connected = False Then
-        _tcpSender.Connect(My.Settings.SenderHost, My.Settings.SenderPort)
+      ElseIf _udpSender.Connected = False Then
+        _udpSender.Connect(My.Settings.UDPSenderHost, My.Settings.UDPSenderPort)
       End If
 
-      If _tcpReceiver Is Nothing Then
-        _tcpReceiver = New Connections.TCPReceiver
-        _tcpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
+      If _udpReceiver Is Nothing Then
+        _udpReceiver = New Connections.UDPReceiver
+        _udpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
       Else
-        _tcpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
+        _udpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
       End If
     Else
-      _tcpSender.Disconnect()
-      _tcpSender = Nothing
+      _udpSender.Disconnect()
+      _udpSender = Nothing
+      _udpReceiver.Disconnect()
+      _udpReceiver = Nothing
     End If
 
     UpdateButtons()
   End Sub
 
-  Private Sub _tcpSender_SentData(ByRef sender As TCPSender, siData As String) Handles _tcpSender.SentData
-
+  Private Sub _tcpSender_SentData(ByRef sender As UDPSender, siData As String) Handles _udpSender.SentData
     Dim itm As ListViewItem = Me.ListViewSendPackets.Items.Insert(0, Me.ListViewSendPackets.Items.Count)
     itm.SubItems.Add(siData.Length)
     itm.SubItems.Add(Now.ToString)
@@ -109,8 +110,8 @@ Public Class frmTest
 
   Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
     AppNewAutosizeColumns(Me.ListViewSendPackets)
-    Me.TextBoxSenderHost.Text = My.Settings.SenderHost
-    Me.NumericUpDownSenderPort.Value = My.Settings.SenderPort
+    Me.TextBoxSenderHost.Text = My.Settings.UDPSenderHost
+    Me.NumericUpDownSenderPort.Value = My.Settings.UDPSenderPort
   End Sub
 
 
@@ -140,15 +141,6 @@ Public Class frmTest
 
   End Sub
 
-  Private Sub _tcpSender_ErrorEvent(ByRef sender As TCPSender, CiException As Exception) Handles _tcpSender.ErrorEvent
-    Static busy As Boolean = False
-    If busy Then Exit Sub
-    busy = True
-
-    Debug.Print(CiException.ToString)
-    busy = False
-  End Sub
-
   Private Sub NumericUpDownDataSendTime_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDownDataSendTime.ValueChanged
     Me.Timer1.Interval = Me.NumericUpDownDataSendTime.Value
   End Sub
@@ -165,32 +157,38 @@ Public Class frmTest
 
   Private Sub TimerReconnect_Tick(sender As Object, e As EventArgs) Handles TimerReconnect.Tick
     If _connectRequest Then
-      If _tcpSender Is Nothing Then
-        _tcpSender = New Connections.TCPSender
-        _tcpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderPort.Value)
-        My.Settings.SenderPort = Me.NumericUpDownSenderPort.Value
-        My.Settings.SenderHost = Me.TextBoxSenderHost.Text
+      If _udpSender Is Nothing Then
+        _udpSender = New Connections.UDPSender
+        _udpSender.Connect(Me.TextBoxSenderHost.Text, Me.NumericUpDownSenderPort.Value)
+        My.Settings.UDPSenderPort = Me.NumericUpDownSenderPort.Value
+        My.Settings.UDPSenderHost = Me.TextBoxSenderHost.Text
         My.Settings.Save()
-      ElseIf _tcpSender.Connected = False Then
-        _tcpSender.Connect(My.Settings.SenderHost, My.Settings.SenderPort)
+      ElseIf _udpSender.Connected = False Then
+        _udpSender.Connect(My.Settings.UDPSenderHost, My.Settings.UDPSenderPort)
       End If
     End If
     Me.UpdateGUI()
   End Sub
 
-  Private Sub _tcpSender_Connected() Handles _tcpSender.SocketConnected
+  Private Sub _tcpSender_Connected() Handles _udpSender.SocketConnected
     Me.UpdateGUI()
     UpdateButtons()
   End Sub
 
-  Private Sub _tcpReceiver_DataReceive(ByRef sender As TCPReceiver, siData As String) Handles _tcpReceiver.DataReceive
+  Private Sub _tcpReceiver_DataReceive(ByRef sender As UDPReceiver, siData As String) Handles _udpReceiver.DataReceive
     Try
       If _dictionaryPackets.ContainsKey(siData) Then
         Dim packet As TestPacket = _dictionaryPackets(siData)
         packet.ReceiveTime = Now
         packet.RoundTripCompleted = True
         AddReceivePacket(packet)
-
+      Else
+        Dim packet As TestPacket = New TestPacket
+        packet.Text = siData
+        packet.SentTime = Now
+        packet.ReceiveTime = Now
+        packet.RoundTripCompleted = True
+        AddReceivePacket(packet)
       End If
     Catch ex As Exception
 
