@@ -67,13 +67,18 @@ Namespace Connections
       End Try
     End Function
 
+    Dim sw As New Stopwatch
     Public Function SendData(ByVal siData As String) As Integer
       Dim nRes As Integer = 0
       Try
-        RaiseEvent ActivityOutgoing()
-        RaiseEvent SentData(Me, siData)
+        ' If sw Is Nothing Then sw = New Stopwatch()
+        ' sw.Reset()
+        ' sw.Start()
         Me.bytCommand = Encoding.UTF8.GetBytes(siData)
-        Me.CPiClient.BeginSend(bytCommand, bytCommand.Length, New AsyncCallback(AddressOf UDPSend), Nothing)
+        Me.CPiClient.Send(bytCommand, bytCommand.Length)
+        'Me.CPiClient.BeginSend(bytCommand, bytCommand.Length, New AsyncCallback(AddressOf UDPSend), Nothing)
+        'RaiseEvent ActivityOutgoing()
+        RaiseEvent SentData(Me, siData)
         nRes = bytCommand.Length
         ' nRes = Me.CPiClient.Send(Me.bytCommand, Me.bytCommand.Length)
         '_dataRate.AddData(siData)
@@ -85,6 +90,7 @@ Namespace Connections
 
 
     Public Sub UDPSend(ar As IAsyncResult)
+      ' Debug.Print("UDPSEnd in " & sw.ElapsedMilliseconds)
 
     End Sub
 

@@ -8,7 +8,8 @@ Public Class frmSender
   Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
     If Not _tcpSender Is Nothing And Me.CheckBoxSendData.Checked Then
       Dim wordCount As Integer = 3
-      _tcpSender.SendData(_lastPacketSent & " Palabra " & _lastPacketSent Mod wordCount & " " & Now.ToString()) ' & " <%" & _lastPacketSent Mod wordCount & "%>" & " | <%" & _lastPacketSent Mod wordCount & ":default text%>" & vbNull)
+      '  _tcpSender.SendData("" & _lastPacketSent & " RENDERER SET_OBJECT First word Term " & _lastPacketSent Mod wordCount & " " & Now.ToString() & "" & vbNullChar) ' & " <%" & _lastPacketSent Mod wordCount & "%>" & " | <%" & _lastPacketSent Mod wordCount & ": Default text%>" & vbNull)
+      _tcpSender.SendData("" & _lastPacketSent & " RENDERER SET_OBJECT " & vbNullChar) ' & " <%" & _lastPacketSent Mod wordCount & "%>" & " | <%" & _lastPacketSent Mod wordCount & ": Default text%>" & vbNull)
       _lastPacketSent += 1
     End If
   End Sub

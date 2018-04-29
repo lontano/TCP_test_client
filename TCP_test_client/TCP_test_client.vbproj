@@ -81,6 +81,7 @@
     <Compile Include="Connections\TCPReceiver.vb" />
     <Compile Include="Connections\UDPReceiver.vb" />
     <Compile Include="Connections\UDPSender.vb" />
+    <Compile Include="Connections\UDPSenderBuffer.vb" />
     <Compile Include="frmControl.Designer.vb">
       <DependentUpon>frmControl.vb</DependentUpon>
     </Compile>
@@ -122,6 +123,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Connections\TCPSender.vb" />
+    <Compile Include="Test\frmBridge.Designer.vb">
+      <DependentUpon>frmBridge.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Test\frmBridge.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Test\frmTestUDP.Designer.vb">
       <DependentUpon>frmTestUDP.vb</DependentUpon>
     </Compile>
@@ -133,6 +140,9 @@
     </Compile>
     <Compile Include="Test\frmTestTCP.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Test\HighPrecisiontimer.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Test\TestPacket.vb" />
   </ItemGroup>
@@ -154,6 +164,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Test\frmBridge.resx">
+      <DependentUpon>frmBridge.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Test\frmTestUDP.resx">
       <DependentUpon>frmTestUDP.vb</DependentUpon>

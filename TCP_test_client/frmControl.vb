@@ -24,4 +24,10 @@
     frm.Show(Me)
     _childForms.Add(frm)
   End Sub
+
+  Private Sub ButtonBridge_Click(sender As Object, e As EventArgs) Handles ButtonBridge.Click
+    Dim frm As New frmBridge
+    frm.Show(Me)
+    _childForms.Add(frm)
+  End Sub
 End Class

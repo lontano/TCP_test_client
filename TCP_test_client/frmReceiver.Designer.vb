@@ -89,7 +89,7 @@ Partial Class frmReceiver
     Me.TableLayoutPanel3.Controls.Add(Me.LabelStatusLabel, 0, 5)
     Me.TableLayoutPanel3.Controls.Add(Me.ButtonReset, 1, 4)
     Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 23)
+    Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
     Me.TableLayoutPanel3.RowCount = 7
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
@@ -99,7 +99,7 @@ Partial Class frmReceiver
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
-    Me.TableLayoutPanel3.Size = New System.Drawing.Size(188, 364)
+    Me.TableLayoutPanel3.Size = New System.Drawing.Size(188, 370)
     Me.TableLayoutPanel3.TabIndex = 1
     '
     'NumericUpDownReceiverPort
@@ -107,7 +107,7 @@ Partial Class frmReceiver
     Me.NumericUpDownReceiverPort.Location = New System.Drawing.Point(97, 28)
     Me.NumericUpDownReceiverPort.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
     Me.NumericUpDownReceiverPort.Name = "NumericUpDownReceiverPort"
-    Me.NumericUpDownReceiverPort.Size = New System.Drawing.Size(88, 27)
+    Me.NumericUpDownReceiverPort.Size = New System.Drawing.Size(88, 21)
     Me.NumericUpDownReceiverPort.TabIndex = 1
     Me.NumericUpDownReceiverPort.Value = New Decimal(New Integer() {6100, 0, 0, 0})
     '
@@ -126,7 +126,7 @@ Partial Class frmReceiver
     '
     Me.LabelReceiverState.AutoSize = True
     Me.LabelReceiverState.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelReceiverState.Location = New System.Drawing.Point(3, 339)
+    Me.LabelReceiverState.Location = New System.Drawing.Point(3, 345)
     Me.LabelReceiverState.Name = "LabelReceiverState"
     Me.LabelReceiverState.Size = New System.Drawing.Size(88, 25)
     Me.LabelReceiverState.TabIndex = 4
@@ -137,7 +137,7 @@ Partial Class frmReceiver
     '
     Me.LabelReceiverDataRate.AutoSize = True
     Me.LabelReceiverDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(97, 339)
+    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(97, 345)
     Me.LabelReceiverDataRate.Name = "LabelReceiverDataRate"
     Me.LabelReceiverDataRate.Size = New System.Drawing.Size(88, 25)
     Me.LabelReceiverDataRate.TabIndex = 4
@@ -160,7 +160,7 @@ Partial Class frmReceiver
     Me.LabelStatusLabel.AutoSize = True
     Me.TableLayoutPanel3.SetColumnSpan(Me.LabelStatusLabel, 2)
     Me.LabelStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelStatusLabel.Location = New System.Drawing.Point(3, 289)
+    Me.LabelStatusLabel.Location = New System.Drawing.Point(3, 295)
     Me.LabelStatusLabel.Name = "LabelStatusLabel"
     Me.LabelStatusLabel.Size = New System.Drawing.Size(182, 50)
     Me.LabelStatusLabel.TabIndex = 6
@@ -168,7 +168,7 @@ Partial Class frmReceiver
     '
     'ButtonReset
     '
-    Me.ButtonReset.Location = New System.Drawing.Point(97, 257)
+    Me.ButtonReset.Location = New System.Drawing.Point(97, 263)
     Me.ButtonReset.Name = "ButtonReset"
     Me.ButtonReset.Size = New System.Drawing.Size(67, 25)
     Me.ButtonReset.TabIndex = 7
@@ -204,7 +204,7 @@ Partial Class frmReceiver
     '
     'frmReceiver
     '
-    Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 21.0!)
+    Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.ClientSize = New System.Drawing.Size(859, 396)
     Me.Controls.Add(Me.TableLayoutPanel1)

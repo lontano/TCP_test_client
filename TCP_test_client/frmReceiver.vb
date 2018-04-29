@@ -41,10 +41,17 @@ Public Class frmReceiver
     If Me.InvokeRequired Then
       Me.Invoke(New UpdatePacketDelegate(AddressOf UpdatePacket), siData)
     Else
-      Dim itm As ListViewItem = Me.ListViewPackets.Items.Insert(0, Me.ListViewPackets.Items.Count)
-      itm.SubItems.Add(Now.ToString)
-      itm.SubItems.Add(siData.Length)
-      itm.SubItems.Add(siData)
+      Dim asAux() As String = siData.Split(vbNullChar)
+
+      For Each sAux As String In asAux
+        If sAux.Trim.Length > 0 Then
+          Dim itm As ListViewItem = Me.ListViewPackets.Items.Insert(0, Me.ListViewPackets.Items.Count)
+          itm.SubItems.Add(Now.ToString)
+          itm.SubItems.Add(sAux.Length)
+          itm.SubItems.Add(sAux)
+        End If
+      Next
+
     End If
   End Sub
 

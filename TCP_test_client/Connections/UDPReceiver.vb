@@ -24,7 +24,9 @@ Namespace Connections
       Try
         enabled = True
         _udpReceive = New System.Net.Sockets.UdpClient(niPort)
+
         _udpReceive.BeginReceive(New AsyncCallback(AddressOf recv), Nothing)
+
         Return True
       Catch ex As Exception
         MsgBox(ex.ToString)
@@ -44,15 +46,17 @@ Namespace Connections
       Try
         Dim RemoteIpEndPoint As IPEndPoint = New IPEndPoint(IPAddress.Any, 555)
         Dim received As Byte() = _udpReceive.EndReceive(res, RemoteIpEndPoint)
+
+        If Me.enabled Then
+          _udpReceive.BeginReceive(New AsyncCallback(AddressOf recv), Nothing)
+        End If
+
         Dim data As String = Encoding.UTF8.GetString(received)
         RaiseReceiverEvents(received, data)
       Catch __unusedException1__ As Exception
       End Try
 
       Try
-        If Me.Enabled Then
-          _udpReceive.BeginReceive(New AsyncCallback(AddressOf recv), Nothing)
-        End If
       Catch __unusedException1__ As Exception
       End Try
     End Sub

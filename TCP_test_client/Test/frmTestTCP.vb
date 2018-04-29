@@ -7,17 +7,23 @@ Public Class frmTestTCP
   Private _lastPacketSent As Integer = 0
   Private _dictionaryPackets As New Dictionary(Of String, TestPacket)
 
+
+
   Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
     If Not _tcpSender Is Nothing And Me.CheckBoxSendData.Checked Then
       Dim wordCount As Integer = 3
+      Static rnd As New Random
+      For i As Integer = 0 To 0 * CInt(rnd.Next(5))
 
-      Dim packet As New TestPacket
-      packet.Text = _lastPacketSent & " This is a test packet"
-      packet.SentTime = Now
+        Dim packet As New TestPacket
+        'packet.Text = _lastPacketSent & " This is a test packet"
+        packet.Text = "<" & _lastPacketSent & " RENDERER SET_OBJECT nothing>"
+        packet.SentTime = Now
 
-      _tcpSender.SendData(packet.Text)
-      _lastPacketSent += 1
-      _dictionaryPackets.Add(packet.Text, packet)
+        _tcpSender.SendData(packet.Text)
+        _lastPacketSent += 1
+        _dictionaryPackets.Add(packet.Text, packet)
+      Next
     End If
   End Sub
 
@@ -37,7 +43,8 @@ Public Class frmTestTCP
       Me.Invoke(New UpdateGUIDelegate(AddressOf UpdateGUI))
     Else
       If Not _tcpSender Is Nothing Then
-        Me.LabelSenderState.Text = "Data sent " & Now.ToString
+        'Me.LabelSenderState.Text = "Data sent " & Now.ToString
+        Me.LabelSenderState.Text = _sentPackets & "/" & _receivedPackets
         Me.LabelSenderDataRate.Text = _tcpSender.DataRateCalculator.DataRateText & " " & _tcpSender.DataRateCalculator.TotalDataReceivedText
       End If
     End If
@@ -99,12 +106,20 @@ Public Class frmTestTCP
     UpdateButtons()
   End Sub
 
-  Private Sub _tcpSender_SentData(ByRef sender As TCPSender, siData As String) Handles _tcpSender.SentData
 
-    Dim itm As ListViewItem = Me.ListViewSendPackets.Items.Insert(0, Me.ListViewSendPackets.Items.Count)
-    itm.SubItems.Add(siData.Length)
-    itm.SubItems.Add(Now.ToString)
-    itm.SubItems.Add(siData)
+  Private _sentPackets As Integer = 0
+  Private _receivedPackets As Integer = 0
+
+  Private Sub _tcpSender_SentData(ByRef sender As TCPSender, siData As String) Handles _tcpSender.SentData
+    _sentPackets += 1
+
+    If Me.CheckBoxShowPackets.Checked Then
+
+      Dim itm As ListViewItem = Me.ListViewSendPackets.Items.Insert(0, Me.ListViewSendPackets.Items.Count)
+      itm.SubItems.Add(siData.Length)
+      itm.SubItems.Add(siData.Length)
+      itm.SubItems.Add(siData)
+    End If
   End Sub
 
   Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -161,6 +176,8 @@ Public Class frmTestTCP
     _minRoundTripTime = Double.MaxValue
     _maxRoundTripTime = Double.MinValue
     _meanRoundTripTime = 0
+    _sentPackets = 0
+    _receivedPackets = 0
   End Sub
 
   Private Sub TimerReconnect_Tick(sender As Object, e As EventArgs) Handles TimerReconnect.Tick
@@ -184,10 +201,24 @@ Public Class frmTestTCP
   End Sub
 
   Private Sub _tcpReceiver_DataReceive(ByRef sender As TCPReceiver, siData As String) Handles _tcpReceiver.DataReceive
+
+  End Sub
+
+  Private Sub _tcpReceiver_DataReceiveBytes(ByRef sender As TCPReceiver, ByRef biData() As Byte) Handles _tcpReceiver.DataReceiveBytes
+    _receivedPackets += 1
     Try
-      If _dictionaryPackets.ContainsKey(siData) Then
-        Dim packet As TestPacket = _dictionaryPackets(siData)
+      Dim sData As String = System.Text.Encoding.UTF8.GetString(biData)
+      If _dictionaryPackets.ContainsKey(sData) Then
+        Dim packet As TestPacket = _dictionaryPackets(sData)
         packet.ReceiveTime = Now
+        packet.data = biData
+        packet.RoundTripCompleted = True
+        AddReceivePacket(packet)
+      Else
+        Dim packet As New TestPacket
+        packet.ReceiveTime = Now
+        packet.data = biData
+        packet.Text = System.Text.Encoding.UTF8.GetString(biData)
         packet.RoundTripCompleted = True
         AddReceivePacket(packet)
 
@@ -206,11 +237,14 @@ Public Class frmTestTCP
 
       Me.Invoke(Sub()
                   Dim diff As TimeSpan = packet.ReceiveTime.Subtract(packet.SentTime)
-                  Dim itm As ListViewItem = Me.ListViewReceivePackets.Items.Insert(0, Me.ListViewReceivePackets.Items.Count)
-                  itm.SubItems.Add(diff.TotalMilliseconds)
-                  itm.SubItems.Add(Now.ToString)
-                  itm.SubItems.Add(packet.Text)
+                  If Me.CheckBoxShowPackets.Checked Then
+                    Dim itm As ListViewItem = Me.ListViewReceivePackets.Items.Insert(0, Me.ListViewReceivePackets.Items.Count)
+                    itm.SubItems.Add(diff.TotalMilliseconds)
+                    itm.SubItems.Add(packet.data.Length)
+                    itm.SubItems.Add(packet.Text)
 
+
+                  End If
                   _minRoundTripTime = Math.Min(_minRoundTripTime, diff.TotalMilliseconds)
                   _maxRoundTripTime = Math.Max(_maxRoundTripTime, diff.TotalMilliseconds)
                   _meanRoundTripTime = (_meanRoundTripTime * (Me.ListViewReceivePackets.Items.Count - 1) + diff.TotalMilliseconds) / Me.ListViewReceivePackets.Items.Count
@@ -220,5 +254,27 @@ Public Class frmTestTCP
     Catch ex As Exception
 
     End Try
+  End Sub
+
+  Private Sub _tcpReceiver_ActivityIncoming(ByRef sender As TCPReceiver) Handles _tcpReceiver.ActivityIncoming
+    Me.UpdateGUI()
+  End Sub
+
+  Private Sub ButtonSendManualText_Click(sender As Object, e As EventArgs) Handles ButtonSendManualText.Click
+    If Not _tcpSender Is Nothing Then
+      SendPacket(Me.TextBoxManualText.Text)
+    End If
+  End Sub
+
+  Private Sub SendPacket(siText As String)
+
+    Dim packet As New TestPacket
+    'packet.Text = _lastPacketSent & " This is a test packet"
+    packet.Text = _lastPacketSent & ":" & siText & vbNullChar
+    packet.SentTime = Now
+
+    _tcpSender.SendData(packet.Text)
+    _lastPacketSent += 1
+    _dictionaryPackets.Add(packet.Text, packet)
   End Sub
 End Class
