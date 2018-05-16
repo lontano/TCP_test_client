@@ -24,8 +24,8 @@ Public Class frmTestUDP
 
   End Enum
 
-  Private _ePrecissionType As ePrecissionType = ePrecissionType.Normal
-  Private _lastSendTime As Double = 0
+    Private _ePrecissionType As ePrecissionType = ePrecissionType.Normal
+    Private _lastSendTime As Double = 0
   Private _lastSentFramenumber As Integer = 0
 
   Private Sub _backWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _backWorker.DoWork
@@ -34,37 +34,39 @@ Public Class frmTestUDP
       _clockSW.Reset()
       _clockSW.Start()
 
-      Dim packetsPerFrame As Integer = 1
+      Dim packetsPerFrame As Integer = 20
 
       While Not _backWorker.CancellationPending
-        Select Case _ePrecissionType
-          Case ePrecissionType.Normal
-            Dim frameNumber As Integer = _clockSW.ElapsedTicks \ _sendTicks
-            If frameNumber <> _lastSentFramenumber Then
-              _lastSentFramenumber = frameNumber
-              '   Debug.Print(sw.ElapsedMilliseconds)
-              Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds
+                Select Case _ePrecissionType
+                    Case ePrecissionType.Normal
+                        Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds - _lastSendTime
+                        If _clockSW.Elapsed.TotalMilliseconds - _lastSendTime > _sendMS Then
+                            _lastSendTime = _clockSW.Elapsed.TotalMilliseconds
 
+                            Dim frameNumber As Integer = _clockSW.Elapsed.TotalMilliseconds \ _sendMS
+                            If frameNumber <> _lastSentFramenumber Then
+                                _lastSentFramenumber = frameNumber
+                                '   Debug.Print(sw.ElapsedMilliseconds)
+                                For i As Integer = 1 To packetsPerFrame
+                                    SendNewPacket(frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime)
+                                    ' _sendSW.Reset()
+                                    ' _sendSW.Start()
+                                Next
 
-              For i As Integer = 1 To packetsPerFrame
-                SendNewPacket(frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime)
-                _lastSendTime = sendTime
-                _sendSW.Reset()
-                _sendSW.Start()
-              Next
+                            Else
+                            End If
 
-            Else
-              Threading.Thread.Sleep(1)
-              'Application.DoEvents()
-            End If
-          Case ePrecissionType.Sleep
-            Threading.Thread.Sleep(New TimeSpan(_sendMS))
-            SendNewPacket(_clockSW.Elapsed.ToString & vbTab & _sendSW.Elapsed.TotalMilliseconds & ":" & (1000 * _clockSW.ElapsedTicks) / Stopwatch.Frequency)
-            _sendSW.Reset()
-            _sendSW.Start()
-        End Select
+                        End If
+            Threading.Thread.Sleep(2)
+            Application.DoEvents()
+                    Case ePrecissionType.Sleep
+                        Threading.Thread.Sleep(New TimeSpan(_sendMS))
+                        SendNewPacket(_clockSW.Elapsed.ToString & vbTab & _sendSW.Elapsed.TotalMilliseconds & ":" & (1000 * _clockSW.ElapsedTicks) / Stopwatch.Frequency)
+                        _sendSW.Reset()
+                        _sendSW.Start()
+                End Select
 
-      End While
+            End While
       _clockSW.Stop()
     Catch ex As Exception
 
@@ -103,8 +105,8 @@ Public Class frmTestUDP
       _sw.Start()
     Else
       '  Debug.Print("Ticks ellapsed " & _sw.ElapsedMilliseconds)
-      _sw.Reset()
-      _sw.Start()
+      '_sw.Reset()
+      '_sw.Start()
     End If
 
     Dim packet As New TestPacket
@@ -188,10 +190,11 @@ Public Class frmTestUDP
       End If
 
       If _udpReceiver Is Nothing Then
+        My.Settings.UDPReceiverPort = Me.NumericUpDownReceiverPort.Value
         _udpReceiver = New Connections.UDPReceiver
-        _udpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
+        _udpReceiver.Listen(Me.NumericUpDownReceiverPort.Value)
       Else
-        _udpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
+        _udpReceiver.Listen(Me.NumericUpDownReceiverPort.Value)
       End If
     Else
       _udpSender.Disconnect()
@@ -226,6 +229,7 @@ Public Class frmTestUDP
     AppNewAutosizeColumns(Me.ListViewSendPackets)
     Me.TextBoxSenderHost.Text = My.Settings.UDPSenderHost
     Me.NumericUpDownSenderPort.Value = My.Settings.UDPSenderPort
+    Me.NumericUpDownReceiverPort.Value = My.Settings.UDPReceiverPort
     'Me.Timer1.Start()
     'Me.Timer1.Enabled = True
     StartTimer()
@@ -351,9 +355,9 @@ Public Class frmTestUDP
   Public Interval As Double = 1000
 
   Private Sub NumericUpDownDataSendTime_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDownDataSendTime.ValueChanged
-    ' Me.Interval = Me.NumericUpDownDataSendTime.Value
-    _sendMS = 10000 * Me.NumericUpDownDataSendTime.Value
-    _sendTicks = Stopwatch.Frequency * (Me.NumericUpDownDataSendTime.Value) / 1000
+        ' Me.Interval = Me.NumericUpDownDataSendTime.Value
+        _sendMS = Me.NumericUpDownDataSendTime.Value
+        _sendTicks = Stopwatch.Frequency * (Me.NumericUpDownDataSendTime.Value) / 1000
     Debug.Print("sEND TICKS " & _sendTicks)
   End Sub
 
@@ -405,8 +409,9 @@ Public Class frmTestUDP
       If _backWorker.IsBusy = False Then
         _backWorker.WorkerSupportsCancellation = True
         _backWorker.WorkerReportsProgress = True
-        _backWorker.RunWorkerAsync()
-      End If
+                _backWorker.RunWorkerAsync()
+                _lastSendTime = 0
+            End If
     Else
       If Not _backWorker Is Nothing Then
         _backWorker.CancelAsync()

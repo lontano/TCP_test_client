@@ -38,6 +38,7 @@ Partial Class frmTestUDP
     Me.ButtonReset = New System.Windows.Forms.Button()
     Me.LabelReceiverDataRate = New System.Windows.Forms.Label()
     Me.CheckBoxShowPackets = New System.Windows.Forms.CheckBox()
+    Me.ButtonSendPacketNow = New System.Windows.Forms.Button()
     Me.SplitContainerPackets = New System.Windows.Forms.SplitContainer()
     Me.ListViewSendPackets = New System.Windows.Forms.ListView()
     Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -51,7 +52,8 @@ Partial Class frmTestUDP
     Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.TimerReconnect = New System.Windows.Forms.Timer(Me.components)
     Me.TimerGUI = New System.Windows.Forms.Timer(Me.components)
-    Me.ButtonSendPacketNow = New System.Windows.Forms.Button()
+    Me.NumericUpDownReceiverPort = New System.Windows.Forms.NumericUpDown()
+    Me.Label1 = New System.Windows.Forms.Label()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
@@ -60,6 +62,7 @@ Partial Class frmTestUDP
     Me.SplitContainerPackets.Panel1.SuspendLayout()
     Me.SplitContainerPackets.Panel2.SuspendLayout()
     Me.SplitContainerPackets.SuspendLayout()
+    CType(Me.NumericUpDownReceiverPort, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SuspendLayout()
     '
     'TableLayoutPanel1
@@ -97,21 +100,25 @@ Partial Class frmTestUDP
     Me.TableLayoutPanel2.Controls.Add(Me.TextBoxSenderHost, 1, 0)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderPort, 0, 1)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderHost, 0, 0)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 6)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 6)
-    Me.TableLayoutPanel2.Controls.Add(Me.ButtonSenderConnect, 1, 2)
-    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxSendData, 0, 5)
-    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 5)
-    Me.TableLayoutPanel2.Controls.Add(Me.ButtonReset, 1, 4)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelReceiverDataRate, 0, 7)
-    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxShowPackets, 0, 4)
-    Me.TableLayoutPanel2.Controls.Add(Me.ButtonSendPacketNow, 0, 2)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 8)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 8)
+    Me.TableLayoutPanel2.Controls.Add(Me.ButtonSenderConnect, 1, 3)
+    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxSendData, 0, 7)
+    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 7)
+    Me.TableLayoutPanel2.Controls.Add(Me.ButtonReset, 1, 6)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelReceiverDataRate, 0, 9)
+    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxShowPackets, 0, 6)
+    Me.TableLayoutPanel2.Controls.Add(Me.ButtonSendPacketNow, 0, 3)
+    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownReceiverPort, 1, 2)
+    Me.TableLayoutPanel2.Controls.Add(Me.Label1, 0, 2)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 23)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-    Me.TableLayoutPanel2.RowCount = 8
+    Me.TableLayoutPanel2.RowCount = 10
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
+    Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
+    Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
@@ -147,7 +154,7 @@ Partial Class frmTestUDP
     Me.LabelSenderPort.Name = "LabelSenderPort"
     Me.LabelSenderPort.Size = New System.Drawing.Size(179, 25)
     Me.LabelSenderPort.TabIndex = 0
-    Me.LabelSenderPort.Text = "Port"
+    Me.LabelSenderPort.Text = "Port (remote)"
     Me.LabelSenderPort.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
     '
     'LabelSenderHost
@@ -187,7 +194,7 @@ Partial Class frmTestUDP
     '
     Me.ButtonSenderConnect.Dock = System.Windows.Forms.DockStyle.Fill
     Me.ButtonSenderConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-    Me.ButtonSenderConnect.Location = New System.Drawing.Point(188, 53)
+    Me.ButtonSenderConnect.Location = New System.Drawing.Point(188, 88)
     Me.ButtonSenderConnect.Name = "ButtonSenderConnect"
     Me.ButtonSenderConnect.Size = New System.Drawing.Size(179, 29)
     Me.ButtonSenderConnect.TabIndex = 5
@@ -244,6 +251,15 @@ Partial Class frmTestUDP
     Me.CheckBoxShowPackets.TabIndex = 10
     Me.CheckBoxShowPackets.Text = "Show packets"
     Me.CheckBoxShowPackets.UseVisualStyleBackColor = True
+    '
+    'ButtonSendPacketNow
+    '
+    Me.ButtonSendPacketNow.Location = New System.Drawing.Point(3, 88)
+    Me.ButtonSendPacketNow.Name = "ButtonSendPacketNow"
+    Me.ButtonSendPacketNow.Size = New System.Drawing.Size(120, 29)
+    Me.ButtonSendPacketNow.TabIndex = 11
+    Me.ButtonSendPacketNow.Text = "Send NOW"
+    Me.ButtonSendPacketNow.UseVisualStyleBackColor = True
     '
     'SplitContainerPackets
     '
@@ -328,14 +344,24 @@ Partial Class frmTestUDP
     Me.TimerGUI.Enabled = True
     Me.TimerGUI.Interval = 500
     '
-    'ButtonSendPacketNow
+    'NumericUpDownReceiverPort
     '
-    Me.ButtonSendPacketNow.Location = New System.Drawing.Point(3, 53)
-    Me.ButtonSendPacketNow.Name = "ButtonSendPacketNow"
-    Me.ButtonSendPacketNow.Size = New System.Drawing.Size(120, 29)
-    Me.ButtonSendPacketNow.TabIndex = 11
-    Me.ButtonSendPacketNow.Text = "Send NOW"
-    Me.ButtonSendPacketNow.UseVisualStyleBackColor = True
+    Me.NumericUpDownReceiverPort.Location = New System.Drawing.Point(188, 53)
+    Me.NumericUpDownReceiverPort.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
+    Me.NumericUpDownReceiverPort.Name = "NumericUpDownReceiverPort"
+    Me.NumericUpDownReceiverPort.Size = New System.Drawing.Size(98, 27)
+    Me.NumericUpDownReceiverPort.TabIndex = 1
+    Me.NumericUpDownReceiverPort.Value = New Decimal(New Integer() {6100, 0, 0, 0})
+    '
+    'Label1
+    '
+    Me.Label1.AutoSize = True
+    Me.Label1.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.Label1.Location = New System.Drawing.Point(3, 50)
+    Me.Label1.Name = "Label1"
+    Me.Label1.Size = New System.Drawing.Size(179, 35)
+    Me.Label1.TabIndex = 12
+    Me.Label1.Text = "Port (local)"
     '
     'frmTestUDP
     '
@@ -355,6 +381,7 @@ Partial Class frmTestUDP
     Me.SplitContainerPackets.Panel1.ResumeLayout(False)
     Me.SplitContainerPackets.Panel2.ResumeLayout(False)
     Me.SplitContainerPackets.ResumeLayout(False)
+    CType(Me.NumericUpDownReceiverPort, System.ComponentModel.ISupportInitialize).EndInit()
     Me.ResumeLayout(False)
 
   End Sub
@@ -387,4 +414,6 @@ Partial Class frmTestUDP
   Friend WithEvents TimerGUI As Timer
   Friend WithEvents CheckBoxShowPackets As CheckBox
   Friend WithEvents ButtonSendPacketNow As Button
+  Friend WithEvents NumericUpDownReceiverPort As NumericUpDown
+  Friend WithEvents Label1 As Label
 End Class
