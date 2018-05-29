@@ -24,8 +24,8 @@ Public Class frmTestUDP
 
   End Enum
 
-    Private _ePrecissionType As ePrecissionType = ePrecissionType.Normal
-    Private _lastSendTime As Double = 0
+  Private _ePrecissionType As ePrecissionType = ePrecissionType.Normal
+  Private _lastSendTime As Double = 0
   Private _lastSentFramenumber As Integer = 0
 
   Private Sub _backWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _backWorker.DoWork
@@ -34,39 +34,38 @@ Public Class frmTestUDP
       _clockSW.Reset()
       _clockSW.Start()
 
-      Dim packetsPerFrame As Integer = 20
+      Dim packetsPerFrame As Integer = 120
 
       While Not _backWorker.CancellationPending
-                Select Case _ePrecissionType
-                    Case ePrecissionType.Normal
-                        Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds - _lastSendTime
-                        If _clockSW.Elapsed.TotalMilliseconds - _lastSendTime > _sendMS Then
-                            _lastSendTime = _clockSW.Elapsed.TotalMilliseconds
+        Select Case _ePrecissionType
+          Case ePrecissionType.Normal
+            Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds - _lastSendTime
+            If _clockSW.Elapsed.TotalMilliseconds - _lastSendTime > _sendMS Then
+              _lastSendTime = _clockSW.Elapsed.TotalMilliseconds
 
-                            Dim frameNumber As Integer = _clockSW.Elapsed.TotalMilliseconds \ _sendMS
-                            If frameNumber <> _lastSentFramenumber Then
-                                _lastSentFramenumber = frameNumber
-                                '   Debug.Print(sw.ElapsedMilliseconds)
-                                For i As Integer = 1 To packetsPerFrame
-                                    SendNewPacket(frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime)
-                                    ' _sendSW.Reset()
-                                    ' _sendSW.Start()
-                                Next
+              Dim frameNumber As Integer = _clockSW.Elapsed.TotalMilliseconds \ _sendMS
+              If frameNumber <> _lastSentFramenumber Then
+                _lastSentFramenumber = frameNumber
+                '   Debug.Print(sw.ElapsedMilliseconds)
+                Dim sPacket As String = ""
+                For i As Integer = 1 To packetsPerFrame
+                  sPacket = sPacket & frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime & vbNullChar
+                Next
+                SendNewPacket(sPacket)
+              Else
+              End If
 
-                            Else
-                            End If
-
-                        End If
+            End If
             Threading.Thread.Sleep(2)
             Application.DoEvents()
-                    Case ePrecissionType.Sleep
-                        Threading.Thread.Sleep(New TimeSpan(_sendMS))
-                        SendNewPacket(_clockSW.Elapsed.ToString & vbTab & _sendSW.Elapsed.TotalMilliseconds & ":" & (1000 * _clockSW.ElapsedTicks) / Stopwatch.Frequency)
-                        _sendSW.Reset()
-                        _sendSW.Start()
-                End Select
+          Case ePrecissionType.Sleep
+            Threading.Thread.Sleep(New TimeSpan(_sendMS))
+            SendNewPacket(_clockSW.Elapsed.ToString & vbTab & _sendSW.Elapsed.TotalMilliseconds & ":" & (1000 * _clockSW.ElapsedTicks) / Stopwatch.Frequency)
+            _sendSW.Reset()
+            _sendSW.Start()
+        End Select
 
-            End While
+      End While
       _clockSW.Stop()
     Catch ex As Exception
 
@@ -254,9 +253,9 @@ Public Class frmTestUDP
     For lngColumn = 0 To (TargetListView.Columns.Count - 1)
 
       Call SendMessage(TargetListView.Handle,
-                SET_COLUMN_WIDTH,
-                lngColumn,
-                AUTOSIZE_USEHEADER)
+                  SET_COLUMN_WIDTH,
+                  lngColumn,
+                  AUTOSIZE_USEHEADER)
 
     Next lngColumn
 
@@ -340,8 +339,8 @@ Public Class frmTestUDP
                   '_meanRoundTripTime = (_meanRoundTripTime * (Me.ListViewReceivePackets.Items.Count - 1) + diff.TotalMilliseconds) / Me.ListViewReceivePackets.Items.Count
                   If diffTime > 0 Then
                     _minRoundTripTime = Math.Min(_minRoundTripTime, diffTime)
-                  _maxRoundTripTime = Math.Max(_maxRoundTripTime, diffTime)
-                  _meanRoundTripTime = (_meanRoundTripTime * (_receivedPackets - 1) + diffTime) / _receivedPackets
+                    _maxRoundTripTime = Math.Max(_maxRoundTripTime, diffTime)
+                    _meanRoundTripTime = (_meanRoundTripTime * (_receivedPackets - 1) + diffTime) / _receivedPackets
 
                     Me.LabelReceiverDataRate.Text = "Mean time " & _meanRoundTripTime & " (" & _minRoundTripTime & " to " & _maxRoundTripTime & ")"
                   End If
@@ -355,9 +354,9 @@ Public Class frmTestUDP
   Public Interval As Double = 1000
 
   Private Sub NumericUpDownDataSendTime_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDownDataSendTime.ValueChanged
-        ' Me.Interval = Me.NumericUpDownDataSendTime.Value
-        _sendMS = Me.NumericUpDownDataSendTime.Value
-        _sendTicks = Stopwatch.Frequency * (Me.NumericUpDownDataSendTime.Value) / 1000
+    ' Me.Interval = Me.NumericUpDownDataSendTime.Value
+    _sendMS = Me.NumericUpDownDataSendTime.Value
+    _sendTicks = Stopwatch.Frequency * (Me.NumericUpDownDataSendTime.Value) / 1000
     Debug.Print("sEND TICKS " & _sendTicks)
   End Sub
 
@@ -409,9 +408,9 @@ Public Class frmTestUDP
       If _backWorker.IsBusy = False Then
         _backWorker.WorkerSupportsCancellation = True
         _backWorker.WorkerReportsProgress = True
-                _backWorker.RunWorkerAsync()
-                _lastSendTime = 0
-            End If
+        _backWorker.RunWorkerAsync()
+        _lastSendTime = 0
+      End If
     Else
       If Not _backWorker Is Nothing Then
         _backWorker.CancelAsync()

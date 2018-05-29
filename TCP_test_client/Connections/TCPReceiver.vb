@@ -171,6 +171,7 @@ Namespace Connections
               dData.sData = System.Text.Encoding.UTF8.GetString(incomingData)
               'Me._backWorkerListener.ReportProgress(0, dData)
               bWorker.ReportProgress(0, dData)
+              tcpClient.Client.Send(inbuffer)
             End If
           End While
         End If
