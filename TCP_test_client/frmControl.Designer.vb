@@ -22,94 +22,106 @@ Partial Class frmControl
   'Do not modify it using the code editor.
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
-    Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+    Me.TableLayoutPanelAll = New System.Windows.Forms.TableLayoutPanel()
     Me.ButtonNewSender = New System.Windows.Forms.Button()
     Me.ButtonNewReceiver = New System.Windows.Forms.Button()
     Me.Button1 = New System.Windows.Forms.Button()
     Me.ButtonUDPTest = New System.Windows.Forms.Button()
     Me.ButtonBridge = New System.Windows.Forms.Button()
-    Me.TableLayoutPanel1.SuspendLayout()
+    Me.TableLayoutPanelAll.SuspendLayout()
     Me.SuspendLayout()
     '
-    'TableLayoutPanel1
+    'TableLayoutPanelAll
     '
-    Me.TableLayoutPanel1.ColumnCount = 2
-    Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-    Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-    Me.TableLayoutPanel1.Controls.Add(Me.ButtonNewSender, 0, 0)
-    Me.TableLayoutPanel1.Controls.Add(Me.ButtonNewReceiver, 1, 0)
-    Me.TableLayoutPanel1.Controls.Add(Me.Button1, 0, 1)
-    Me.TableLayoutPanel1.Controls.Add(Me.ButtonUDPTest, 1, 1)
-    Me.TableLayoutPanel1.Location = New System.Drawing.Point(24, 12)
-    Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
-    Me.TableLayoutPanel1.RowCount = 2
-    Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-    Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-    Me.TableLayoutPanel1.Size = New System.Drawing.Size(248, 131)
-    Me.TableLayoutPanel1.TabIndex = 0
+    Me.TableLayoutPanelAll.ColumnCount = 2
+    Me.TableLayoutPanelAll.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+    Me.TableLayoutPanelAll.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+    Me.TableLayoutPanelAll.Controls.Add(Me.ButtonBridge, 0, 2)
+    Me.TableLayoutPanelAll.Controls.Add(Me.ButtonNewSender, 0, 0)
+    Me.TableLayoutPanelAll.Controls.Add(Me.ButtonNewReceiver, 1, 0)
+    Me.TableLayoutPanelAll.Controls.Add(Me.Button1, 0, 1)
+    Me.TableLayoutPanelAll.Controls.Add(Me.ButtonUDPTest, 1, 1)
+    Me.TableLayoutPanelAll.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.TableLayoutPanelAll.Location = New System.Drawing.Point(0, 0)
+    Me.TableLayoutPanelAll.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+    Me.TableLayoutPanelAll.Name = "TableLayoutPanelAll"
+    Me.TableLayoutPanelAll.RowCount = 3
+    Me.TableLayoutPanelAll.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+    Me.TableLayoutPanelAll.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+    Me.TableLayoutPanelAll.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333!))
+    Me.TableLayoutPanelAll.Size = New System.Drawing.Size(379, 321)
+    Me.TableLayoutPanelAll.TabIndex = 0
     '
     'ButtonNewSender
     '
-    Me.ButtonNewSender.Location = New System.Drawing.Point(3, 3)
+    Me.ButtonNewSender.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ButtonNewSender.Location = New System.Drawing.Point(4, 4)
+    Me.ButtonNewSender.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
     Me.ButtonNewSender.Name = "ButtonNewSender"
-    Me.ButtonNewSender.Size = New System.Drawing.Size(86, 40)
+    Me.ButtonNewSender.Size = New System.Drawing.Size(181, 98)
     Me.ButtonNewSender.TabIndex = 0
-    Me.ButtonNewSender.Text = "New sender"
+    Me.ButtonNewSender.Text = "New TCP sender"
     Me.ButtonNewSender.UseVisualStyleBackColor = True
     '
     'ButtonNewReceiver
     '
-    Me.ButtonNewReceiver.Location = New System.Drawing.Point(127, 3)
+    Me.ButtonNewReceiver.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ButtonNewReceiver.Location = New System.Drawing.Point(193, 4)
+    Me.ButtonNewReceiver.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
     Me.ButtonNewReceiver.Name = "ButtonNewReceiver"
-    Me.ButtonNewReceiver.Size = New System.Drawing.Size(91, 43)
+    Me.ButtonNewReceiver.Size = New System.Drawing.Size(182, 98)
     Me.ButtonNewReceiver.TabIndex = 1
-    Me.ButtonNewReceiver.Text = "New receiver"
+    Me.ButtonNewReceiver.Text = "New TCP receiver"
     Me.ButtonNewReceiver.UseVisualStyleBackColor = True
     '
     'Button1
     '
-    Me.Button1.Location = New System.Drawing.Point(2, 67)
-    Me.Button1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+    Me.Button1.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.Button1.Location = New System.Drawing.Point(3, 108)
+    Me.Button1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
     Me.Button1.Name = "Button1"
-    Me.Button1.Size = New System.Drawing.Size(120, 62)
+    Me.Button1.Size = New System.Drawing.Size(183, 102)
     Me.Button1.TabIndex = 2
-    Me.Button1.Text = "New Test"
+    Me.Button1.Text = "New Test TCP"
     Me.Button1.UseVisualStyleBackColor = True
     '
     'ButtonUDPTest
     '
-    Me.ButtonUDPTest.Location = New System.Drawing.Point(126, 67)
-    Me.ButtonUDPTest.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+    Me.ButtonUDPTest.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ButtonUDPTest.Location = New System.Drawing.Point(192, 108)
+    Me.ButtonUDPTest.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
     Me.ButtonUDPTest.Name = "ButtonUDPTest"
-    Me.ButtonUDPTest.Size = New System.Drawing.Size(120, 62)
+    Me.ButtonUDPTest.Size = New System.Drawing.Size(184, 102)
     Me.ButtonUDPTest.TabIndex = 2
     Me.ButtonUDPTest.Text = "New Test UDP"
     Me.ButtonUDPTest.UseVisualStyleBackColor = True
     '
     'ButtonBridge
     '
-    Me.ButtonBridge.Location = New System.Drawing.Point(42, 163)
+    Me.ButtonBridge.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ButtonBridge.Location = New System.Drawing.Point(4, 216)
+    Me.ButtonBridge.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
     Me.ButtonBridge.Name = "ButtonBridge"
-    Me.ButtonBridge.Size = New System.Drawing.Size(103, 66)
+    Me.ButtonBridge.Size = New System.Drawing.Size(181, 101)
     Me.ButtonBridge.TabIndex = 1
     Me.ButtonBridge.Text = "Bridge"
     Me.ButtonBridge.UseVisualStyleBackColor = True
     '
     'frmControl
     '
-    Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+    Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-    Me.ClientSize = New System.Drawing.Size(284, 261)
-    Me.Controls.Add(Me.ButtonBridge)
-    Me.Controls.Add(Me.TableLayoutPanel1)
+    Me.ClientSize = New System.Drawing.Size(379, 321)
+    Me.Controls.Add(Me.TableLayoutPanelAll)
+    Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
     Me.Name = "frmControl"
     Me.Text = "Tx/Rx test"
-    Me.TableLayoutPanel1.ResumeLayout(False)
+    Me.TableLayoutPanelAll.ResumeLayout(False)
     Me.ResumeLayout(False)
 
   End Sub
 
-  Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
+  Friend WithEvents TableLayoutPanelAll As TableLayoutPanel
   Friend WithEvents ButtonNewSender As Button
   Friend WithEvents ButtonNewReceiver As Button
   Friend WithEvents Button1 As Button

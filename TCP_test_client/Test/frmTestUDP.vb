@@ -34,29 +34,30 @@ Public Class frmTestUDP
       _clockSW.Reset()
       _clockSW.Start()
 
-      Dim packetsPerFrame As Integer = 1
+      Dim packetsPerFrame As Integer = 120
 
       While Not _backWorker.CancellationPending
         Select Case _ePrecissionType
           Case ePrecissionType.Normal
-            Dim frameNumber As Integer = _clockSW.ElapsedTicks \ _sendTicks
-            If frameNumber <> _lastSentFramenumber Then
-              _lastSentFramenumber = frameNumber
-              '   Debug.Print(sw.ElapsedMilliseconds)
-              Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds
+            Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds - _lastSendTime
+            If _clockSW.Elapsed.TotalMilliseconds - _lastSendTime > _sendMS Then
+              _lastSendTime = _clockSW.Elapsed.TotalMilliseconds
 
+              Dim frameNumber As Integer = _clockSW.Elapsed.TotalMilliseconds \ _sendMS
+              If frameNumber <> _lastSentFramenumber Then
+                _lastSentFramenumber = frameNumber
+                '   Debug.Print(sw.ElapsedMilliseconds)
+                Dim sPacket As String = ""
+                For i As Integer = 1 To packetsPerFrame
+                  sPacket = sPacket & frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime & vbNullChar
+                Next
+                SendNewPacket(sPacket)
+              Else
+              End If
 
-              For i As Integer = 1 To packetsPerFrame
-                SendNewPacket(frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime)
-                _lastSendTime = sendTime
-                _sendSW.Reset()
-                _sendSW.Start()
-              Next
-
-            Else
-              Threading.Thread.Sleep(1)
-              'Application.DoEvents()
             End If
+            Threading.Thread.Sleep(2)
+            Application.DoEvents()
           Case ePrecissionType.Sleep
             Threading.Thread.Sleep(New TimeSpan(_sendMS))
             SendNewPacket(_clockSW.Elapsed.ToString & vbTab & _sendSW.Elapsed.TotalMilliseconds & ":" & (1000 * _clockSW.ElapsedTicks) / Stopwatch.Frequency)
@@ -103,8 +104,8 @@ Public Class frmTestUDP
       _sw.Start()
     Else
       '  Debug.Print("Ticks ellapsed " & _sw.ElapsedMilliseconds)
-      _sw.Reset()
-      _sw.Start()
+      '_sw.Reset()
+      '_sw.Start()
     End If
 
     Dim packet As New TestPacket
@@ -188,10 +189,11 @@ Public Class frmTestUDP
       End If
 
       If _udpReceiver Is Nothing Then
+        My.Settings.UDPReceiverPort = Me.NumericUpDownReceiverPort.Value
         _udpReceiver = New Connections.UDPReceiver
-        _udpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
+        _udpReceiver.Listen(Me.NumericUpDownReceiverPort.Value)
       Else
-        _udpReceiver.Listen(Me.NumericUpDownSenderPort.Value)
+        _udpReceiver.Listen(Me.NumericUpDownReceiverPort.Value)
       End If
     Else
       _udpSender.Disconnect()
@@ -226,6 +228,7 @@ Public Class frmTestUDP
     AppNewAutosizeColumns(Me.ListViewSendPackets)
     Me.TextBoxSenderHost.Text = My.Settings.UDPSenderHost
     Me.NumericUpDownSenderPort.Value = My.Settings.UDPSenderPort
+    Me.NumericUpDownReceiverPort.Value = My.Settings.UDPReceiverPort
     'Me.Timer1.Start()
     'Me.Timer1.Enabled = True
     StartTimer()
@@ -250,9 +253,9 @@ Public Class frmTestUDP
     For lngColumn = 0 To (TargetListView.Columns.Count - 1)
 
       Call SendMessage(TargetListView.Handle,
-                SET_COLUMN_WIDTH,
-                lngColumn,
-                AUTOSIZE_USEHEADER)
+                  SET_COLUMN_WIDTH,
+                  lngColumn,
+                  AUTOSIZE_USEHEADER)
 
     Next lngColumn
 
@@ -336,8 +339,8 @@ Public Class frmTestUDP
                   '_meanRoundTripTime = (_meanRoundTripTime * (Me.ListViewReceivePackets.Items.Count - 1) + diff.TotalMilliseconds) / Me.ListViewReceivePackets.Items.Count
                   If diffTime > 0 Then
                     _minRoundTripTime = Math.Min(_minRoundTripTime, diffTime)
-                  _maxRoundTripTime = Math.Max(_maxRoundTripTime, diffTime)
-                  _meanRoundTripTime = (_meanRoundTripTime * (_receivedPackets - 1) + diffTime) / _receivedPackets
+                    _maxRoundTripTime = Math.Max(_maxRoundTripTime, diffTime)
+                    _meanRoundTripTime = (_meanRoundTripTime * (_receivedPackets - 1) + diffTime) / _receivedPackets
 
                     Me.LabelReceiverDataRate.Text = "Mean time " & _meanRoundTripTime & " (" & _minRoundTripTime & " to " & _maxRoundTripTime & ")"
                   End If
@@ -352,7 +355,7 @@ Public Class frmTestUDP
 
   Private Sub NumericUpDownDataSendTime_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDownDataSendTime.ValueChanged
     ' Me.Interval = Me.NumericUpDownDataSendTime.Value
-    _sendMS = 10000 * Me.NumericUpDownDataSendTime.Value
+    _sendMS = Me.NumericUpDownDataSendTime.Value
     _sendTicks = Stopwatch.Frequency * (Me.NumericUpDownDataSendTime.Value) / 1000
     Debug.Print("sEND TICKS " & _sendTicks)
   End Sub
@@ -406,6 +409,7 @@ Public Class frmTestUDP
         _backWorker.WorkerSupportsCancellation = True
         _backWorker.WorkerReportsProgress = True
         _backWorker.RunWorkerAsync()
+        _lastSendTime = 0
       End If
     Else
       If Not _backWorker Is Nothing Then
