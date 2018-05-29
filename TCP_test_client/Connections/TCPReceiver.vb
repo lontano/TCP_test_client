@@ -25,13 +25,15 @@ Namespace Connections
 
     Public Event ErrorEvent(ByRef sender As TCPReceiver, ByVal CiException As Exception)
     Public Event DataReceive(ByRef sender As TCPReceiver, ByVal siData As String)
-    Public Event DataReceiveBytes(ByRef sender As TCPReceiver, ByRef biData() As Byte)
+    Public Event DataReceiveBytes(ByRef sender As TCPReceiver, biData() As Byte)
     Public Event ActivityIncoming(ByRef sender As TCPReceiver)
 
     Public ReceiverBusy As Boolean = False
 
     Private CPiLlistaData As New List(Of String)
     Private CPiLlistaDataIPEndPoint As New List(Of System.Net.IPEndPoint)
+
+    Public Property ForwardMessagesToOtherClients As Boolean = False
 
     Public ReadOnly Property Port As Integer
       Get
@@ -113,6 +115,7 @@ Namespace Connections
     Friend Structure dataReturn
       Dim sData As String
       Dim bData() As Byte
+      Dim remoteEndPoint As EndPoint
     End Structure
 
     Private Sub _backWorkerListener_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles _backWorkerListener.DoWork
@@ -169,9 +172,9 @@ Namespace Connections
               Array.Copy(inbuffer, incomingData, byteCount)
               dData.bData = incomingData
               dData.sData = System.Text.Encoding.UTF8.GetString(incomingData)
+              dData.remoteEndPoint = tcpClient.Client.RemoteEndPoint
               'Me._backWorkerListener.ReportProgress(0, dData)
               bWorker.ReportProgress(0, dData)
-              tcpClient.Client.Send(inbuffer)
             End If
           End While
         End If
@@ -181,10 +184,65 @@ Namespace Connections
       End Try
     End Sub
 
+    Public Sub send(data() As Byte)
+      'send to everybody else
+      Dim clientsToRemove As New Queue(Of TcpClient)
+      For Each client As TcpClient In _tcpClients
+        Try
+          'client.Client.Send(data)
+          client.Client.BeginSend(data, 0, data.Length, 0, New AsyncCallback(AddressOf SendCallback), client.Client)
+        Catch ex As Exception
+          clientsToRemove.Enqueue(client)
+        End Try
+      Next
+
+      While clientsToRemove.Count > 0
+        Dim client As TcpClient = clientsToRemove.Dequeue()
+        _tcpClients.Remove(client)
+        Try
+          client.Close()
+        Catch ex As Exception
+        End Try
+      End While
+    End Sub
+
+    Private Sub SendCallback(ByVal ar As IAsyncResult)
+
+    End Sub
+
+    Public Sub Send(data As String)
+      Me.send(System.Text.Encoding.UTF8.GetBytes(data))
+    End Sub
+
     Private Sub _backWorkerClient_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs)
       Try
-        Dim dAux As dataReturn = CType(e.UserState, dataReturn)
-        Me.RaiseReceiverEvents(dAux)
+        Dim dData As dataReturn = CType(e.UserState, dataReturn)
+        Me.RaiseReceiverEvents(dData)
+
+        Task.run(Sub()
+
+                   'send to everybody else
+                   Dim clientsToRemove As New Queue(Of TcpClient)
+                   For Each client As TcpClient In _tcpClients
+                     If client.Client.RemoteEndPoint.ToString <> dData.remoteEndPoint.ToString Then
+                       Try
+                         If ForwardMessagesToOtherClients Then client.Client.Send(dData.bData)
+                       Catch ex As Exception
+                         clientsToRemove.Enqueue(client)
+                       End Try
+                     End If
+                   Next
+
+                   While clientsToRemove.Count > 0
+                     Dim client As TcpClient = clientsToRemove.Dequeue()
+                     _tcpClients.Remove(client)
+                     Try
+                       client.Close()
+                     Catch ex As Exception
+                     End Try
+                   End While
+
+                 End Sub)
       Catch ex As Exception
         RaiseEvent ErrorEvent(Me, ex)
         Debug.Print(ex.ToString)

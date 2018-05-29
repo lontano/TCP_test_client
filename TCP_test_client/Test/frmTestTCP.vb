@@ -204,7 +204,7 @@ Public Class frmTestTCP
 
   End Sub
 
-  Private Sub _tcpReceiver_DataReceiveBytes(ByRef sender As TCPReceiver, ByRef biData() As Byte) Handles _tcpReceiver.DataReceiveBytes
+  Private Sub _tcpReceiver_DataReceiveBytes(ByRef sender As TCPReceiver, biData() As Byte) Handles _tcpReceiver.DataReceiveBytes
     _receivedPackets += 1
     Try
       Dim sData As String = System.Text.Encoding.UTF8.GetString(biData)

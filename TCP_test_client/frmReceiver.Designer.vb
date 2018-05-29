@@ -32,8 +32,10 @@ Partial Class frmReceiver
     Me.LabelReceiverState = New System.Windows.Forms.Label()
     Me.LabelReceiverDataRate = New System.Windows.Forms.Label()
     Me.ButtonReceiverConnect = New System.Windows.Forms.Button()
-    Me.LabelStatusLabel = New System.Windows.Forms.Label()
+    Me.LabelStatus = New System.Windows.Forms.Label()
     Me.ButtonReset = New System.Windows.Forms.Button()
+    Me.CheckBoxForwardMessages = New System.Windows.Forms.CheckBox()
+    Me.LabelStatusForward = New System.Windows.Forms.Label()
     Me.ListViewPackets = New System.Windows.Forms.ListView()
     Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeaderSize = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -83,20 +85,23 @@ Partial Class frmReceiver
     Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
     Me.TableLayoutPanel3.Controls.Add(Me.NumericUpDownReceiverPort, 1, 1)
     Me.TableLayoutPanel3.Controls.Add(Me.Label1, 0, 1)
-    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverState, 0, 6)
-    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverDataRate, 1, 6)
+    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverState, 0, 7)
+    Me.TableLayoutPanel3.Controls.Add(Me.LabelReceiverDataRate, 1, 7)
     Me.TableLayoutPanel3.Controls.Add(Me.ButtonReceiverConnect, 1, 2)
-    Me.TableLayoutPanel3.Controls.Add(Me.LabelStatusLabel, 0, 5)
+    Me.TableLayoutPanel3.Controls.Add(Me.LabelStatus, 0, 5)
     Me.TableLayoutPanel3.Controls.Add(Me.ButtonReset, 1, 4)
+    Me.TableLayoutPanel3.Controls.Add(Me.CheckBoxForwardMessages, 0, 2)
+    Me.TableLayoutPanel3.Controls.Add(Me.LabelStatusForward, 0, 6)
     Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanel3.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
-    Me.TableLayoutPanel3.RowCount = 7
+    Me.TableLayoutPanel3.RowCount = 8
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
+    Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
     Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel3.Size = New System.Drawing.Size(188, 370)
@@ -155,25 +160,46 @@ Partial Class frmReceiver
     Me.ButtonReceiverConnect.Text = "Connect"
     Me.ButtonReceiverConnect.UseVisualStyleBackColor = True
     '
-    'LabelStatusLabel
+    'LabelStatus
     '
-    Me.LabelStatusLabel.AutoSize = True
-    Me.TableLayoutPanel3.SetColumnSpan(Me.LabelStatusLabel, 2)
-    Me.LabelStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelStatusLabel.Location = New System.Drawing.Point(3, 295)
-    Me.LabelStatusLabel.Name = "LabelStatusLabel"
-    Me.LabelStatusLabel.Size = New System.Drawing.Size(182, 50)
-    Me.LabelStatusLabel.TabIndex = 6
-    Me.LabelStatusLabel.Text = "Label2"
+    Me.LabelStatus.AutoSize = True
+    Me.TableLayoutPanel3.SetColumnSpan(Me.LabelStatus, 2)
+    Me.LabelStatus.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.LabelStatus.Location = New System.Drawing.Point(3, 245)
+    Me.LabelStatus.Name = "LabelStatus"
+    Me.LabelStatus.Size = New System.Drawing.Size(182, 50)
+    Me.LabelStatus.TabIndex = 6
+    Me.LabelStatus.Text = "Label2"
     '
     'ButtonReset
     '
-    Me.ButtonReset.Location = New System.Drawing.Point(97, 263)
+    Me.ButtonReset.Location = New System.Drawing.Point(97, 213)
     Me.ButtonReset.Name = "ButtonReset"
     Me.ButtonReset.Size = New System.Drawing.Size(67, 25)
     Me.ButtonReset.TabIndex = 7
     Me.ButtonReset.Text = "Reset"
     Me.ButtonReset.UseVisualStyleBackColor = True
+    '
+    'CheckBoxForwardMessages
+    '
+    Me.CheckBoxForwardMessages.AutoSize = True
+    Me.CheckBoxForwardMessages.Location = New System.Drawing.Point(3, 53)
+    Me.CheckBoxForwardMessages.Name = "CheckBoxForwardMessages"
+    Me.CheckBoxForwardMessages.Size = New System.Drawing.Size(66, 17)
+    Me.CheckBoxForwardMessages.TabIndex = 8
+    Me.CheckBoxForwardMessages.Text = "Forward"
+    Me.CheckBoxForwardMessages.UseVisualStyleBackColor = True
+    '
+    'LabelStatusForward
+    '
+    Me.LabelStatusForward.AutoSize = True
+    Me.TableLayoutPanel3.SetColumnSpan(Me.LabelStatusForward, 2)
+    Me.LabelStatusForward.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.LabelStatusForward.Location = New System.Drawing.Point(3, 295)
+    Me.LabelStatusForward.Name = "LabelStatusForward"
+    Me.LabelStatusForward.Size = New System.Drawing.Size(182, 50)
+    Me.LabelStatusForward.TabIndex = 9
+    Me.LabelStatusForward.Text = "Label2"
     '
     'ListViewPackets
     '
@@ -233,6 +259,8 @@ Partial Class frmReceiver
   Friend WithEvents ColumnHeaderSize As ColumnHeader
   Friend WithEvents ColumnHeaderTime As ColumnHeader
   Friend WithEvents ColumnHeaderData As ColumnHeader
-  Friend WithEvents LabelStatusLabel As Label
+  Friend WithEvents LabelStatus As Label
   Friend WithEvents ButtonReset As Button
+  Friend WithEvents CheckBoxForwardMessages As CheckBox
+  Friend WithEvents LabelStatusForward As Label
 End Class

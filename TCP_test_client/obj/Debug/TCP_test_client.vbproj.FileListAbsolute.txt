@@ -86,3 +86,8 @@ C:\Users\tuboc\Documents\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\
 C:\Users\tuboc\Documents\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.exe
 C:\Users\tuboc\Documents\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.xml
 C:\Users\tuboc\Documents\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test.pdb
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\Newtonsoft.Json.dll
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\Newtonsoft.Json.xml
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmBridge.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTestUDP.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTestTCP.resources

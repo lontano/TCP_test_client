@@ -1,8 +1,13 @@
-﻿Imports System.Net.Sockets
+﻿Imports System.ComponentModel
+Imports System.Net.Sockets
 Imports TCP_test_client.Connections
 
 Public Class frmReceiver
   Private WithEvents _tcpReceiver As Connections.TCPReceiver
+  Private WithEvents _tcpReceiverForward As Connections.TCPReceiver
+
+  Private WithEvents _forwardWorker As ComponentModel.BackgroundWorker
+  Private _dataArrived As New Concurrent.ConcurrentQueue(Of Byte())
 
   Public Delegate Sub UpdateGUIDelegate()
   Public Sub UpdateGUI()
@@ -12,6 +17,10 @@ Public Class frmReceiver
       If Not _tcpReceiver Is Nothing Then
         Me.LabelReceiverState.Text = "Data received " & Now.ToString
         Me.LabelReceiverDataRate.Text = _tcpReceiver.DataRateCalculator.DataRateText & " " & _tcpReceiver.DataRateCalculator.TotalDataReceivedText
+      End If
+      If Not _tcpReceiverForward Is Nothing Then
+        '  Me.LabelReceiverState.Text = "Data received " & Now.ToString
+        '  Me.LabelReceiverDataRate.Text = _tcpReceiver.DataRateCalculator.DataRateText & " " & _tcpReceiver.DataRateCalculator.TotalDataReceivedText
       End If
     End If
   End Sub
@@ -61,22 +70,35 @@ Public Class frmReceiver
     UpdateGUI()
   End Sub
 
+  Private Sub _tcpReceiver_DataReceiveBytes(ByRef sender As TCPReceiver, biData() As Byte) Handles _tcpReceiver.DataReceiveBytes
+    _dataArrived.Enqueue(biData)
+  End Sub
 
   Private Sub ButtonReceiverConnect_Click(sender As Object, e As EventArgs) Handles ButtonReceiverConnect.Click
-    If _tcpReceiver Is Nothing Then
-      _tcpReceiver = New Connections.TCPReceiver
-      _tcpReceiver.Listen(Me.NumericUpDownReceiverPort.Value)
+    Me.Connect(_tcpReceiver, Me.NumericUpDownReceiverPort.Value)
+    Me.Connect(_tcpReceiverForward, Me.NumericUpDownReceiverPort.Value + 1)
+
+    UpdateButtons()
+  End Sub
+
+  Private Sub Connect(ByRef tcp As TCPReceiver, port As Integer)
+    If tcp Is Nothing Then
+      tcp = New Connections.TCPReceiver
+      tcp.Listen(port)
+
+      'tcp.ForwardMessagesToOtherClients = Me.CheckBoxForwardMessages.Checked
 
       My.Settings.ReceiverPort = Me.NumericUpDownReceiverPort.Value
       My.Settings.Save()
     Else
-      _tcpReceiver.Disconnect()
-      _tcpReceiver = Nothing
+      tcp.Disconnect()
+      tcp = Nothing
     End If
-    UpdateButtons()
   End Sub
 
   Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    _forwardWorker = New ComponentModel.BackgroundWorker
+    _forwardWorker.RunWorkerAsync()
     AppNewAutosizeColumns(Me.ListViewPackets)
     Me.NumericUpDownReceiverPort.Value = My.Settings.ReceiverPort
   End Sub
@@ -109,11 +131,21 @@ Public Class frmReceiver
   End Sub
 
   Private _numConnections As Integer = 0
+  Private _numConnectionsForward As Integer = 0
 
   Private Sub _tcpReceiver_NewConnection(sender As TCPReceiver, client As TcpClient) Handles _tcpReceiver.NewConnection
     Try
       _numConnections += 1
-      Me.LabelStatusLabel.Text = Now.ToString & vbCrLf & "#" & _numConnections & " New connection from " & client.Client.RemoteEndPoint.ToString()
+      Me.LabelStatus.Text = Now.ToString & vbCrLf & "#" & _numConnections & " New connection from " & client.Client.RemoteEndPoint.ToString()
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
+  Private Sub _tcpReceiverForward_NewConnection(sender As TCPReceiver, client As TcpClient) Handles _tcpReceiverForward.NewConnection
+    Try
+      _numConnectionsForward += 1
+      Me.LabelStatusForward.Text = Now.ToString & vbCrLf & "#" & _numConnectionsForward & " New connection from " & client.Client.RemoteEndPoint.ToString()
     Catch ex As Exception
 
     End Try
@@ -122,6 +154,7 @@ Public Class frmReceiver
   Private Sub frmReceiver_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
     Try
       _tcpReceiver.Disconnect()
+      _tcpReceiverForward.Disconnect()
     Catch ex As Exception
 
     End Try
@@ -130,5 +163,33 @@ Public Class frmReceiver
   Private Sub ButtonReset_Click(sender As Object, e As EventArgs) Handles ButtonReset.Click
 
     Me.ListViewPackets.Items.Clear()
+  End Sub
+
+  Private Sub CheckBoxForwardMessages_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxForwardMessages.CheckedChanged
+    If Not _tcpReceiver Is Nothing Then
+      _tcpReceiver.ForwardMessagesToOtherClients = Me.CheckBoxForwardMessages.Checked
+    End If
+  End Sub
+
+  Private Sub _forwardWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _forwardWorker.DoWork
+    Try
+      While Not _forwardWorker.CancellationPending
+        While _dataArrived.Count > 0
+
+          Dim data() As Byte
+          If _dataArrived.TryDequeue(data) Then
+            If Me.CheckBoxForwardMessages.Checked And Not _tcpReceiverForward Is Nothing Then
+              For i As Integer = 0 To 1000
+                Dim a As Integer = i
+              Next
+              '_tcpReceiverForward.send(data)
+            End If
+          End If
+        End While
+        Threading.Thread.Sleep(5)
+      End While
+    Catch ex As Exception
+
+    End Try
   End Sub
 End Class
