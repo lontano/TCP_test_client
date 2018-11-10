@@ -5,4 +5,6 @@
   Public Property ReceiveTime As Date
   Public Property RoundTripCompleted As Boolean
   Public Property TimeSinceLastPacket As Double
+  Public Property SendTicks As Double
+  Public Property ReceiveTicks As Double
 End Class

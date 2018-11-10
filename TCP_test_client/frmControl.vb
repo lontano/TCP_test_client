@@ -30,4 +30,10 @@
     frm.Show(Me)
     _childForms.Add(frm)
   End Sub
+
+  Private Sub ButtonSerialTest_Click(sender As Object, e As EventArgs) Handles ButtonSerialTest.Click
+    Dim frm As New frmTestSerial
+    frm.Show(Me)
+    _childForms.Add(frm)
+  End Sub
 End Class

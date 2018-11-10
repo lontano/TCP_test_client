@@ -80,6 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\DataRateCalculator.vb" />
+    <Compile Include="Connections\SerialReceiver.vb" />
+    <Compile Include="Connections\SerialSender.vb" />
     <Compile Include="Connections\TCPReceiver.vb" />
     <Compile Include="Connections\UDPReceiver.vb" />
     <Compile Include="Connections\UDPSender.vb" />
@@ -131,6 +133,12 @@
     <Compile Include="Test\frmBridge.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Test\frmTestSerial.Designer.vb">
+      <DependentUpon>frmTestSerial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Test\frmTestSerial.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Test\frmTestUDP.Designer.vb">
       <DependentUpon>frmTestUDP.vb</DependentUpon>
     </Compile>
@@ -169,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Test\frmBridge.resx">
       <DependentUpon>frmBridge.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Test\frmTestSerial.resx">
+      <DependentUpon>frmTestSerial.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Test\frmTestUDP.resx">
       <DependentUpon>frmTestUDP.vb</DependentUpon>

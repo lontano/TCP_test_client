@@ -125,7 +125,7 @@ Partial Class frmSender
     Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 5)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonReset, 1, 4)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 23)
+    Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
     Me.TableLayoutPanel2.RowCount = 7
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
@@ -135,7 +135,7 @@ Partial Class frmSender
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
-    Me.TableLayoutPanel2.Size = New System.Drawing.Size(304, 323)
+    Me.TableLayoutPanel2.Size = New System.Drawing.Size(304, 329)
     Me.TableLayoutPanel2.TabIndex = 0
     '
     'NumericUpDownSenderHost
@@ -143,7 +143,7 @@ Partial Class frmSender
     Me.NumericUpDownSenderHost.Location = New System.Drawing.Point(155, 28)
     Me.NumericUpDownSenderHost.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
     Me.NumericUpDownSenderHost.Name = "NumericUpDownSenderHost"
-    Me.NumericUpDownSenderHost.Size = New System.Drawing.Size(98, 27)
+    Me.NumericUpDownSenderHost.Size = New System.Drawing.Size(98, 21)
     Me.NumericUpDownSenderHost.TabIndex = 1
     Me.NumericUpDownSenderHost.Value = New Decimal(New Integer() {6100, 0, 0, 0})
     '
@@ -152,7 +152,7 @@ Partial Class frmSender
     Me.TextBoxSenderHost.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TextBoxSenderHost.Location = New System.Drawing.Point(155, 3)
     Me.TextBoxSenderHost.Name = "TextBoxSenderHost"
-    Me.TextBoxSenderHost.Size = New System.Drawing.Size(146, 27)
+    Me.TextBoxSenderHost.Size = New System.Drawing.Size(146, 21)
     Me.TextBoxSenderHost.TabIndex = 2
     Me.TextBoxSenderHost.Text = "192.168.146.76"
     '
@@ -182,7 +182,7 @@ Partial Class frmSender
     '
     Me.LabelSenderState.AutoSize = True
     Me.LabelSenderState.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderState.Location = New System.Drawing.Point(3, 298)
+    Me.LabelSenderState.Location = New System.Drawing.Point(3, 304)
     Me.LabelSenderState.Name = "LabelSenderState"
     Me.LabelSenderState.Size = New System.Drawing.Size(146, 25)
     Me.LabelSenderState.TabIndex = 4
@@ -193,7 +193,7 @@ Partial Class frmSender
     '
     Me.LabelSenderDataRate.AutoSize = True
     Me.LabelSenderDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderDataRate.Location = New System.Drawing.Point(155, 298)
+    Me.LabelSenderDataRate.Location = New System.Drawing.Point(155, 304)
     Me.LabelSenderDataRate.Name = "LabelSenderDataRate"
     Me.LabelSenderDataRate.Size = New System.Drawing.Size(146, 25)
     Me.LabelSenderDataRate.TabIndex = 4
@@ -214,27 +214,27 @@ Partial Class frmSender
     'CheckBoxSendData
     '
     Me.CheckBoxSendData.AutoSize = True
-    Me.CheckBoxSendData.Location = New System.Drawing.Point(3, 276)
+    Me.CheckBoxSendData.Location = New System.Drawing.Point(3, 282)
     Me.CheckBoxSendData.Name = "CheckBoxSendData"
-    Me.CheckBoxSendData.Size = New System.Drawing.Size(110, 19)
+    Me.CheckBoxSendData.Size = New System.Drawing.Size(75, 17)
     Me.CheckBoxSendData.TabIndex = 6
     Me.CheckBoxSendData.Text = "Send data"
     Me.CheckBoxSendData.UseVisualStyleBackColor = True
     '
     'NumericUpDownDataSendTime
     '
-    Me.NumericUpDownDataSendTime.Location = New System.Drawing.Point(155, 276)
+    Me.NumericUpDownDataSendTime.Location = New System.Drawing.Point(155, 282)
     Me.NumericUpDownDataSendTime.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
     Me.NumericUpDownDataSendTime.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
     Me.NumericUpDownDataSendTime.Name = "NumericUpDownDataSendTime"
-    Me.NumericUpDownDataSendTime.Size = New System.Drawing.Size(91, 27)
+    Me.NumericUpDownDataSendTime.Size = New System.Drawing.Size(91, 21)
     Me.NumericUpDownDataSendTime.TabIndex = 7
     Me.NumericUpDownDataSendTime.Value = New Decimal(New Integer() {1000, 0, 0, 0})
     '
     'ButtonReset
     '
     Me.ButtonReset.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.ButtonReset.Location = New System.Drawing.Point(155, 241)
+    Me.ButtonReset.Location = New System.Drawing.Point(155, 247)
     Me.ButtonReset.Name = "ButtonReset"
     Me.ButtonReset.Size = New System.Drawing.Size(146, 29)
     Me.ButtonReset.TabIndex = 8
@@ -248,7 +248,7 @@ Partial Class frmSender
     '
     'frmSender
     '
-    Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 21.0!)
+    Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.ClientSize = New System.Drawing.Size(633, 355)
     Me.Controls.Add(Me.TableLayoutPanel1)

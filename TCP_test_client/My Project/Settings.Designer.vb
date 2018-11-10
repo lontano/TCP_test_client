@@ -125,6 +125,30 @@ Namespace My
                 Me("UDPReceiverPort") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("COM1")>  _
+        Public Property SerialSenderPort() As String
+            Get
+                Return CType(Me("SerialSenderPort"),String)
+            End Get
+            Set
+                Me("SerialSenderPort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("COM2")>  _
+        Public Property SerialReceiverPort() As String
+            Get
+                Return CType(Me("SerialReceiverPort"),String)
+            End Get
+            Set
+                Me("SerialReceiverPort") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

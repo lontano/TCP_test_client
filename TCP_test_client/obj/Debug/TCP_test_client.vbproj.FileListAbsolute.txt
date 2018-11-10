@@ -91,3 +91,4 @@ C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\bin\Debug\Newtonsoft.
 C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmBridge.resources
 C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTestUDP.resources
 C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTestTCP.resources
+C:\Users\gelo\Source\Repos\TCP_test_client\TCP_test_client\obj\Debug\TCP_test_client.frmTestSerial.resources

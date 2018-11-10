@@ -39,6 +39,8 @@ Partial Class frmTestTCP
     Me.ButtonReset = New System.Windows.Forms.Button()
     Me.LabelReceiverDataRate = New System.Windows.Forms.Label()
     Me.CheckBoxShowPackets = New System.Windows.Forms.CheckBox()
+    Me.ButtonSendManualText = New System.Windows.Forms.Button()
+    Me.TextBoxManualText = New System.Windows.Forms.TextBox()
     Me.SplitContainerPackets = New System.Windows.Forms.SplitContainer()
     Me.ListViewSendPackets = New System.Windows.Forms.ListView()
     Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -51,13 +53,12 @@ Partial Class frmTestTCP
     Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.TimerReconnect = New System.Windows.Forms.Timer(Me.components)
-    Me.ButtonSendManualText = New System.Windows.Forms.Button()
-    Me.TextBoxManualText = New System.Windows.Forms.TextBox()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
     CType(Me.NumericUpDownSenderPort, System.ComponentModel.ISupportInitialize).BeginInit()
     CType(Me.NumericUpDownDataSendTime, System.ComponentModel.ISupportInitialize).BeginInit()
+    CType(Me.SplitContainerPackets, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitContainerPackets.Panel1.SuspendLayout()
     Me.SplitContainerPackets.Panel2.SuspendLayout()
     Me.SplitContainerPackets.SuspendLayout()
@@ -114,7 +115,7 @@ Partial Class frmTestTCP
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonSendManualText, 1, 4)
     Me.TableLayoutPanel2.Controls.Add(Me.TextBoxManualText, 0, 3)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 23)
+    Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
     Me.TableLayoutPanel2.RowCount = 9
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
@@ -126,7 +127,7 @@ Partial Class frmTestTCP
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
-    Me.TableLayoutPanel2.Size = New System.Drawing.Size(370, 323)
+    Me.TableLayoutPanel2.Size = New System.Drawing.Size(370, 329)
     Me.TableLayoutPanel2.TabIndex = 0
     '
     'NumericUpDownSenderPort
@@ -134,7 +135,7 @@ Partial Class frmTestTCP
     Me.NumericUpDownSenderPort.Location = New System.Drawing.Point(234, 28)
     Me.NumericUpDownSenderPort.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
     Me.NumericUpDownSenderPort.Name = "NumericUpDownSenderPort"
-    Me.NumericUpDownSenderPort.Size = New System.Drawing.Size(98, 27)
+    Me.NumericUpDownSenderPort.Size = New System.Drawing.Size(98, 21)
     Me.NumericUpDownSenderPort.TabIndex = 1
     Me.NumericUpDownSenderPort.Value = New Decimal(New Integer() {6100, 0, 0, 0})
     '
@@ -143,7 +144,7 @@ Partial Class frmTestTCP
     Me.TextBoxSenderHost.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TextBoxSenderHost.Location = New System.Drawing.Point(234, 3)
     Me.TextBoxSenderHost.Name = "TextBoxSenderHost"
-    Me.TextBoxSenderHost.Size = New System.Drawing.Size(133, 27)
+    Me.TextBoxSenderHost.Size = New System.Drawing.Size(133, 21)
     Me.TextBoxSenderHost.TabIndex = 2
     Me.TextBoxSenderHost.Text = "192.168.146.76"
     '
@@ -173,7 +174,7 @@ Partial Class frmTestTCP
     '
     Me.LabelSenderState.AutoSize = True
     Me.LabelSenderState.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderState.Location = New System.Drawing.Point(3, 273)
+    Me.LabelSenderState.Location = New System.Drawing.Point(3, 279)
     Me.LabelSenderState.Name = "LabelSenderState"
     Me.LabelSenderState.Size = New System.Drawing.Size(225, 25)
     Me.LabelSenderState.TabIndex = 4
@@ -184,7 +185,7 @@ Partial Class frmTestTCP
     '
     Me.LabelSenderDataRate.AutoSize = True
     Me.LabelSenderDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelSenderDataRate.Location = New System.Drawing.Point(234, 273)
+    Me.LabelSenderDataRate.Location = New System.Drawing.Point(234, 279)
     Me.LabelSenderDataRate.Name = "LabelSenderDataRate"
     Me.LabelSenderDataRate.Size = New System.Drawing.Size(133, 25)
     Me.LabelSenderDataRate.TabIndex = 4
@@ -205,27 +206,27 @@ Partial Class frmTestTCP
     'CheckBoxSendData
     '
     Me.CheckBoxSendData.AutoSize = True
-    Me.CheckBoxSendData.Location = New System.Drawing.Point(3, 251)
+    Me.CheckBoxSendData.Location = New System.Drawing.Point(3, 257)
     Me.CheckBoxSendData.Name = "CheckBoxSendData"
-    Me.CheckBoxSendData.Size = New System.Drawing.Size(110, 19)
+    Me.CheckBoxSendData.Size = New System.Drawing.Size(75, 17)
     Me.CheckBoxSendData.TabIndex = 6
     Me.CheckBoxSendData.Text = "Send data"
     Me.CheckBoxSendData.UseVisualStyleBackColor = True
     '
     'NumericUpDownDataSendTime
     '
-    Me.NumericUpDownDataSendTime.Location = New System.Drawing.Point(234, 251)
+    Me.NumericUpDownDataSendTime.Location = New System.Drawing.Point(234, 257)
     Me.NumericUpDownDataSendTime.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
     Me.NumericUpDownDataSendTime.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
     Me.NumericUpDownDataSendTime.Name = "NumericUpDownDataSendTime"
-    Me.NumericUpDownDataSendTime.Size = New System.Drawing.Size(91, 27)
+    Me.NumericUpDownDataSendTime.Size = New System.Drawing.Size(91, 21)
     Me.NumericUpDownDataSendTime.TabIndex = 7
     Me.NumericUpDownDataSendTime.Value = New Decimal(New Integer() {1000, 0, 0, 0})
     '
     'ButtonReset
     '
     Me.ButtonReset.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.ButtonReset.Location = New System.Drawing.Point(234, 216)
+    Me.ButtonReset.Location = New System.Drawing.Point(234, 222)
     Me.ButtonReset.Name = "ButtonReset"
     Me.ButtonReset.Size = New System.Drawing.Size(133, 29)
     Me.ButtonReset.TabIndex = 8
@@ -237,7 +238,7 @@ Partial Class frmTestTCP
     Me.LabelReceiverDataRate.AutoSize = True
     Me.TableLayoutPanel2.SetColumnSpan(Me.LabelReceiverDataRate, 2)
     Me.LabelReceiverDataRate.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(3, 298)
+    Me.LabelReceiverDataRate.Location = New System.Drawing.Point(3, 304)
     Me.LabelReceiverDataRate.Name = "LabelReceiverDataRate"
     Me.LabelReceiverDataRate.Size = New System.Drawing.Size(364, 25)
     Me.LabelReceiverDataRate.TabIndex = 9
@@ -246,12 +247,32 @@ Partial Class frmTestTCP
     'CheckBoxShowPackets
     '
     Me.CheckBoxShowPackets.AutoSize = True
-    Me.CheckBoxShowPackets.Location = New System.Drawing.Point(3, 216)
+    Me.CheckBoxShowPackets.Location = New System.Drawing.Point(3, 222)
     Me.CheckBoxShowPackets.Name = "CheckBoxShowPackets"
-    Me.CheckBoxShowPackets.Size = New System.Drawing.Size(138, 25)
+    Me.CheckBoxShowPackets.Size = New System.Drawing.Size(92, 17)
     Me.CheckBoxShowPackets.TabIndex = 10
     Me.CheckBoxShowPackets.Text = "Show packets"
     Me.CheckBoxShowPackets.UseVisualStyleBackColor = True
+    '
+    'ButtonSendManualText
+    '
+    Me.ButtonSendManualText.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ButtonSendManualText.Location = New System.Drawing.Point(234, 182)
+    Me.ButtonSendManualText.Name = "ButtonSendManualText"
+    Me.ButtonSendManualText.Size = New System.Drawing.Size(133, 34)
+    Me.ButtonSendManualText.TabIndex = 11
+    Me.ButtonSendManualText.Text = "Send text"
+    Me.ButtonSendManualText.UseVisualStyleBackColor = True
+    '
+    'TextBoxManualText
+    '
+    Me.TableLayoutPanel2.SetColumnSpan(Me.TextBoxManualText, 2)
+    Me.TextBoxManualText.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.TextBoxManualText.Location = New System.Drawing.Point(3, 88)
+    Me.TextBoxManualText.Multiline = True
+    Me.TextBoxManualText.Name = "TextBoxManualText"
+    Me.TextBoxManualText.Size = New System.Drawing.Size(364, 88)
+    Me.TextBoxManualText.TabIndex = 12
     '
     'SplitContainerPackets
     '
@@ -331,29 +352,9 @@ Partial Class frmTestTCP
     Me.TimerReconnect.Enabled = True
     Me.TimerReconnect.Interval = 10000
     '
-    'ButtonSendManualText
-    '
-    Me.ButtonSendManualText.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.ButtonSendManualText.Location = New System.Drawing.Point(234, 176)
-    Me.ButtonSendManualText.Name = "ButtonSendManualText"
-    Me.ButtonSendManualText.Size = New System.Drawing.Size(133, 34)
-    Me.ButtonSendManualText.TabIndex = 11
-    Me.ButtonSendManualText.Text = "Send text"
-    Me.ButtonSendManualText.UseVisualStyleBackColor = True
-    '
-    'TextBoxManualText
-    '
-    Me.TableLayoutPanel2.SetColumnSpan(Me.TextBoxManualText, 2)
-    Me.TextBoxManualText.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.TextBoxManualText.Location = New System.Drawing.Point(3, 88)
-    Me.TextBoxManualText.Multiline = True
-    Me.TextBoxManualText.Name = "TextBoxManualText"
-    Me.TextBoxManualText.Size = New System.Drawing.Size(364, 82)
-    Me.TextBoxManualText.TabIndex = 12
-    '
     'frmTestTCP
     '
-    Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 21.0!)
+    Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.ClientSize = New System.Drawing.Size(1616, 355)
     Me.Controls.Add(Me.TableLayoutPanel1)
@@ -368,6 +369,7 @@ Partial Class frmTestTCP
     CType(Me.NumericUpDownDataSendTime, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitContainerPackets.Panel1.ResumeLayout(False)
     Me.SplitContainerPackets.Panel2.ResumeLayout(False)
+    CType(Me.SplitContainerPackets, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitContainerPackets.ResumeLayout(False)
     Me.ResumeLayout(False)
 
