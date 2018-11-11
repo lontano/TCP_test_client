@@ -225,7 +225,16 @@ Public Class frmTestSerial
   End Sub
 
   Private Sub frmSender_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     AppNewAutosizeColumns(Me.ListViewSendPackets)
+
+    Me.ComboBoxSerialSend.Items.Clear()
+    Me.ComboBoxSerialReceiver.Items.Clear()
+    For Each com As String In My.Computer.Ports.SerialPortNames
+      Me.ComboBoxSerialSend.Items.Add(com)
+      Me.ComboBoxSerialReceiver.Items.Add(com)
+    Next
+
     Me.ComboBoxSerialSend.Text = My.Settings.SerialSenderPort
     Me.ComboBoxSerialReceiver.Text = My.Settings.SerialReceiverPort
     'Me.Timer1.Start()
