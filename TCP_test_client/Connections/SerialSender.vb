@@ -21,21 +21,25 @@
     Public Function Connect(ByVal siComPort As String) As Boolean
       If My.Computer.Ports.SerialPortNames.Contains(siComPort) Then
         _comPortName = siComPort
-        ' _comPort = My.Computer.Ports.OpenSerialPort(_comPortName)
-        RaiseEvent SocketConnected()
+                ' _comPort = My.Computer.Ports.OpenSerialPort(_comPortName)
+                com1 = My.Computer.Ports.OpenSerialPort(_comPortName)
+                com1.BaudRate = 38400
+
+                    RaiseEvent SocketConnected()
       Else
         _comPortName = ""
       End If
       Return (_comPortName <> "")
     End Function
+        Private com1 As IO.Ports.SerialPort = Nothing
 
-    Sub SendData(ByVal data As String)
-      ' Send strings to a serial port.
-      Using com1 As IO.Ports.SerialPort = My.Computer.Ports.OpenSerialPort(_comPortName)
-        com1.WriteLine(data)
-        RaiseEvent SentData(Me, data)
-      End Using
-    End Sub
+        Sub SendData(ByVal data As String)
+            ' Send strings to a serial port.
+
+            com1.WriteLine(data)
+                RaiseEvent SentData(Me, data)
+
+        End Sub
   End Class
 
 End Namespace
