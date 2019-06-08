@@ -15,6 +15,7 @@ Namespace Connections
       If My.Computer.Ports.SerialPortNames.Contains(siComPort) Then
         _comPortName = siComPort
         _comPort = My.Computer.Ports.OpenSerialPort(_comPortName)
+        _comPort.BaudRate = 38400
       Else
         _comPortName = ""
       End If

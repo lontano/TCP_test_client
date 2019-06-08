@@ -169,6 +169,7 @@ Namespace Connections
         TimeoutObject.[Set]()
       End Try
     End Sub
+
   End Class
 
 End Namespace

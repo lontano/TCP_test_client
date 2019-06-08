@@ -32,6 +32,7 @@
     Sub SendData(ByVal data As String)
       ' Send strings to a serial port.
       Using com1 As IO.Ports.SerialPort = My.Computer.Ports.OpenSerialPort(_comPortName)
+        com1.BaudRate = 38400
         com1.WriteLine(data)
         RaiseEvent SentData(Me, data)
       End Using
