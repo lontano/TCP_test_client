@@ -1,22 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TCP_test_client", "TCP_test_client\TCP_test_client.vbproj", "{753A1B64-7184-4F49-9524-67F3B04C67E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug64|Any CPU = Debug64|Any CPU
+		Debug64|x64 = Debug64|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug|x64.ActiveCfg = Debug|x64
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug|x64.Build.0 = Debug|x64
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug64|Any CPU.ActiveCfg = Debug64|Any CPU
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug64|Any CPU.Build.0 = Debug64|Any CPU
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug64|x64.ActiveCfg = Debug64|x64
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Debug64|x64.Build.0 = Debug64|x64
 		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Release|x64.ActiveCfg = Release|x64
+		{753A1B64-7184-4F49-9524-67F3B04C67E5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C445055-A557-4972-9E66-DC6AA87A93E5}
 	EndGlobalSection
 EndGlobal
