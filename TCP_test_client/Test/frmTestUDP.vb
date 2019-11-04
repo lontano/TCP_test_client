@@ -56,7 +56,7 @@ Public Class frmTestUDP
               End If
 
             End If
-            Threading.Thread.Sleep(2)
+            Threading.Thread.Sleep(1)
             Application.DoEvents()
           Case ePrecissionType.Sleep
             Threading.Thread.Sleep(New TimeSpan(_sendMS))
@@ -142,6 +142,7 @@ Public Class frmTestUDP
         '  Me.ListViewReceivePackets.Items.AddRange(_receiveListViewItems.ToArray)
         ' _receiveListViewItems.Clear()
         'Me.LabelSenderDataRate.Text = _udpSender.DataRateCalculator.DataRateText & " " & _udpSender.DataRateCalculator.TotalDataReceivedText
+        Me.LabelReceiverDataRate.Text = "Mean time " & _meanRoundTripTime & " dev " & _meanRoundTripTimeDesviation & " (" & _minRoundTripTime & " to " & _maxRoundTripTime & ")"
       End If
     End If
   End Sub
@@ -269,6 +270,7 @@ Public Class frmTestUDP
     _minRoundTripTime = Double.MaxValue
     _maxRoundTripTime = Double.MinValue
     _meanRoundTripTime = 0
+    _meanRoundTripTimeDesviation = 0
     _receivedPackets = 0
     _sentPackets = 0
   End Sub
@@ -293,34 +295,100 @@ Public Class frmTestUDP
     UpdateButtons()
   End Sub
 
-  Private Sub _tcpReceiver_DataReceive(ByRef sender As UDPReceiver, siData As String) Handles _udpReceiver.DataReceive
-    _receivedPackets += 1
+
+  Private _lastReceivePacketDate As Date = Now
+  Private Sub _udpReceiver_DataReceive(ByRef sender As UDPReceiver, siData As String) Handles _udpReceiver.DataReceive
     Try
       If _dictionaryPackets.ContainsKey(siData) Then
         Dim packet As TestPacket = _dictionaryPackets(siData)
-        packet.ReceiveTime = Now
-        packet.RoundTripCompleted = True
-        AddReceivePacket(packet)
+        If packet.RoundTripCompleted = False Then
+          _receivedPackets += 1
+          packet.ReceiveTime = Now
+          packet.RoundTripCompleted = True
+          AddReceivePacket(packet)
+        End If
       Else
+        _receivedPackets += 1
         Dim packet As TestPacket = New TestPacket
         packet.Text = siData
-        packet.SentTime = Now
+        packet.SentTime = _lastReceivePacketDate
         packet.ReceiveTime = Now
         packet.RoundTripCompleted = True
         AddReceivePacket(packet)
+        _lastReceivePacketDate = packet.ReceiveTime
       End If
     Catch ex As Exception
 
     End Try
   End Sub
 
+  Private Sub _udpReceiver_DataReceiveBytes(ByRef sender As UDPReceiver, ByRef biData() As Byte) Handles _udpReceiver.DataReceiveBytes
+
+    Try
+      If _dictionaryPackets.ContainsKey(System.Text.Encoding.UTF8.GetString(biData)) Then
+        Dim packet As TestPacket = _dictionaryPackets(System.Text.Encoding.UTF8.GetString(biData))
+        If packet.RoundTripCompleted = False Then
+          _receivedPackets += 1
+          packet.ReceiveTime = Now
+          packet.RoundTripCompleted = True
+          AddReceivePacket(packet)
+        End If
+      Else
+        _receivedPackets += 1
+        Dim packet As TestPacket = New TestPacket
+        packet.data = biData
+        packet.Text = GetDISPacketDescription(biData) ' siData
+        packet.SentTime = _lastReceivePacketDate
+        packet.ReceiveTime = Now
+        packet.RoundTripCompleted = True
+        AddReceivePacket(packet)
+        _lastReceivePacketDate = packet.ReceiveTime
+      End If
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
+  Private Function GetDISPacketDescription(packetBytes() As Byte) As String
+    Dim sres As String = ""
+    Try
+
+      Dim protoVersion As Byte = packetBytes(0)
+      Dim exerciseID As Byte = packetBytes(1)
+      Dim pduType As Byte = packetBytes(2)
+      Dim protoFamily As Byte = packetBytes(3)
+      Dim TimeStamp As UInt64 = BitConverter.ToUInt64(packetBytes, 4)
+      Dim pduLength As UInt16 = BitConverter.ToUInt16(packetBytes, 8)
+      Dim pduPadding As UInt16 = BitConverter.ToUInt16(packetBytes, 10)
+      If packetBytes.Length >= 12 Then
+        Dim pdu(packetBytes.Length - 12) As Byte
+        Buffer.BlockCopy(packetBytes, 12, pdu, 0, packetBytes.Length - 12)
+        sres = "Time stamp " & TimeStamp & " | "
+        'sres = sres & " | " & System.Text.Encoding.ASCII.GetString(pdu)
+
+        For i As Integer = 0 To packetBytes.Length - 4 Step 4
+          sres = sres & " " & BitConverter.ToSingle(packetBytes, i)
+        Next
+      Else
+        sres = System.Text.Encoding.ASCII.GetString(packetBytes)
+      End If
+
+
+    Catch ex As Exception
+
+    End Try
+    Return sres
+  End Function
+
+
   Private _minRoundTripTime As Double = Double.MaxValue
   Private _maxRoundTripTime As Double = Double.MinValue
   Private _meanRoundTripTime As Double = 0
+  Private _meanRoundTripTimeDesviation As Double = 0
   Private _lastReceiveTicks As Double = 0
   Private Sub AddReceivePacket(packet As TestPacket)
     Try
-
+      If Not _clockSW.IsRunning Then _clockSW.Start()
       Dim receivedTick As Double = _clockSW.Elapsed.TotalMilliseconds
 
       Me.Invoke(Sub()
@@ -341,8 +409,10 @@ Public Class frmTestUDP
                     _minRoundTripTime = Math.Min(_minRoundTripTime, diffTime)
                     _maxRoundTripTime = Math.Max(_maxRoundTripTime, diffTime)
                     _meanRoundTripTime = (_meanRoundTripTime * (_receivedPackets - 1) + diffTime) / _receivedPackets
+                    _meanRoundTripTimeDesviation = (_meanRoundTripTimeDesviation * (_receivedPackets - 1) + Math.Abs(_meanRoundTripTime - diffTime)) / _receivedPackets
 
-                    Me.LabelReceiverDataRate.Text = "Mean time " & _meanRoundTripTime & " (" & _minRoundTripTime & " to " & _maxRoundTripTime & ")"
+
+                    'Debug.Print(diffTime & " " & (_meanRoundTripTime - diffTime))
                   End If
                 End Sub)
       _lastReceiveTicks = receivedTick
@@ -400,6 +470,25 @@ Public Class frmTestUDP
     End If
   End Sub
 
+  Private WithEvents _multimediaTimer As MultimediaTimer
+
+
+  Private Sub InitTestTimer()
+    _sendSW.Start()
+    _clockSW.Reset()
+    _clockSW.Start()
+
+    _multimediaTimer = New MultimediaTimer
+    _multimediaTimer.Interval = 1 ' Me.NumericUpDownDataSendTime.Value
+    AddHandler _multimediaTimer.Elapsed, AddressOf timer_Elapsed 'Function(o, e) Console.WriteLine(s.ElapsedMilliseconds)
+
+    _multimediaTimer.Start()
+
+  End Sub
+  Private Sub timer_Elapsed(sender As Object, e As EventArgs)
+
+  End Sub
+
   Private Sub CheckBoxSendData_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxSendData.CheckedChanged
     If Me.CheckBoxSendData.Checked Then
       If _backWorker Is Nothing Then
@@ -409,12 +498,14 @@ Public Class frmTestUDP
         _backWorker.WorkerSupportsCancellation = True
         _backWorker.WorkerReportsProgress = True
         _backWorker.RunWorkerAsync()
-        _lastSendTime = 0
       End If
+      'InitTestTimer()
+      _lastSendTime = 0
     Else
       If Not _backWorker Is Nothing Then
         _backWorker.CancelAsync()
       End If
+      If Not _multimediaTimer Is Nothing Then _multimediaTimer.Stop()
     End If
   End Sub
 
@@ -441,5 +532,35 @@ Public Class frmTestUDP
 
     End Try
   End Sub
+
+  Private Sub _multimediaTimer_Elapsed(sender As Object, e As EventArgs) Handles _multimediaTimer.Elapsed
+    Try
+      '_multimediaTimer.Interval = 1 ' Me.NumericUpDownDataSendTime.Value
+
+      Dim packetsPerFrame As Integer = 1
+      Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds - _lastSendTime
+      'Debug.Print(sendTime)
+      If sendTime > _sendMS Then
+        _lastSendTime = _clockSW.Elapsed.TotalMilliseconds
+
+        Dim frameNumber As Integer = _clockSW.Elapsed.TotalMilliseconds \ _sendMS
+        If frameNumber <> _lastSentFramenumber Then
+          _lastSentFramenumber = frameNumber
+          '   Debug.Print(sw.ElapsedMilliseconds)
+          Dim sPacket As String = ""
+          For i As Integer = 1 To packetsPerFrame
+            sPacket = sPacket & frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime & vbNullChar
+          Next
+          SendNewPacket(sPacket)
+        Else
+        End If
+
+      End If
+    Catch ex As Exception
+
+    End Try
+
+  End Sub
+
 #End Region
 End Class
