@@ -34,7 +34,7 @@ Public Class frmTestUDP
       _clockSW.Reset()
       _clockSW.Start()
 
-      Dim packetsPerFrame As Integer = 120
+      Dim packetsPerFrame As Integer = 1
 
       While Not _backWorker.CancellationPending
         Select Case _ePrecissionType

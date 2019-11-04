@@ -20,6 +20,8 @@ Namespace Connections
     Public Event ErrorEvent(ByRef sender As TCPSender, ByVal CiException As Exception)
     Public Event ActivityOutgoing()
     Public Event SentData(ByRef sender As TCPSender, siData As String)
+    Public Event ReceivedData(ByRef sender As TCPSender, siData As String, endPoint As IPEndPoint)
+    Public Event ReceivedDataBytes(ByRef sender As TCPSender, biData() As Byte, endPoint As IPEndPoint)
     Public Event SocketConnected()
     Public Event SocketDisconnected()
 
@@ -161,6 +163,10 @@ Namespace Connections
           tcpclient.EndConnect(asyncresult)
           IsConnectionSuccessful = True
           RaiseEvent SocketConnected()
+
+          Dim state As New StateObject
+          state.workSocket = tcpclient.Client
+          state.workSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, New AsyncCallback(AddressOf ReadCallback), state)
         End If
       Catch ex As Exception
         IsConnectionSuccessful = False
@@ -169,6 +175,59 @@ Namespace Connections
         TimeoutObject.[Set]()
       End Try
     End Sub
+
+    Public Class StateObject
+      ' Client  socket.
+      Public workSocket As Socket = Nothing
+      ' Size of receive buffer.
+      Public Const BufferSize As Integer = 1024
+      ' Receive buffer.
+      Public buffer(BufferSize) As Byte
+      ' Received data string.
+      Public sb As New StringBuilder
+    End Class 'StateObject
+
+    Private Sub ReadCallback(ByVal ar As IAsyncResult)
+      Dim content As String = String.Empty
+
+      Try
+
+        ' Retrieve the state object and the handler socket
+        ' from the asynchronous state object.
+        Dim state As StateObject = CType(ar.AsyncState, StateObject)
+        Dim handler As Socket = state.workSocket
+
+        ' Read data from the client socket. 
+        Dim bytesRead As Integer = handler.EndReceive(ar)
+
+        If bytesRead > 0 Then
+          ' There  might be more data, so store the data received so far.
+          state.sb.Append(Encoding.UTF8.GetString(state.buffer, 0, bytesRead))
+          If bytesRead > 1023 Then
+            'we wait for more data
+          Else
+            content = state.sb.ToString()
+            ' Debug.Print(Now.ToString & " Read {0} bytes from socket. " & vbLf & " Data : {1}", content.Length, content)
+
+            RaiseEvent ReceivedData(Me, content, handler.RemoteEndPoint)
+            RaiseEvent ReceivedDataBytes(Me, System.Text.Encoding.UTF8.GetBytes(content), handler.RemoteEndPoint)
+            state.sb.Clear()
+          End If
+        Else
+          'Debug.Print("Empty callback received from " & CType(ar.AsyncState, StateObject).workSocket.RemoteEndPoint.ToString())
+          bytesRead = bytesRead
+        End If
+
+
+        If Me.Connected Then
+          handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, New AsyncCallback(AddressOf ReadCallback), state)
+        End If
+
+      Catch ex As Exception
+        ex.ToString()
+      End Try
+
+    End Sub 'ReadCallback
   End Class
 
 End Namespace

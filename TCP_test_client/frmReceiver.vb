@@ -72,6 +72,9 @@ Public Class frmReceiver
 
   Private Sub _tcpReceiver_DataReceiveBytes(ByRef sender As TCPReceiver, biData() As Byte) Handles _tcpReceiver.DataReceiveBytes
     _dataArrived.Enqueue(biData)
+    If Me.CheckBoxForwardMessages.Checked Then
+      sender.send(biData)
+    End If
   End Sub
 
   Private Sub ButtonReceiverConnect_Click(sender As Object, e As EventArgs) Handles ButtonReceiverConnect.Click

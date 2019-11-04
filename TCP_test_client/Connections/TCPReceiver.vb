@@ -176,7 +176,7 @@ Namespace Connections
               'Me._backWorkerListener.ReportProgress(0, dData)
               bWorker.ReportProgress(0, dData)
               If Me.ForwardMessagesToOtherClients Then
-                Me.send(dData.bData)
+                Me.send(incomingData)
               End If
             End If
           End While
