@@ -41,6 +41,9 @@ Partial Class frmTestTCP
     Me.CheckBoxShowPackets = New System.Windows.Forms.CheckBox()
     Me.ButtonSendManualText = New System.Windows.Forms.Button()
     Me.TextBoxManualText = New System.Windows.Forms.TextBox()
+    Me.Label1 = New System.Windows.Forms.Label()
+    Me.NumericUpDownMaxPacketSize = New System.Windows.Forms.NumericUpDown()
+    Me.ButtonUpdateData = New System.Windows.Forms.Button()
     Me.SplitContainerPackets = New System.Windows.Forms.SplitContainer()
     Me.ListViewSendPackets = New System.Windows.Forms.ListView()
     Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -52,12 +55,16 @@ Partial Class frmTestTCP
     Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+    Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+    Me.ColumnHeaderData2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.TimerReconnect = New System.Windows.Forms.Timer(Me.components)
+    Me.CheckBoxRelayData = New System.Windows.Forms.CheckBox()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
     CType(Me.NumericUpDownSenderPort, System.ComponentModel.ISupportInitialize).BeginInit()
     CType(Me.NumericUpDownDataSendTime, System.ComponentModel.ISupportInitialize).BeginInit()
+    CType(Me.NumericUpDownMaxPacketSize, System.ComponentModel.ISupportInitialize).BeginInit()
     CType(Me.SplitContainerPackets, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitContainerPackets.Panel1.SuspendLayout()
     Me.SplitContainerPackets.Panel2.SuspendLayout()
@@ -100,30 +107,35 @@ Partial Class frmTestTCP
     Me.TableLayoutPanel2.ColumnCount = 2
     Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.5!))
     Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5!))
+    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxRelayData, 0, 2)
     Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownSenderPort, 1, 1)
     Me.TableLayoutPanel2.Controls.Add(Me.TextBoxSenderHost, 1, 0)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderPort, 0, 1)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderHost, 0, 0)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 7)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 7)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 8)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 8)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonSenderConnect, 1, 2)
-    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxSendData, 0, 6)
-    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 6)
+    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxSendData, 0, 7)
+    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 7)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonReset, 1, 5)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelReceiverDataRate, 0, 8)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelReceiverDataRate, 0, 9)
     Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxShowPackets, 0, 5)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonSendManualText, 1, 4)
     Me.TableLayoutPanel2.Controls.Add(Me.TextBoxManualText, 0, 3)
+    Me.TableLayoutPanel2.Controls.Add(Me.Label1, 0, 6)
+    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownMaxPacketSize, 1, 6)
+    Me.TableLayoutPanel2.Controls.Add(Me.ButtonUpdateData, 0, 4)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-    Me.TableLayoutPanel2.RowCount = 9
+    Me.TableLayoutPanel2.RowCount = 10
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
+    Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
@@ -226,7 +238,7 @@ Partial Class frmTestTCP
     'ButtonReset
     '
     Me.ButtonReset.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.ButtonReset.Location = New System.Drawing.Point(234, 222)
+    Me.ButtonReset.Location = New System.Drawing.Point(234, 197)
     Me.ButtonReset.Name = "ButtonReset"
     Me.ButtonReset.Size = New System.Drawing.Size(133, 29)
     Me.ButtonReset.TabIndex = 8
@@ -247,7 +259,7 @@ Partial Class frmTestTCP
     'CheckBoxShowPackets
     '
     Me.CheckBoxShowPackets.AutoSize = True
-    Me.CheckBoxShowPackets.Location = New System.Drawing.Point(3, 222)
+    Me.CheckBoxShowPackets.Location = New System.Drawing.Point(3, 197)
     Me.CheckBoxShowPackets.Name = "CheckBoxShowPackets"
     Me.CheckBoxShowPackets.Size = New System.Drawing.Size(92, 17)
     Me.CheckBoxShowPackets.TabIndex = 10
@@ -257,7 +269,7 @@ Partial Class frmTestTCP
     'ButtonSendManualText
     '
     Me.ButtonSendManualText.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.ButtonSendManualText.Location = New System.Drawing.Point(234, 182)
+    Me.ButtonSendManualText.Location = New System.Drawing.Point(234, 157)
     Me.ButtonSendManualText.Name = "ButtonSendManualText"
     Me.ButtonSendManualText.Size = New System.Drawing.Size(133, 34)
     Me.ButtonSendManualText.TabIndex = 11
@@ -271,8 +283,35 @@ Partial Class frmTestTCP
     Me.TextBoxManualText.Location = New System.Drawing.Point(3, 88)
     Me.TextBoxManualText.Multiline = True
     Me.TextBoxManualText.Name = "TextBoxManualText"
-    Me.TextBoxManualText.Size = New System.Drawing.Size(364, 88)
+    Me.TextBoxManualText.Size = New System.Drawing.Size(364, 63)
     Me.TextBoxManualText.TabIndex = 12
+    '
+    'Label1
+    '
+    Me.Label1.AutoSize = True
+    Me.Label1.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.Label1.Location = New System.Drawing.Point(3, 229)
+    Me.Label1.Name = "Label1"
+    Me.Label1.Size = New System.Drawing.Size(225, 25)
+    Me.Label1.TabIndex = 13
+    Me.Label1.Text = "Max Packet size"
+    '
+    'NumericUpDownMaxPacketSize
+    '
+    Me.NumericUpDownMaxPacketSize.Location = New System.Drawing.Point(234, 232)
+    Me.NumericUpDownMaxPacketSize.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
+    Me.NumericUpDownMaxPacketSize.Name = "NumericUpDownMaxPacketSize"
+    Me.NumericUpDownMaxPacketSize.Size = New System.Drawing.Size(61, 21)
+    Me.NumericUpDownMaxPacketSize.TabIndex = 14
+    '
+    'ButtonUpdateData
+    '
+    Me.ButtonUpdateData.Location = New System.Drawing.Point(3, 157)
+    Me.ButtonUpdateData.Name = "ButtonUpdateData"
+    Me.ButtonUpdateData.Size = New System.Drawing.Size(116, 34)
+    Me.ButtonUpdateData.TabIndex = 15
+    Me.ButtonUpdateData.Text = "Update data"
+    Me.ButtonUpdateData.UseVisualStyleBackColor = True
     '
     'SplitContainerPackets
     '
@@ -321,7 +360,7 @@ Partial Class frmTestTCP
     '
     'ListViewReceivePackets
     '
-    Me.ListViewReceivePackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
+    Me.ListViewReceivePackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5})
     Me.ListViewReceivePackets.Dock = System.Windows.Forms.DockStyle.Fill
     Me.ListViewReceivePackets.Location = New System.Drawing.Point(0, 0)
     Me.ListViewReceivePackets.Name = "ListViewReceivePackets"
@@ -347,10 +386,24 @@ Partial Class frmTestTCP
     '
     Me.ColumnHeader4.Text = "Data"
     '
+    'ColumnHeader5
+    '
+    Me.ColumnHeader5.Text = "Data2"
+    '
     'TimerReconnect
     '
     Me.TimerReconnect.Enabled = True
     Me.TimerReconnect.Interval = 10000
+    '
+    'CheckBoxRelayData
+    '
+    Me.CheckBoxRelayData.AutoSize = True
+    Me.CheckBoxRelayData.Location = New System.Drawing.Point(3, 53)
+    Me.CheckBoxRelayData.Name = "CheckBoxRelayData"
+    Me.CheckBoxRelayData.Size = New System.Drawing.Size(78, 17)
+    Me.CheckBoxRelayData.TabIndex = 3
+    Me.CheckBoxRelayData.Text = "Relay data"
+    Me.CheckBoxRelayData.UseVisualStyleBackColor = True
     '
     'frmTestTCP
     '
@@ -367,6 +420,7 @@ Partial Class frmTestTCP
     Me.TableLayoutPanel2.PerformLayout()
     CType(Me.NumericUpDownSenderPort, System.ComponentModel.ISupportInitialize).EndInit()
     CType(Me.NumericUpDownDataSendTime, System.ComponentModel.ISupportInitialize).EndInit()
+    CType(Me.NumericUpDownMaxPacketSize, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitContainerPackets.Panel1.ResumeLayout(False)
     Me.SplitContainerPackets.Panel2.ResumeLayout(False)
     CType(Me.SplitContainerPackets, System.ComponentModel.ISupportInitialize).EndInit()
@@ -390,6 +444,7 @@ Partial Class frmTestTCP
   Friend WithEvents ColumnHeaderSize As ColumnHeader
   Friend WithEvents ColumnHeaderTime As ColumnHeader
   Friend WithEvents ColumnHeaderData As ColumnHeader
+  Friend WithEvents ColumnHeaderData2 As ColumnHeader
   Friend WithEvents CheckBoxSendData As CheckBox
   Friend WithEvents NumericUpDownDataSendTime As NumericUpDown
   Friend WithEvents ButtonReset As Button
@@ -400,8 +455,13 @@ Partial Class frmTestTCP
   Friend WithEvents ColumnHeader2 As ColumnHeader
   Friend WithEvents ColumnHeader3 As ColumnHeader
   Friend WithEvents ColumnHeader4 As ColumnHeader
+  Friend WithEvents ColumnHeader5 As ColumnHeader
   Friend WithEvents LabelReceiverDataRate As Label
   Friend WithEvents CheckBoxShowPackets As CheckBox
   Friend WithEvents ButtonSendManualText As Button
   Friend WithEvents TextBoxManualText As TextBox
+  Friend WithEvents Label1 As Label
+  Friend WithEvents NumericUpDownMaxPacketSize As NumericUpDown
+  Friend WithEvents ButtonUpdateData As Button
+  Friend WithEvents CheckBoxRelayData As CheckBox
 End Class
