@@ -337,7 +337,7 @@ Public Class frmTestUDP
         _receivedPackets += 1
         Dim packet As TestPacket = New TestPacket
         packet.data = biData
-        packet.Text = GetDISPacketDescription(biData) ' siData
+        packet.Text = biData.Length
         packet.SentTime = _lastReceivePacketDate
         packet.ReceiveTime = Now
         packet.RoundTripCompleted = True
@@ -470,7 +470,7 @@ Public Class frmTestUDP
     End If
   End Sub
 
-  Private WithEvents _multimediaTimer As MultimediaTimer
+  Private WithEvents _multimediaTimer As Timer
 
 
   Private Sub InitTestTimer()
@@ -478,9 +478,9 @@ Public Class frmTestUDP
     _clockSW.Reset()
     _clockSW.Start()
 
-    _multimediaTimer = New MultimediaTimer
+    _multimediaTimer = New Timer
     _multimediaTimer.Interval = 1 ' Me.NumericUpDownDataSendTime.Value
-    AddHandler _multimediaTimer.Elapsed, AddressOf timer_Elapsed 'Function(o, e) Console.WriteLine(s.ElapsedMilliseconds)
+    AddHandler _multimediaTimer.Tick, AddressOf timer_Elapsed 'Function(o, e) Console.WriteLine(s.ElapsedMilliseconds)
 
     _multimediaTimer.Start()
 
@@ -533,7 +533,7 @@ Public Class frmTestUDP
     End Try
   End Sub
 
-  Private Sub _multimediaTimer_Elapsed(sender As Object, e As EventArgs) Handles _multimediaTimer.Elapsed
+  Private Sub _multimediaTimer_Elapsed(sender As Object, e As EventArgs) Handles _multimediaTimer.Tick
     Try
       '_multimediaTimer.Interval = 1 ' Me.NumericUpDownDataSendTime.Value
 

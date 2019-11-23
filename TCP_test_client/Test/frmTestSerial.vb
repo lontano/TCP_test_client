@@ -23,6 +23,169 @@ Public Class frmTestSerial
     Sleep
   End Enum
 
+  Dim _lastPan As Integer = 0
+
+  Private Function BuildTRHead(pan As Integer, tilt As Integer, roll As Integer, x As Integer, y As Integer, z As Integer, zoom As Integer, focus As Integer) As Byte()
+    Dim dummyData(15 - 1) As Byte
+    Try
+      'create a dummy free-d position message
+      dummyData(0) = HexToByte("D4")(0)
+      dummyData(1) = HexToByte("80")(0)
+
+      dummyData = HexToByte("04 88 FF 42 88 FF FD C3 00 20 80 00 10 0E D2")
+      dummyData = HexToByte("04 83 FF 42 88 FF FE 1D 00 20 80 00 10 0E 28" & "04 88 FF 42 88 FF FD C3 00 20 80 00 10 0E D2")
+
+      Dim dummyDataList As New List(Of Byte())
+      Dim dummyDataList2 As New List(Of Byte())
+
+      dummyDataList.Add(HexToByte("04 80 FF B7 70 FF FD FC FF F0 9D FF DF 61 6D"))
+      dummyDataList.Add(HexToByte("04 81 FF B7 70 FF FD FC FF F0 9D FF DF 61 6E"))
+      dummyDataList.Add(HexToByte("04 82 FF B7 70 FF FD FC FF F0 9C FF DF 61 6E"))
+      dummyDataList.Add(HexToByte("04 83 FF B7 70 FF FD FC FF F0 9D FF DF 60 6F"))
+      dummyDataList.Add(HexToByte("04 84 FF B7 70 FF FD FC FF F0 9C FF DF 60 6F"))
+      dummyDataList.Add(HexToByte("04 85 FF B7 70 FF FD FC FF F0 9D FF DF 61 72"))
+      dummyDataList.Add(HexToByte("04 86 FF B7 70 FF FD FC FF F0 9D FF DF 61 73"))
+      dummyDataList.Add(HexToByte("04 87 FF B7 70 FF FD FC FF F0 9C FF DF 60 72"))
+      dummyDataList.Add(HexToByte("04 88 FF B7 70 FF FD FC FF F0 9D FF DF 60 74"))
+      dummyDataList.Add(HexToByte("04 89 FF B7 70 FF FD FC FF F0 9D FF DF 61 76"))
+      dummyDataList.Add(HexToByte("04 8A FF B7 70 FF FD FC FF F0 9C FF DF 60 75"))
+      dummyDataList.Add(HexToByte("04 8B FF B7 70 FF FD FC FF F0 9D FF DF 61 78"))
+      dummyDataList.Add(HexToByte("04 8C FF B7 70 FF FD FC FF F0 9D FF DF 61 79"))
+      dummyDataList.Add(HexToByte("04 8D FF B7 70 FF FD FC FF F0 9C FF DF 61 79"))
+      dummyDataList.Add(HexToByte("04 8E FF B7 70 FF FD FC FF F0 9D FF DF 61 7B"))
+      dummyDataList.Add(HexToByte("04 8F FF B7 70 FF FD FC FF F0 9C FF DF 61 7B"))
+
+      dummyData = dummyDataList(_lastPan Mod dummyDataList.Count)
+
+      'Dim offset As Integer = 2
+      ''pan
+      'SetByteValue(dummyData, offset, pan * 32768)
+      'offset += 3
+      ''tilt
+      'SetByteValue(dummyData, offset, tilt * 32768)
+      'offset += 3
+      ''roll
+      'SetByteValue(dummyData, offset, roll * 32768)
+      'offset += 3
+
+      ''x
+      'SetByteValue(dummyData, offset, x * 640)
+      'offset += 3
+      ''y
+      'SetByteValue(dummyData, offset, y * 640)
+      'offset += 3
+      ''z (height)
+      'SetByteValue(dummyData, offset, z * 640)
+      'offset += 3
+
+      ''zoom
+      'SetByteValue(dummyData, offset, zoom)
+      'offset += 3
+      ''focus
+      'SetByteValue(dummyData, offset, focus)
+      'offset += 3
+
+      'compute checksum
+      'Dim checkSum As Integer = 0
+      'For i As Integer = 0 To dummyData.Count - 2
+      '  checkSum += dummyData(i)
+      'Next
+      'checkSum = (64 - checkSum) Mod 256
+      'If checkSum < 0 Then checkSum += 256
+      'dummyData(dummyData.Length - 1) = checkSum
+    Catch ex As Exception
+
+    End Try
+    Return dummyData
+  End Function
+
+
+  Private Function BuildTrackingPacket() As Byte()
+    _lastPan += 1
+    'Return BuildFreedPacket(_lastPan, 2, 3, 4, 5, 6, 7, 8)
+    Return BuildTRHead(0, 0, 0, 0, 0, 0, 0, 0)
+    'Return BuildFreed(0, 0, 0, 0, 0, 0, 0, 0)
+  End Function
+  Private Function BuildFreed(pan As Integer, tilt As Integer, roll As Integer, x As Integer, y As Integer, z As Integer, zoom As Integer, focus As Integer) As Byte()
+    Dim dummyData(30 - 1) As Byte
+    Try
+      'create a dummy free-d position message
+      dummyData(0) = HexToByte("D1")(0)
+      dummyData(1) = HexToByte("00")(0)
+
+      Dim offset As Integer = 2
+      'pan
+      SetByteValue(dummyData, offset, pan * 32768)
+      offset += 3
+      'tilt
+      SetByteValue(dummyData, offset, tilt * 32768)
+      offset += 3
+      'roll
+      SetByteValue(dummyData, offset, roll * 32768)
+      offset += 3
+
+      'x
+      SetByteValue(dummyData, offset, x * 640)
+      offset += 3
+      'y
+      SetByteValue(dummyData, offset, y * 640)
+      offset += 3
+      'z (height)
+      SetByteValue(dummyData, offset, z * 640)
+      offset += 3
+
+      'zoom
+      SetByteValue(dummyData, offset, zoom)
+      offset += 3
+      'focus
+      SetByteValue(dummyData, offset, focus)
+      offset += 3
+
+      'compute checksum
+      Dim checkSum As Integer = 0
+      For i As Integer = 0 To dummyData.Count - 2
+        checkSum += dummyData(i)
+      Next
+      checkSum = (64 - checkSum) Mod 256
+      If checkSum < 0 Then checkSum += 256
+      dummyData(dummyData.Length - 1) = checkSum
+    Catch ex As Exception
+
+    End Try
+    Return dummyData
+  End Function
+
+  Private Sub SetByteValue(ByRef data() As Byte, offset As Integer, value As UInteger)
+    Try
+      Dim bytes() As Byte = BitConverter.GetBytes(value)
+      data(offset) = bytes(2)
+      data(offset + 1) = bytes(1)
+      data(offset + 2) = bytes(0)
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
+  Public Shared Function HexToByte(ByVal msg As String) As Byte()
+    Dim _msg As String
+    If msg.Length Mod 2 = 0 Then
+      'remove any spaces from the string
+      _msg = msg
+      _msg = msg.Replace(" ", "")
+      'create a byte array the length of the
+      'divided by 2 (Hex is 2 characters in length)
+      Dim comBuffer As Byte() = New Byte(_msg.Length / 2 - 1) {}
+      For i As Integer = 0 To _msg.Length - 1 Step 2
+        comBuffer(i / 2) = CByte(Convert.ToByte(_msg.Substring(i, 2), 16))
+      Next
+      Return comBuffer
+    Else
+      _msg = "Invalid format"
+      Return Nothing
+    End If
+  End Function
+
+
   Private _ePrecissionType As ePrecissionType = ePrecissionType.Normal
   Private _lastSendTime As Double = 0
   Private _lastSentFramenumber As Integer = 0
@@ -38,32 +201,33 @@ Public Class frmTestSerial
       While Not _backWorker.CancellationPending
         Select Case _ePrecissionType
           Case ePrecissionType.Normal
-            Dim sendTime As Double = _clockSW.Elapsed.TotalMilliseconds - _lastSendTime
-            If _clockSW.Elapsed.TotalMilliseconds - _lastSendTime > _sendMS Then
-              _lastSendTime = _clockSW.Elapsed.TotalMilliseconds
+            Dim sendTime As Double = Now.Subtract(Date.MinValue).TotalMilliseconds
+            If sendTime - _lastSendTime >= _sendMS Then
+              _lastSendTime = sendTime
 
-              Dim frameNumber As Integer = _clockSW.Elapsed.TotalMilliseconds \ _sendMS
-              If frameNumber <> _lastSentFramenumber Then
-                _lastSentFramenumber = frameNumber
-                '   Debug.Print(sw.ElapsedMilliseconds)
-                Dim sPacket As String = ""
-                For i As Integer = 1 To packetsPerFrame
-                  sPacket = sPacket & frameNumber & " " & _clockSW.Elapsed.ToString & " " & IIf(i = 1, "*******", "") & i & "/" & packetsPerFrame & " " & sendTime - _lastSendTime & ":" & sendTime & vbNullChar
-                Next
-                SendNewPacket(sPacket)
-              Else
-              End If
-
+              Dim data() As Byte = Me.BuildTrackingPacket()
+              _lastPacket = New TestPacket
+              _lastPacket.data = data
+              _lastPacket.Text = System.Text.Encoding.ASCII.GetString(data)
+              _lastPacket.SentTime = Now
+              _lastPacket.SendTicks = _lastPacket.SentTime.Subtract(Date.MinValue).TotalMilliseconds
+              _serialSender.SendData(data)
+              'Me.AddSendPacket(_lastPacket.Text)
+              'Me.AddReceivePacket(_lastPacket)
+              'sPacket = System.Text.Encoding.ASCII.GetString(Me.BuildFreedPacket())
+              ' SendNewPacket(sPacket)
+              ' Else
             End If
-            Threading.Thread.Sleep(2)
-            Application.DoEvents()
+
+            'End If
+            'Threading.Thread.Sleep(1)
+            'Application.DoEvents()
           Case ePrecissionType.Sleep
             Threading.Thread.Sleep(New TimeSpan(_sendMS))
             SendNewPacket(_clockSW.Elapsed.ToString & vbTab & _sendSW.Elapsed.TotalMilliseconds & ":" & (1000 * _clockSW.ElapsedTicks) / Stopwatch.Frequency)
             _sendSW.Reset()
             _sendSW.Start()
         End Select
-
       End While
       _clockSW.Stop()
     Catch ex As Exception
@@ -108,7 +272,7 @@ Public Class frmTestSerial
     End If
 
     Dim packet As New TestPacket
-    packet.Text = _lastPacketSent & ":" & data
+    packet.Text = data
     packet.SentTime = Now
     packet.SendTicks = _clockSW.Elapsed.TotalMilliseconds
 
@@ -177,47 +341,61 @@ Public Class frmTestSerial
   Private _connectRequest As Boolean = False
 
   Private Sub ButtonSenderConnect_Click(sender As Object, e As EventArgs) Handles ButtonSenderConnect.Click
-    _connectRequest = Not _connectRequest
-    If _connectRequest Then
-      If _serialSender Is Nothing Then
-        _serialSender = New Connections.SerialSender
-        _serialSender.Connect(Me.ComboBoxSerialSend.Text)
-        My.Settings.SerialSenderPort = Me.ComboBoxSerialSend.Text
-        My.Settings.Save()
-      ElseIf _serialSender.Connected = False Then
-        _serialSender.Connect(My.Settings.UDPSenderHost)
-      End If
+    Try
+      _connectRequest = Not _connectRequest
+      If _connectRequest Then
+        If _serialSender Is Nothing Then
+          _serialSender = New Connections.SerialSender
+          _serialSender.Connect(Me.ComboBoxSerialSend.Text)
+          My.Settings.SerialSenderPort = Me.ComboBoxSerialSend.Text
+          My.Settings.Save()
+        ElseIf _serialSender.Connected = False Then
+          _serialSender.Connect(My.Settings.UDPSenderHost)
+        End If
 
-      If _serialReceiver Is Nothing Then
-        My.Settings.SerialReceiverPort = Me.ComboBoxSerialReceiver.Text
-        _serialReceiver = New Connections.SerialReceiver
-        _serialReceiver.Listen(My.Settings.SerialReceiverPort)
+        If _serialReceiver Is Nothing Then
+          My.Settings.SerialReceiverPort = Me.ComboBoxSerialReceiver.Text
+          _serialReceiver = New Connections.SerialReceiver
+          _serialReceiver.Listen(My.Settings.SerialReceiverPort)
+        Else
+          _serialReceiver.Listen(My.Settings.SerialReceiverPort)
+        End If
       Else
-        _serialReceiver.Listen(My.Settings.SerialReceiverPort)
+        _serialSender.Disconnect()
+        _serialSender = Nothing
+        _serialReceiver.Disconnect()
+        _serialReceiver = Nothing
       End If
-    Else
-      _serialSender.Disconnect()
-      _serialSender = Nothing
-      _serialReceiver.Disconnect()
-      _serialReceiver = Nothing
-    End If
 
-    UpdateButtons()
+      UpdateButtons()
+
+    Catch ex As Exception
+
+    End Try
   End Sub
 
   Private _sentPackets As Integer = 0
   Private _receivedPackets As Integer = 0
+  Private _lastSentPacketTime As Date
 
   Private Sub _serialSender_SentData(ByRef sender As SerialSender, siData As String) Handles _serialSender.SentData
+    AddSendPacket(siData)
+  End Sub
+  Private Sub AddSendPacket(siData As String)
     _sentPackets += 1
     If Me.CheckBoxShowPackets.Checked Then
       Me.Invoke(Sub()
                   Dim itm As ListViewItem = Me.ListViewSendPackets.Items.Insert(0, Me.ListViewSendPackets.Items.Count)
                   itm.SubItems.Add(siData.Length)
                   If Not _lastPacket Is Nothing AndAlso _lastPacket.Text = siData Then
-                    itm.SubItems.Add(_lastPacket.TimeSinceLastPacket)
+                    itm.SubItems.Add(_lastSentPacketTime.Subtract(_lastPacket.SentTime).TotalMilliseconds)
+                    'itm.SubItems.Add(_lastPacket.sent)
+                    _lastSentPacketTime = _lastPacket.SentTime
+                  Else
+                    itm.SubItems.Add(Now.Subtract(_lastSentPacketTime).TotalMilliseconds)
+                    _lastSentPacketTime = Now
                   End If
-                  itm.SubItems.Add(siData)
+
                   itm.SubItems.Add(siData)
 
                 End Sub)
@@ -300,6 +478,7 @@ Public Class frmTestSerial
     UpdateButtons()
   End Sub
 
+  Private _lastPacketReceived As Date = Now
   Private Sub _serialReceiver_DataReceive(ByRef sender As SerialReceiver, siData As String) Handles _serialReceiver.DataReceive
     _receivedPackets += 1
     Try
@@ -307,16 +486,21 @@ Public Class frmTestSerial
         Dim packet As TestPacket = _dictionaryPackets(siData)
         packet.ReceiveTime = Now
         packet.ReceiveTicks = _clockSW.Elapsed.TotalMilliseconds
+        packet.ReceiveTicks = packet.ReceiveTime.Subtract(Date.MinValue).TotalMilliseconds
+        packet.SendTicks = packet.SentTime.Subtract(Date.MinValue).TotalMilliseconds
         packet.RoundTripCompleted = True
         AddReceivePacket(packet)
       Else
         Dim packet As TestPacket = New TestPacket
         packet.Text = siData
-        packet.SentTime = Now
+        packet.SentTime = _lastPacketReceived
         packet.ReceiveTime = Now
+        packet.ReceiveTicks = packet.ReceiveTime.Subtract(Date.MinValue).TotalMilliseconds
+        packet.SendTicks = packet.SentTime.Subtract(Date.MinValue).TotalMilliseconds
         packet.RoundTripCompleted = True
         AddReceivePacket(packet)
       End If
+      _lastPacketReceived = Now
     Catch ex As Exception
 
     End Try

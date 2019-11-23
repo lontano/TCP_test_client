@@ -274,6 +274,7 @@ Partial Class frmTestSerial
     '
     Me.ListViewSendPackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeaderNumber, Me.ColumnHeaderSize, Me.ColumnHeaderTime, Me.ColumnHeaderData})
     Me.ListViewSendPackets.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ListViewSendPackets.HideSelection = False
     Me.ListViewSendPackets.Location = New System.Drawing.Point(0, 0)
     Me.ListViewSendPackets.Name = "ListViewSendPackets"
     Me.ListViewSendPackets.Size = New System.Drawing.Size(571, 535)
@@ -302,6 +303,7 @@ Partial Class frmTestSerial
     '
     Me.ListViewReceivePackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
     Me.ListViewReceivePackets.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ListViewReceivePackets.HideSelection = False
     Me.ListViewReceivePackets.Location = New System.Drawing.Point(0, 0)
     Me.ListViewReceivePackets.Name = "ListViewReceivePackets"
     Me.ListViewReceivePackets.Size = New System.Drawing.Size(653, 535)

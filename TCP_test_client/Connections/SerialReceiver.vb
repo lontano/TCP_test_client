@@ -14,7 +14,7 @@ Namespace Connections
     Public Function Listen(ByVal siComPort As String) As Boolean
       If My.Computer.Ports.SerialPortNames.Contains(siComPort) Then
         _comPortName = siComPort
-        _comPort = My.Computer.Ports.OpenSerialPort(_comPortName)
+        _comPort = My.Computer.Ports.OpenSerialPort(_comPortName, 38400)
         _comPort.BaudRate = 38400
       Else
         _comPortName = ""
@@ -28,7 +28,8 @@ Namespace Connections
     End Sub
 
     Private Sub _comPort_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles _comPort.DataReceived
-      RaiseEvent DataReceive(Me, _comPort.ReadLine())
+      Threading.Thread.Sleep(5)
+      RaiseEvent DataReceive(Me, _comPort.ReadExisting())
     End Sub
   End Class
 

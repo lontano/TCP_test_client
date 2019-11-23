@@ -37,6 +37,16 @@
         RaiseEvent SentData(Me, data)
       End Using
     End Sub
+
+    Private _com1 As IO.Ports.SerialPort = Nothing
+    Sub SendData(data() As Byte)
+      If _com1 Is Nothing Then
+        _com1 = My.Computer.Ports.OpenSerialPort(_comPortName, 38400, IO.Ports.Parity.Odd, 8, IO.Ports.StopBits.One)
+      End If
+      _com1.Write(data, 0, data.Length)
+      RaiseEvent SentData(Me, System.Text.Encoding.ASCII.GetString(data))
+
+    End Sub
   End Class
 
 End Namespace
