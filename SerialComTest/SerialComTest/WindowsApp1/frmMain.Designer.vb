@@ -25,18 +25,19 @@ Partial Class frmMain
     Dim CommManager1 As SerialTest.CommManager = New SerialTest.CommManager()
     Dim CommManager2 As SerialTest.CommManager = New SerialTest.CommManager()
     Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-    Me.UCcommManagerSend = New SerialTest.UCcommManager()
-    Me.UCcommManagerReceive = New SerialTest.UCcommManager()
     Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
     Me.ButtonLoad = New System.Windows.Forms.Button()
     Me.ButtonStartStop = New System.Windows.Forms.Button()
     Me.LabelInfo = New System.Windows.Forms.Label()
     Me.CheckBoxFreedSym = New System.Windows.Forms.CheckBox()
     Me.CheckBoxLoop = New System.Windows.Forms.CheckBox()
-    Me.OpenFileDialogSession = New System.Windows.Forms.OpenFileDialog()
     Me.CheckBoxForwardToUDP = New System.Windows.Forms.CheckBox()
     Me.TextBoxUDPHost = New System.Windows.Forms.TextBox()
     Me.NumericUpDownUDPPort = New System.Windows.Forms.NumericUpDown()
+    Me.OpenFileDialogSession = New System.Windows.Forms.OpenFileDialog()
+    Me.ButtonUpdateSessions = New System.Windows.Forms.Button()
+    Me.UCcommManagerSend = New SerialTest.UCcommManager()
+    Me.UCcommManagerReceive = New SerialTest.UCcommManager()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
     CType(Me.NumericUpDownUDPPort, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,50 +62,6 @@ Partial Class frmMain
     Me.TableLayoutPanel1.Size = New System.Drawing.Size(1000, 415)
     Me.TableLayoutPanel1.TabIndex = 0
     '
-    'UCcommManagerSend
-    '
-    CommManager1.AsyncSend = True
-    CommManager1.BaudRate = 38400
-    CommManager1.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
-    CommManager1.DataBits = 8
-    CommManager1.DisplayWindow = Nothing
-    CommManager1.ExpectedPacketSize = 0
-    CommManager1.GroupPackets = 1
-    CommManager1.Message = Nothing
-    CommManager1.Parity = System.IO.Ports.Parity.None
-    CommManager1.PortName = "COM1"
-    CommManager1.StopBits = System.IO.Ports.StopBits.One
-    CommManager1.Type = SerialTest.CommManager.MessageType.Incoming
-    Me.UCcommManagerSend.commManager = CommManager1
-    Me.UCcommManagerSend.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.UCcommManagerSend.Location = New System.Drawing.Point(2, 63)
-    Me.UCcommManagerSend.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-    Me.UCcommManagerSend.Name = "UCcommManagerSend"
-    Me.UCcommManagerSend.Size = New System.Drawing.Size(496, 349)
-    Me.UCcommManagerSend.TabIndex = 1
-    '
-    'UCcommManagerReceive
-    '
-    CommManager2.AsyncSend = True
-    CommManager2.BaudRate = 38400
-    CommManager2.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
-    CommManager2.DataBits = 8
-    CommManager2.DisplayWindow = Nothing
-    CommManager2.ExpectedPacketSize = 0
-    CommManager2.GroupPackets = 1
-    CommManager2.Message = Nothing
-    CommManager2.Parity = System.IO.Ports.Parity.None
-    CommManager2.PortName = "COM1"
-    CommManager2.StopBits = System.IO.Ports.StopBits.One
-    CommManager2.Type = SerialTest.CommManager.MessageType.Incoming
-    Me.UCcommManagerReceive.commManager = CommManager2
-    Me.UCcommManagerReceive.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.UCcommManagerReceive.Location = New System.Drawing.Point(502, 63)
-    Me.UCcommManagerReceive.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-    Me.UCcommManagerReceive.Name = "UCcommManagerReceive"
-    Me.UCcommManagerReceive.Size = New System.Drawing.Size(496, 349)
-    Me.UCcommManagerReceive.TabIndex = 0
-    '
     'TableLayoutPanel2
     '
     Me.TableLayoutPanel2.ColumnCount = 5
@@ -121,6 +78,7 @@ Partial Class frmMain
     Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxForwardToUDP, 1, 1)
     Me.TableLayoutPanel2.Controls.Add(Me.TextBoxUDPHost, 2, 1)
     Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownUDPPort, 3, 1)
+    Me.TableLayoutPanel2.Controls.Add(Me.ButtonUpdateSessions, 0, 1)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 3)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
@@ -182,11 +140,6 @@ Partial Class frmMain
     Me.CheckBoxLoop.Text = "Loop"
     Me.CheckBoxLoop.UseVisualStyleBackColor = True
     '
-    'OpenFileDialogSession
-    '
-    Me.OpenFileDialogSession.FileName = "OpenFileDialog1"
-    Me.OpenFileDialogSession.Filter = "Session|*.tss|All files|*.*"
-    '
     'CheckBoxForwardToUDP
     '
     Me.CheckBoxForwardToUDP.AutoSize = True
@@ -217,6 +170,65 @@ Partial Class frmMain
     Me.NumericUpDownUDPPort.Size = New System.Drawing.Size(94, 19)
     Me.NumericUpDownUDPPort.TabIndex = 7
     Me.NumericUpDownUDPPort.Value = New Decimal(New Integer() {6301, 0, 0, 0})
+    '
+    'OpenFileDialogSession
+    '
+    Me.OpenFileDialogSession.FileName = "OpenFileDialog1"
+    Me.OpenFileDialogSession.Filter = "Session|*.tss|All files|*.*"
+    '
+    'ButtonUpdateSessions
+    '
+    Me.ButtonUpdateSessions.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ButtonUpdateSessions.Location = New System.Drawing.Point(3, 30)
+    Me.ButtonUpdateSessions.Name = "ButtonUpdateSessions"
+    Me.ButtonUpdateSessions.Size = New System.Drawing.Size(94, 21)
+    Me.ButtonUpdateSessions.TabIndex = 8
+    Me.ButtonUpdateSessions.Text = "Update sessions"
+    Me.ButtonUpdateSessions.UseVisualStyleBackColor = True
+    '
+    'UCcommManagerSend
+    '
+    CommManager1.AsyncSend = True
+    CommManager1.BaudRate = 38400
+    CommManager1.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
+    CommManager1.DataBits = 8
+    CommManager1.DisplayWindow = Nothing
+    CommManager1.ExpectedPacketSize = 0
+    CommManager1.GroupPackets = 1
+    CommManager1.Message = Nothing
+    CommManager1.Parity = System.IO.Ports.Parity.None
+    CommManager1.PortName = "COM1"
+    CommManager1.StopBits = System.IO.Ports.StopBits.One
+    CommManager1.Type = SerialTest.CommManager.MessageType.Incoming
+    Me.UCcommManagerSend.commManager = CommManager1
+    Me.UCcommManagerSend.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.UCcommManagerSend.Location = New System.Drawing.Point(2, 63)
+    Me.UCcommManagerSend.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+    Me.UCcommManagerSend.Name = "UCcommManagerSend"
+    Me.UCcommManagerSend.Size = New System.Drawing.Size(496, 349)
+    Me.UCcommManagerSend.TabIndex = 1
+    '
+    'UCcommManagerReceive
+    '
+    CommManager2.AsyncSend = True
+    CommManager2.BaudRate = 38400
+    CommManager2.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
+    CommManager2.DataBits = 8
+    CommManager2.DisplayWindow = Nothing
+    CommManager2.ExpectedPacketSize = 0
+    CommManager2.GroupPackets = 1
+    CommManager2.Message = Nothing
+    CommManager2.Parity = System.IO.Ports.Parity.None
+    CommManager2.PortName = "COM1"
+    CommManager2.StopBits = System.IO.Ports.StopBits.One
+    CommManager2.Type = SerialTest.CommManager.MessageType.Incoming
+    Me.UCcommManagerReceive.commManager = CommManager2
+    Me.UCcommManagerReceive.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.UCcommManagerReceive.Location = New System.Drawing.Point(502, 63)
+    Me.UCcommManagerReceive.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+    Me.UCcommManagerReceive.Name = "UCcommManagerReceive"
+    Me.UCcommManagerReceive.Size = New System.Drawing.Size(496, 349)
+    Me.UCcommManagerReceive.TabIndex = 0
     '
     'frmMain
     '
@@ -249,4 +261,5 @@ Partial Class frmMain
   Friend WithEvents CheckBoxForwardToUDP As CheckBox
   Friend WithEvents TextBoxUDPHost As TextBox
   Friend WithEvents NumericUpDownUDPPort As NumericUpDown
+  Friend WithEvents ButtonUpdateSessions As Button
 End Class

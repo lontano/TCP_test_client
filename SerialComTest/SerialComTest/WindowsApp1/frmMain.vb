@@ -350,6 +350,19 @@ Public Class frmMain
     End Try
   End Sub
 
+  Private Sub ButtonUpdateSessions_Click(sender As Object, e As EventArgs) Handles ButtonUpdateSessions.Click
+    Try
+      If Not _replaySession Is Nothing Then
+        Me.UCcommManagerSend.RichTextBoxLog.Text = Me.ShowCaptureSession(_replaySession)
+      End If
+      If Not _captureSession Is Nothing Then
+        Me.UCcommManagerReceive.RichTextBoxLog.Text = Me.ShowCaptureSession(_captureSession)
+      End If
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
 
 #End Region
 End Class
