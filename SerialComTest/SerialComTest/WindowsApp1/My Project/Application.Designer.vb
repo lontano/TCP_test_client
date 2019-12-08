@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.SerialTest.frmMain
+            Me.MainForm = Global.SerialTest.frmRTHeadSimulator
         End Sub
     End Class
 End Namespace

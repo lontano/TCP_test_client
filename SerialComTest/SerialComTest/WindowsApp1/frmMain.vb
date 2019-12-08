@@ -4,6 +4,7 @@ Imports WindowsApp1
 Public Class frmMain
   Private _captureSession As CaptureSession = Nothing
   Private _udpSender As Connections.UDPSender
+  Private _tcpSender As Connections.TCPSender
 
   Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
     Try
@@ -183,6 +184,7 @@ Public Class frmMain
 
   Private _senderLogWindow As RichTextBox = Nothing
   Private _receiverLogWindow As RichTextBox = Nothing
+  Private _sessionLog As String = ""
   Private Sub _backgroundWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _backgroundWorkerReplayManager.DoWork
     Try
       Dim bDone As Boolean = False
@@ -197,7 +199,7 @@ Public Class frmMain
       Me.UCcommManagerReceive.commManager.DisplayWindow = Nothing
       Me.UCcommManagerSend.commManager.DisplayWindow = Nothing
 
-      Dim sAux As String = ""
+      _sessionLog = ""
       Dim maxMessages As Integer = 2000000
 
       _backgroundWorkerSendManager = New BackgroundWorker
@@ -229,50 +231,57 @@ Public Class frmMain
         dummyData(dummyData.Length - 1) = checkSum
 
 
-        dummyData = CaptureMessage.HexToByte("04 83 FF 42 88 FF FE 1D 00 20 80 00 10 0E 28" & "04 88 FF 42 88 FF FD C3 00 20 80 00 10 0E D2")
+        dummyData = CaptureMessage.HexToByte("04 83 FF 42 88 FF FE 1D 00 20 80 00 10 0E 28")
 
-        'create 100 messages with our dummy data
-        For i As Integer = 0 To 100
+        'create 10000 messages with our dummy data
+        For i As Integer = 0 To 1000
           Dim msg As New CaptureMessage()
-          msg.TimeOffset = 40 * i
+          msg.TimeOffset = 10 * i
+          msg.data = CaptureMessage.HexToByte("04 83 FF 42 88 FF FE 1D 00 20 80 " & CaptureMessage.ByteToHex(BitConverter.GetBytes(i)).Trim)
           msg.data = dummyData
           session.CapturedMessages.Add(msg)
+
         Next
         _replaySession = session
       End If
       If Me.CheckBoxLoop.Checked = False Then maxMessages = 50
-      Dim tolerance As Double = 0.5
+      Dim tolerance As Double = 0.15
 
       _udpSender = New Connections.UDPSender()
       _udpSender.Connect(Me.TextBoxUDPHost.Text, Me.NumericUpDownUDPPort.Value)
+
+      '_tcpSender = New Connections.TCPSender
+      '_tcpSender.Connect(Me.TextBoxUDPHost.Text, Me.NumericUpDownUDPPort.Value)
 
       While Not _backgroundWorkerReplayManager.CancellationPending And (CheckBoxLoop.Checked Or (index < session.CapturedMessages.Count And index < maxMessages))
         Dim offset As Double = Now.Subtract(startTime).TotalMilliseconds
         'sAux = sAux & index & " offset = " & offset & vbCrLf
 
         While index < session.CapturedMessages.Count AndAlso offset > session.CapturedMessages(index).TimeOffset - tolerance And index < maxMessages
-          sAux = sAux & index & " offset = " & offset & " | message offset = " & session.CapturedMessages(index).TimeOffset & " | data = " & CaptureMessage.ByteToHex(session.CapturedMessages(index).data) & vbCrLf
+          _sessionLog = _sessionLog & index & " offset = " & offset & " | message offset = " & session.CapturedMessages(index).TimeOffset & " | data = " & CaptureMessage.ByteToHex(session.CapturedMessages(index).data)
           If Me.CheckBoxForwardToUDP.Checked Then
             _udpSender.SendData(session.CapturedMessages(index).data)
+            '_tcpSender.SendData(session.CapturedMessages(index).data)
           Else
             Me.UCcommManagerSend.commManager.SendData(session.CapturedMessages(index).data)
 
           End If
           '_queueMessages.Enqueue(session.CapturedMessages(index).data)
-          sAux = sAux & "    sent in " & Now.Subtract(startTime).TotalMilliseconds - offset & " ms "
+          _sessionLog = _sessionLog & "    sent in " & Now.Subtract(startTime).TotalMilliseconds - offset & " ms " & vbCrLf
 
           index = index + 1
           If Me.CheckBoxLoop.Checked Then
             index = index Mod session.CapturedMessages.Count
             If index = 0 Then
               startTime = Now
+              offset = 0
             End If
           End If
           _backgroundWorkerReplayManager.ReportProgress(index)
         End While
         Threading.Thread.Sleep(1)
       End While
-      Debug.Print(sAux)
+      Debug.Print(_sessionLog)
       If Not _captureSession Is Nothing Then
 
         Debug.Print(_captureSession.CaptureLog)
@@ -292,6 +301,7 @@ Public Class frmMain
       Me.UCcommManagerSend.RichTextBoxLog.Text = Me.UCcommManagerSend.commManager.PortOverruns & " port overruns" & vbCrLf & ShowCaptureSession(_replaySession)
       Me.UCcommManagerReceive.RichTextBoxLog.Text = Me.UCcommManagerReceive.commManager.PortOverruns & " port overruns" & vbCrLf & ShowCaptureSession(_captureSession)
 
+      Me.UCcommManagerSend.RichTextBoxLog.Text = _sessionLog
     Catch ex As Exception
     End Try
   End Sub
