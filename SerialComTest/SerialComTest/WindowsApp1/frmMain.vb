@@ -229,12 +229,12 @@ Public Class frmMain
         dummyData(dummyData.Length - 1) = checkSum
 
 
-        dummyData = CaptureMessage.HexToByte("04 83 FF 42 88 FF FE 1D 00 20 80 00 10 0E 28" & "04 88 FF 42 88 FF FD C3 00 20 80 00 10 0E D2")
+        dummyData = CaptureMessage.HexToByte("04 83 FF 42 88 FF FE 1D 00 20 80 00 10 0E 28")
 
         'create 100 messages with our dummy data
         For i As Integer = 0 To 100
           Dim msg As New CaptureMessage()
-          msg.TimeOffset = 40 * i
+          msg.TimeOffset = 10 * i
           msg.data = dummyData
           session.CapturedMessages.Add(msg)
         Next
@@ -246,12 +246,14 @@ Public Class frmMain
       _udpSender = New Connections.UDPSender()
       _udpSender.Connect(Me.TextBoxUDPHost.Text, Me.NumericUpDownUDPPort.Value)
 
+      Dim lastOffset As Double = 0
+
       While Not _backgroundWorkerReplayManager.CancellationPending And (CheckBoxLoop.Checked Or (index < session.CapturedMessages.Count And index < maxMessages))
         Dim offset As Double = Now.Subtract(startTime).TotalMilliseconds
         'sAux = sAux & index & " offset = " & offset & vbCrLf
 
         While index < session.CapturedMessages.Count AndAlso offset > session.CapturedMessages(index).TimeOffset - tolerance And index < maxMessages
-          sAux = sAux & index & " offset = " & offset & " | message offset = " & session.CapturedMessages(index).TimeOffset & " | data = " & CaptureMessage.ByteToHex(session.CapturedMessages(index).data) & vbCrLf
+          sAux = sAux & index & " offset = " & offset & " | message offset = " & session.CapturedMessages(index).TimeOffset & " | diff " & (offset - lastOffset) & " | data = " & CaptureMessage.ByteToHex(session.CapturedMessages(index).data)
           If Me.CheckBoxForwardToUDP.Checked Then
             _udpSender.SendData(session.CapturedMessages(index).data)
           Else
@@ -259,16 +261,18 @@ Public Class frmMain
 
           End If
           '_queueMessages.Enqueue(session.CapturedMessages(index).data)
-          sAux = sAux & "    sent in " & Now.Subtract(startTime).TotalMilliseconds - offset & " ms "
+          sAux = sAux & "    sent in " & Now.Subtract(startTime).TotalMilliseconds - offset & " ms " & vbCrLf
 
           index = index + 1
           If Me.CheckBoxLoop.Checked Then
             index = index Mod session.CapturedMessages.Count
             If index = 0 Then
               startTime = Now
+              offset = 0
             End If
           End If
           _backgroundWorkerReplayManager.ReportProgress(index)
+          lastOffset = offset
         End While
         Threading.Thread.Sleep(1)
       End While

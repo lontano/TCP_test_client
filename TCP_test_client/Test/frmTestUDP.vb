@@ -323,7 +323,7 @@ Public Class frmTestUDP
   End Sub
 
   Private Sub _udpReceiver_DataReceiveBytes(ByRef sender As UDPReceiver, ByRef biData() As Byte) Handles _udpReceiver.DataReceiveBytes
-
+    Exit Sub
     Try
       If _dictionaryPackets.ContainsKey(System.Text.Encoding.UTF8.GetString(biData)) Then
         Dim packet As TestPacket = _dictionaryPackets(System.Text.Encoding.UTF8.GetString(biData))

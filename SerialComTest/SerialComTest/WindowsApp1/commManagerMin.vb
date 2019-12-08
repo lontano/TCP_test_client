@@ -227,6 +227,30 @@ Public Class CommManager
   End Sub
 #End Region
 
+#Region "polling data thread"
+  Private WithEvents _readDataWorker As System.ComponentModel.BackgroundWorker
+
+  Private Sub _readDataWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _readDataWorker.DoWork
+    Try
+      Dim lastBytesToRead As Integer = 0
+      While comPort.IsOpen
+        Dim bytesToRead As Integer = comPort.BytesToRead
+        If comPort.BytesToRead > 0 Then
+          If comPort.BytesToRead >= Me.ExpectedPacketSize Or lastBytesToRead = bytesToRead Then
+            Dim bytes(bytesToRead - 1) As Byte
+            comPort.Read(bytes, 0, bytesToRead)
+            RaiseEvent DataReceiveBytes(Me, bytes)
+          End If
+        End If
+        lastBytesToRead = bytesToRead
+        Threading.Thread.Sleep(2)
+      End While
+    Catch ex As Exception
+
+    End Try
+  End Sub
+#End Region
+
 #Region "WriteData"
   Public Sub SendData(ByVal newMsg As String)
     If newMsg.Length > 0 Then AddMessageToQueue(New msgToWrite(newMsg))
@@ -453,6 +477,8 @@ Public Class CommManager
       'display message
       _msg = "Port opened at " + DateTime.Now + "" + Environment.NewLine + ""
       'return true
+      _readDataWorker = New BackgroundWorker
+      _readDataWorker.RunWorkerAsync()
       Return True
     Catch ex As Exception
       Me.LastErrorID = ex.HResult
@@ -508,20 +534,32 @@ Public Class CommManager
       'wait to get all data
       'Threading.Thread.Sleep(5)
       'we will wait... 
-      Dim timeToWait As Double = 1000 * 11 * Me.ExpectedPacketSize / (BaudRate)
 
-      Threading.Thread.Sleep(2 * timeToWait)
+      Dim pollMode As Boolean = False
+      If pollMode = False Then
+        Dim timeToWait As Double = 1000 * 11 * Me.ExpectedPacketSize / (BaudRate)
 
-      'read data waiting in the buffer
-      Dim myData As New List(Of Byte)
-      While comPort.BytesToRead > 0
-        myData.Add(comPort.ReadByte)
-      End While
-      'Dim str As String = comPort.ReadExisting()
-      ' Dim str As String = System.Text.Encoding.ASCII.GetString(myData.ToArray)
-      'RaiseEvent DataReceive(Me, str)
-      RaiseEvent DataReceiveBytes(Me, myData.ToArray)
-      'display the data to the user
+        Threading.Thread.Sleep(timeToWait)
+      Else
+        While comPort.BytesToRead <= Me.ExpectedPacketSize
+          Threading.Thread.Sleep(1)
+        End While
+      End If
+      Dim bytesToRead As Integer = comPort.BytesToRead
+      Dim bytes(bytesToRead - 1) As Byte
+      comPort.Read(bytes, 0, bytesToRead)
+      RaiseEvent DataReceiveBytes(Me, bytes)
+
+      ''read data waiting in the buffer
+      'Dim myData As New List(Of Byte)
+      'While comPort.BytesToRead > 0
+      '  myData.Add(comPort.ReadByte)
+      'End While
+      ''Dim str As String = comPort.ReadExisting()
+      '' Dim str As String = System.Text.Encoding.ASCII.GetString(myData.ToArray)
+      ''RaiseEvent DataReceive(Me, str)
+      'RaiseEvent DataReceiveBytes(Me, myData.ToArray)
+      ''display the data to the user
     Catch ex As Exception
       Debug.Print(ex.ToString)
     End Try
