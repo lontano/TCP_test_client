@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3E519B90-D9E5-48B2-9523-F9C75A0E4E72}</ProjectGuid>
+    <ProjectGuid>{221D7182-8BA3-405A-BC7F-96BA7940C73F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <StartupObject>SerialTest.My.MyApplication</StartupObject>
     <RootNamespace>SerialTest</RootNamespace>
@@ -75,6 +75,14 @@
   <ItemGroup>
     <Compile Include="Capture\CaptureMessage.vb" />
     <Compile Include="Capture\CaptureSession.vb" />
+    <Compile Include="frmRTHeadSimulator.Designer.vb">
+      <DependentUpon>frmRTHeadSimulator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmRTHeadSimulator.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RTHead\RTHeadProtocol.vb" />
+    <Compile Include="TCPSender.vb" />
     <Compile Include="commManagerMin.vb" />
     <Compile Include="commManagerNew.vb" />
     <Compile Include="commManager.vb" />
@@ -122,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRTHeadSimulator.resx">
+      <DependentUpon>frmRTHeadSimulator.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

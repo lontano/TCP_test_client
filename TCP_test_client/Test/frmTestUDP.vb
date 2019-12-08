@@ -298,6 +298,7 @@ Public Class frmTestUDP
 
   Private _lastReceivePacketDate As Date = Now
   Private Sub _udpReceiver_DataReceive(ByRef sender As UDPReceiver, siData As String) Handles _udpReceiver.DataReceive
+    Exit Sub
     Try
       If _dictionaryPackets.ContainsKey(siData) Then
         Dim packet As TestPacket = _dictionaryPackets(siData)
