@@ -1,4 +1,6 @@
-﻿Public Class RTHeadPacketFactory
+﻿Imports System.ComponentModel
+
+Public Class RTHeadPacketFactory
   Private _listBytes As New List(Of Byte)
   Public Property DetectedPackets As New List(Of RTHeadPacket)
   Public Property LastDetectedPacket As RTHeadPacket = Nothing
@@ -109,14 +111,14 @@
 
       'Analyze packet timing, we need at least 2...
       If packets.Count >= 2 Then
-        Dim firstPacketTime As Date = packets(0).TimeStamp
-        Dim formerPacketTime As Date = packets(0).TimeStamp
+        Dim firstPacketTime As Double = packets(0).TimeStamp
+        Dim formerPacketTime As Double = packets(0).TimeStamp
         'mean
         _timingMean = 0
         _timingMin = Double.MaxValue
         _timingMax = Double.MinValue
         For i As Integer = 1 To packets.Count - 1
-          Dim diff As Double = packets(i).TimeStamp.Subtract(packets(i - 1).TimeStamp).TotalMilliseconds
+          Dim diff As Double = packets(i).TimeStamp - packets(i - 1).TimeStamp
           _timingMean += diff
           _timingMax = Math.Max(_timingMax, diff)
           _timingMin = Math.Min(_timingMin, diff)
@@ -125,7 +127,7 @@
         'std dev
         _timingStdDev = 0
         For i As Integer = 1 To packets.Count - 1
-          _timingStdDev += Math.Pow(packets(i).TimeStamp.Subtract(packets(i - 1).TimeStamp).TotalMilliseconds - _timingMean, 2)
+          _timingStdDev += Math.Pow(packets(i).TimeStamp - packets(i - 1).TimeStamp - _timingMean, 2)
         Next
         _timingStdDev = _timingStdDev / (packets.Count - 1)
         _timingStdDev = Math.Sqrt(_timingStdDev)
@@ -135,6 +137,11 @@
 
     End Try
   End Sub
+
+
+
+
+
 
   Private Function GetPositionForValue(value, minValue, maxValue, minPosition, maxPosition) As Double
     Dim res As Double = minPosition
@@ -148,17 +155,24 @@
   End Function
 
 
-  Public Function CreateAnalyzerCanvas(width As Integer, height As Integer) As Bitmap
-    Dim bmp As New Bitmap(width, height)
+  Private WithEvents _canvasBackWorker As System.ComponentModel.BackgroundWorker
+  Public Event CanvasGenerated(sender As Object, bmp As Bitmap)
+
+  Private _packetsForCanvas As New List(Of RTHeadPacket)
+  Private _canvasWidth As Integer = 0
+  Private _canvasHeight As Integer = 0
+
+  Private Canvas As Bitmap
+
+  Private Sub _canvasBackWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _canvasBackWorker.DoWork
     Try
+      If Not Canvas Is Nothing Then
+        Canvas.Dispose()
+      End If
 
-      Dim packets As New List(Of RTHeadPacket)
+      Canvas = New Bitmap(_canvasWidth, _canvasHeight)
 
-      For i As Integer = Math.Max(0, Me.DetectedPackets.Count - _maxPacketsToAnalyze) To Me.DetectedPackets.Count - 1
-        packets.Add(Me.DetectedPackets(i))
-      Next
-
-      Using g As Graphics = Graphics.FromImage(bmp)
+      Using g As Graphics = Graphics.FromImage(Canvas)
         g.Clear(Color.Black)
 
 
@@ -166,8 +180,8 @@
         Dim histogramValues As New List(Of UInteger)
         Dim histogramScale As Double = 10
         diffs.Add(0)
-        For i As Integer = 1 To packets.Count - 1
-          Dim diff As Double = packets(i).TimeStamp.Subtract(packets(i - 1).TimeStamp).TotalMilliseconds
+        For i As Integer = 1 To _packetsForCanvas.Count - 1
+          Dim diff As Double = _packetsForCanvas(i).TimeStamp - _packetsForCanvas(i - 1).TimeStamp
           If diff > 0 Then
             diffs.Add(diff)
 
@@ -179,7 +193,7 @@
         Next
 
         Dim span As Integer = 5
-        Dim canvasRect As New Rectangle(span, span, width - 2 * span, height / 2 - 2 * span)
+        Dim canvasRect As New Rectangle(span, span, _canvasWidth - 2 * span, _canvasHeight / 2 - 2 * span)
         Dim x As Double = 0
         Dim y As Double = 0
         Dim xValueMin As Double = 0
@@ -190,12 +204,12 @@
         Dim valueMin As Double = 0
         Dim valueMax As Double = 0
 
-        canvasRect = New Rectangle(span, span, width - 2 * span, height / 2 - 2 * span)
+        canvasRect = New Rectangle(span, span, _canvasWidth - 2 * span, _canvasHeight / 2 - 2 * span)
         'show the rectangle where the canvas lives
         g.DrawRectangle(Pens.Red, canvasRect)
         'mark each packet's diff time, around the expected time mark
         xValueMin = 0
-        xValueMax = packets.Count
+        xValueMax = _packetsForCanvas.Count
         yValueMin = 0
         yValueMax = 2 * RTHeadPacket.PacketTime
         'draw the "mean" line
@@ -219,7 +233,7 @@
         Next
 
         'create an histogram
-        canvasRect = New Rectangle(span, span + height / 2, width / 2 - 2 * span, height / 2 - 2 * span)
+        canvasRect = New Rectangle(span, span + _canvasHeight / 2, _canvasWidth / 2 - 2 * span, _canvasHeight / 2 - 2 * span)
         'show the rectangle where the canvas lives
         g.DrawRectangle(Pens.Blue, canvasRect)
 
@@ -257,7 +271,7 @@
         Next
 
         'create a circular graph
-        canvasRect = New Rectangle(width / 2 + span, span + height / 2, width / 2 - 2 * span, height / 2 - 2 * span)
+        canvasRect = New Rectangle(_canvasWidth / 2 + span, span + _canvasHeight / 2, _canvasWidth / 2 - 2 * span, _canvasHeight / 2 - 2 * span)
         'show the rectangle where the canvas lives
         g.DrawRectangle(Pens.Green, canvasRect)
 
@@ -265,8 +279,8 @@
 
         Dim b As New SolidBrush(Color.FromArgb(128, Color.Green))
 
-        For i As Integer = Math.Max(0, packets.Count - 300) To packets.Count - 1
-          Dim val As Double = packets(i).TimeStamp.Millisecond / 1000
+        For i As Integer = Math.Max(0, _packetsForCanvas.Count - 300) To _packetsForCanvas.Count - 1
+          Dim val As Double = _packetsForCanvas(i).TimeStamp / 1000
 
           x = canvasRect.Left + canvasRect.Width / 2 + Math.Cos(2 * val * Math.PI) * r
           y = canvasRect.Top + canvasRect.Height / 2 + Math.Sin(2 * val * Math.PI) * r
@@ -279,8 +293,37 @@
     Catch ex As Exception
 
     End Try
-    Return bmp
-  End Function
+  End Sub
+
+  Private Sub _canvasBackWorker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _canvasBackWorker.RunWorkerCompleted
+    Try
+      RaiseEvent CanvasGenerated(Me, Canvas)
+      _canvasBackWorker = Nothing
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
+  Public Sub CreateAnalyzerCanvas(width As Integer, height As Integer)
+    Try
+      _packetsForCanvas.Clear()
+
+      For i As Integer = Math.Max(0, Me.DetectedPackets.Count - _maxPacketsToAnalyze) To Me.DetectedPackets.Count - 1
+        _packetsForCanvas.Add(Me.DetectedPackets(i))
+      Next
+
+      _canvasWidth = width
+      _canvasHeight = height
+
+      If Not _canvasBackWorker Is Nothing Then Exit Sub
+      _canvasBackWorker = New BackgroundWorker
+      _canvasBackWorker.RunWorkerAsync()
+
+
+    Catch ex As Exception
+
+    End Try
+  End Sub
 
 #End Region
 
@@ -292,4 +335,5 @@
     End If
     Return "Tracking packet factory  " & DetectedPackets.Count & " detected packets | zero index=" & _zeroIndexPackets & " repeated=" & _repeatedPacekts & " out of order=" & _packetsOutOfOrder & " | processed bytes=" & _processedBytes & " discarded bytes=" & _discardedBytes & " | timing " & _timingMean & " <" & _timingStdDev & "> min=" & _timingMin & " max=" & _timingMax
   End Function
+
 End Class

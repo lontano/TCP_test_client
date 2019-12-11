@@ -121,6 +121,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Timing\TimingMaster.vb" />
     <Compile Include="UCcommManager.Designer.vb">
       <DependentUpon>UCcommManager.vb</DependentUpon>
     </Compile>

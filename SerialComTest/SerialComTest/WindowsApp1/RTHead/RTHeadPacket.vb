@@ -4,7 +4,7 @@
   Public Property Zoom As Integer = 0
   Public Property Focus As Integer = 0
   Public Property Index As Integer = 0
-  Public Property TimeStamp As Date = Now
+  Public Property TimeStamp As Double = TimingMaster.CurrentTime
 
   Public Shared ReadOnly Property StartingByte As Byte = 4
   Public Shared ReadOnly Property ByteCount As Integer = 15
@@ -112,6 +112,6 @@
   End Function
 
   Public Overrides Function ToString() As String
-    Return MyBase.ToString & " " & Me.Index & " pan=" & Me.Pan & " tilt=" & Me.Tilt & " zoom=" & Me.Zoom & " focus=" & Me.Focus & " timeStamp=" & Me.TimeStamp.ToUniversalTime & "." & Strings.Format(Me.TimeStamp.Millisecond, "000")
+    Return MyBase.ToString & " " & Me.Index & " pan=" & Me.Pan & " tilt=" & Me.Tilt & " zoom=" & Me.Zoom & " focus=" & Me.Focus & " timeStamp=" & Strings.Format(Me.TimeStamp, "000")
   End Function
 End Class

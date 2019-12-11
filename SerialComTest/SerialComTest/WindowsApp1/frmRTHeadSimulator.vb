@@ -118,15 +118,19 @@ Public Class frmRTHeadSimulator
 
   Private Sub _simulator_DoWork(sender As Object, e As DoWorkEventArgs) Handles _simulator.DoWork
     Try
-      Dim startTime As Double = Now.Subtract(Date.MinValue).TotalMilliseconds
+      Dim startTime As Double = TimingMaster.CurrentTime
       Dim lastIndex As UInt32 = 0
+      Dim sw As New Stopwatch()
+      sw.Start()
+      Dim aux As New List(Of Double)
       While Not _simulator Is Nothing AndAlso Not _simulator.CancellationPending
-        Dim currentTime As Double = Now.Subtract(Date.MinValue).TotalMilliseconds - startTime
+        Dim currentTime As Double = TimingMaster.CurrentTime
         Dim index As Integer = currentTime \ Me.NumericUpDownSimulationPeriod.Value
         If index <> lastIndex Then
           lastIndex = index
           Me.SendCurrentValue()
-          Me.DoSwing()
+          'Me.DoSwing()
+          aux.Add(currentTime)
         End If
         'Threading.Thread.Sleep(1)
       End While
@@ -219,7 +223,7 @@ Public Class frmRTHeadSimulator
 #End Region
 
 #Region "Data analysis"
-  Private _rtHeadPacketFactory As New RTHeadPacketFactory()
+  Private WithEvents _rtHeadPacketFactory As New RTHeadPacketFactory()
 
   Private Sub TimerPacketFactory_Tick(sender As Object, e As EventArgs) Handles TimerPacketFactory.Tick
     Try
@@ -271,7 +275,7 @@ Public Class frmRTHeadSimulator
         Dim diff As Double = 0
         Dim WarningText As String = ""
         If i >= 1 Then
-          diff = _rtHeadPacketFactory.DetectedPackets(i).TimeStamp.Subtract(_rtHeadPacketFactory.DetectedPackets(i - 1).TimeStamp).TotalMilliseconds
+          diff = _rtHeadPacketFactory.DetectedPackets(i).TimeStamp - _rtHeadPacketFactory.DetectedPackets(i - 1).TimeStamp
           If _rtHeadPacketFactory.DetectedPackets(i).Index <> (_rtHeadPacketFactory.DetectedPackets(i - 1).Index + 1) Mod 16 Then
             WarningText = "<<"
           End If
@@ -316,7 +320,16 @@ Public Class frmRTHeadSimulator
 
   Private Sub ShowTiming()
     Try
-      Me.PictureBoxTiming.Image = _rtHeadPacketFactory.CreateAnalyzerCanvas(Me.PictureBoxTiming.Width, Me.PictureBoxTiming.Height)
+      _rtHeadPacketFactory.CreateAnalyzerCanvas(Me.PictureBoxTiming.Width, Me.PictureBoxTiming.Height)
+    Catch ex As Exception
+
+    End Try
+  End Sub
+
+
+  Private Sub _rtHeadPacketFactory_CanvasGenerated(sender As Object, bmp As Bitmap) Handles _rtHeadPacketFactory.CanvasGenerated
+    Try
+      Me.PictureBoxTiming.Image = bmp
     Catch ex As Exception
 
     End Try
