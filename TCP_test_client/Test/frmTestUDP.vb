@@ -262,6 +262,7 @@ Public Class frmTestUDP
 
   End Sub
 
+
   Private Sub ButtonReset_Click(sender As Object, e As EventArgs) Handles ButtonReset.Click
     _lastPacketSent = 0
     Me.ListViewSendPackets.Items.Clear()
@@ -273,6 +274,7 @@ Public Class frmTestUDP
     _meanRoundTripTimeDesviation = 0
     _receivedPackets = 0
     _sentPackets = 0
+    _listReceivedPackets.Clear()
   End Sub
 
   Private Sub TimerReconnect_Tick(sender As Object, e As EventArgs) Handles TimerReconnect.Tick
@@ -324,7 +326,7 @@ Public Class frmTestUDP
   End Sub
 
   Private Sub _udpReceiver_DataReceiveBytes(ByRef sender As UDPReceiver, ByRef biData() As Byte) Handles _udpReceiver.DataReceiveBytes
-    Exit Sub
+    'Exit Sub
     Try
       If _dictionaryPackets.ContainsKey(System.Text.Encoding.UTF8.GetString(biData)) Then
         Dim packet As TestPacket = _dictionaryPackets(System.Text.Encoding.UTF8.GetString(biData))
@@ -338,7 +340,7 @@ Public Class frmTestUDP
         _receivedPackets += 1
         Dim packet As TestPacket = New TestPacket
         packet.data = biData
-        packet.Text = biData.Length
+        packet.Text = ByteToHex(biData)
         packet.SentTime = _lastReceivePacketDate
         packet.ReceiveTime = Now
         packet.RoundTripCompleted = True
@@ -387,6 +389,9 @@ Public Class frmTestUDP
   Private _meanRoundTripTime As Double = 0
   Private _meanRoundTripTimeDesviation As Double = 0
   Private _lastReceiveTicks As Double = 0
+
+  Private _listReceivedPackets As New List(Of TestPacket)
+
   Private Sub AddReceivePacket(packet As TestPacket)
     Try
       If Not _clockSW.IsRunning Then _clockSW.Start()
@@ -395,31 +400,69 @@ Public Class frmTestUDP
       Me.Invoke(Sub()
                   Dim diff As TimeSpan = packet.ReceiveTime.Subtract(packet.SentTime)
                   Dim diffTime As Double = receivedTick - _lastReceiveTicks
+                  packet.diffTime = receivedTick - _lastReceiveTicks
                   If Me.CheckBoxShowPackets.Checked Then
-
-                    Dim itm As ListViewItem = Me.ListViewReceivePackets.Items.Insert(0, Me.ListViewReceivePackets.Items.Count)
-                    itm.SubItems.Add(packet.Text.Length)
-                    itm.SubItems.Add((diffTime))
-                    itm.SubItems.Add(packet.Text)
+                    AddPacketToListview(packet, Me.ListViewReceivePackets)
+                    'Dim itm As ListViewItem = Me.ListViewReceivePackets.Items.Insert(0, Me.ListViewReceivePackets.Items.Count)
+                    'itm.SubItems.Add(packet.Text.Length)
+                    'itm.SubItems.Add((diffTime))
+                    'itm.SubItems.Add(packet.Text)
                   End If
 
                   ' _minRoundTripTime = Math.Min(_minRoundTripTime, diff.TotalMilliseconds)
                   ' _maxRoundTripTime = Math.Max(_maxRoundTripTime, diff.TotalMilliseconds)
                   '_meanRoundTripTime = (_meanRoundTripTime * (Me.ListViewReceivePackets.Items.Count - 1) + diff.TotalMilliseconds) / Me.ListViewReceivePackets.Items.Count
                   If diffTime > 0 Then
-                    _minRoundTripTime = Math.Min(_minRoundTripTime, diffTime)
-                    _maxRoundTripTime = Math.Max(_maxRoundTripTime, diffTime)
-                    _meanRoundTripTime = (_meanRoundTripTime * (_receivedPackets - 1) + diffTime) / _receivedPackets
-                    _meanRoundTripTimeDesviation = (_meanRoundTripTimeDesviation * (_receivedPackets - 1) + Math.Abs(_meanRoundTripTime - diffTime)) / _receivedPackets
+                    If _maxRoundTripTime < 0 Then 'first value
+                      _meanRoundTripTime = 0
+                      _meanRoundTripTimeDesviation = 0
+                      _maxRoundTripTime = 0
+                    Else
+
+                      _minRoundTripTime = Math.Min(_minRoundTripTime, diffTime)
+                      _maxRoundTripTime = Math.Max(_maxRoundTripTime, diffTime)
+
+                      If _meanRoundTripTime = 0 Then 'first meaningful value
+                        _meanRoundTripTime = diffTime
+                        _meanRoundTripTimeDesviation = 0
+                      Else
+                        _meanRoundTripTime = (_meanRoundTripTime * (_receivedPackets - 1) + diffTime) / _receivedPackets
+                        _meanRoundTripTimeDesviation = (_meanRoundTripTimeDesviation * (_receivedPackets - 1) + Math.Abs(_meanRoundTripTime - diffTime)) / _receivedPackets
+                      End If
+                    End If
+
+                    If _minRoundTripTime = diffTime Then packet.Text = packet.Text & " MIN "
+                    If _maxRoundTripTime = diffTime Then packet.Text = packet.Text & " MAX "
 
 
                     'Debug.Print(diffTime & " " & (_meanRoundTripTime - diffTime))
                   End If
+
+                  _listReceivedPackets.Add(packet)
                 End Sub)
       _lastReceiveTicks = receivedTick
     Catch ex As Exception
 
     End Try
+  End Sub
+
+  Private Sub ShowAllPackets()
+    Try
+      Me.ListViewReceivePackets.Items.Clear()
+      For Each packet As TestPacket In _listReceivedPackets
+        AddPacketToListview(packet, Me.ListViewReceivePackets)
+      Next
+    Catch ex As Exception
+
+    End Try
+
+  End Sub
+
+  Private Sub AddPacketToListview(packet As TestPacket, lvw As ListView)
+    Dim itm As ListViewItem = lvw.Items.Insert(0, lvw.Items.Count)
+    itm.SubItems.Add(packet.Text.Length)
+    itm.SubItems.Add((packet.diffTime))
+    itm.SubItems.Add(packet.Text)
   End Sub
 
   Public Interval As Double = 1000
@@ -562,6 +605,11 @@ Public Class frmTestUDP
     End Try
 
   End Sub
+
+  Private Sub ButtonShowPackets_Click(sender As Object, e As EventArgs) Handles ButtonShowPackets.Click
+    Me.ShowAllPackets()
+  End Sub
+
 
 #End Region
 End Class

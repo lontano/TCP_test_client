@@ -9,4 +9,5 @@
   Public Property TimeSinceLastPacket As Double
   Public Property SendTicks As Double
   Public Property ReceiveTicks As Double
+  Public Property diffTime As Double
 End Class

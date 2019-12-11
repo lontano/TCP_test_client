@@ -41,6 +41,7 @@ Partial Class frmTestUDP
     Me.ButtonSendPacketNow = New System.Windows.Forms.Button()
     Me.NumericUpDownReceiverPort = New System.Windows.Forms.NumericUpDown()
     Me.Label1 = New System.Windows.Forms.Label()
+    Me.ButtonShowPackets = New System.Windows.Forms.Button()
     Me.SplitContainerPackets = New System.Windows.Forms.SplitContainer()
     Me.ListViewSendPackets = New System.Windows.Forms.ListView()
     Me.ColumnHeaderNumber = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -101,27 +102,29 @@ Partial Class frmTestUDP
     Me.TableLayoutPanel2.Controls.Add(Me.TextBoxSenderHost, 1, 0)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderPort, 0, 1)
     Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderHost, 0, 0)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 8)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 8)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderState, 0, 9)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelSenderDataRate, 1, 9)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonSenderConnect, 1, 3)
-    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxSendData, 0, 7)
-    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 7)
-    Me.TableLayoutPanel2.Controls.Add(Me.ButtonReset, 1, 6)
-    Me.TableLayoutPanel2.Controls.Add(Me.LabelReceiverDataRate, 0, 9)
-    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxShowPackets, 0, 6)
+    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxSendData, 0, 8)
+    Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownDataSendTime, 1, 8)
+    Me.TableLayoutPanel2.Controls.Add(Me.ButtonReset, 1, 7)
+    Me.TableLayoutPanel2.Controls.Add(Me.LabelReceiverDataRate, 0, 10)
+    Me.TableLayoutPanel2.Controls.Add(Me.CheckBoxShowPackets, 0, 7)
     Me.TableLayoutPanel2.Controls.Add(Me.ButtonSendPacketNow, 0, 3)
     Me.TableLayoutPanel2.Controls.Add(Me.NumericUpDownReceiverPort, 1, 2)
     Me.TableLayoutPanel2.Controls.Add(Me.Label1, 0, 2)
+    Me.TableLayoutPanel2.Controls.Add(Me.ButtonShowPackets, 1, 6)
     Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanel2.Location = New System.Drawing.Point(3, 17)
     Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-    Me.TableLayoutPanel2.RowCount = 10
+    Me.TableLayoutPanel2.RowCount = 11
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
+    Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35.0!))
@@ -281,6 +284,16 @@ Partial Class frmTestUDP
     Me.Label1.TabIndex = 12
     Me.Label1.Text = "Port (local)"
     '
+    'ButtonShowPackets
+    '
+    Me.ButtonShowPackets.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ButtonShowPackets.Location = New System.Drawing.Point(188, 343)
+    Me.ButtonShowPackets.Name = "ButtonShowPackets"
+    Me.ButtonShowPackets.Size = New System.Drawing.Size(179, 29)
+    Me.ButtonShowPackets.TabIndex = 13
+    Me.ButtonShowPackets.Text = "Show packets"
+    Me.ButtonShowPackets.UseVisualStyleBackColor = True
+    '
     'SplitContainerPackets
     '
     Me.SplitContainerPackets.Dock = System.Windows.Forms.DockStyle.Fill
@@ -420,4 +433,5 @@ Partial Class frmTestUDP
   Friend WithEvents ButtonSendPacketNow As Button
   Friend WithEvents NumericUpDownReceiverPort As NumericUpDown
   Friend WithEvents Label1 As Label
+  Friend WithEvents ButtonShowPackets As Button
 End Class
