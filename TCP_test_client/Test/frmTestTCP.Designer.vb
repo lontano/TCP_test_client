@@ -27,6 +27,7 @@ Partial Class frmTestTCP
     Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
     Me.GroupBoxSender = New System.Windows.Forms.GroupBox()
     Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
+    Me.CheckBoxRelayData = New System.Windows.Forms.CheckBox()
     Me.NumericUpDownSenderPort = New System.Windows.Forms.NumericUpDown()
     Me.TextBoxSenderHost = New System.Windows.Forms.TextBox()
     Me.LabelSenderPort = New System.Windows.Forms.Label()
@@ -58,7 +59,6 @@ Partial Class frmTestTCP
     Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeaderData2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.TimerReconnect = New System.Windows.Forms.Timer(Me.components)
-    Me.CheckBoxRelayData = New System.Windows.Forms.CheckBox()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
@@ -141,6 +141,16 @@ Partial Class frmTestTCP
     Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanel2.Size = New System.Drawing.Size(370, 329)
     Me.TableLayoutPanel2.TabIndex = 0
+    '
+    'CheckBoxRelayData
+    '
+    Me.CheckBoxRelayData.AutoSize = True
+    Me.CheckBoxRelayData.Location = New System.Drawing.Point(3, 53)
+    Me.CheckBoxRelayData.Name = "CheckBoxRelayData"
+    Me.CheckBoxRelayData.Size = New System.Drawing.Size(78, 17)
+    Me.CheckBoxRelayData.TabIndex = 3
+    Me.CheckBoxRelayData.Text = "Relay data"
+    Me.CheckBoxRelayData.UseVisualStyleBackColor = True
     '
     'NumericUpDownSenderPort
     '
@@ -334,6 +344,7 @@ Partial Class frmTestTCP
     '
     Me.ListViewSendPackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeaderNumber, Me.ColumnHeaderSize, Me.ColumnHeaderTime, Me.ColumnHeaderData})
     Me.ListViewSendPackets.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ListViewSendPackets.HideSelection = False
     Me.ListViewSendPackets.Location = New System.Drawing.Point(0, 0)
     Me.ListViewSendPackets.Name = "ListViewSendPackets"
     Me.ListViewSendPackets.Size = New System.Drawing.Size(571, 349)
@@ -362,6 +373,7 @@ Partial Class frmTestTCP
     '
     Me.ListViewReceivePackets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5})
     Me.ListViewReceivePackets.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.ListViewReceivePackets.HideSelection = False
     Me.ListViewReceivePackets.Location = New System.Drawing.Point(0, 0)
     Me.ListViewReceivePackets.Name = "ListViewReceivePackets"
     Me.ListViewReceivePackets.Size = New System.Drawing.Size(653, 349)
@@ -394,16 +406,6 @@ Partial Class frmTestTCP
     '
     Me.TimerReconnect.Enabled = True
     Me.TimerReconnect.Interval = 10000
-    '
-    'CheckBoxRelayData
-    '
-    Me.CheckBoxRelayData.AutoSize = True
-    Me.CheckBoxRelayData.Location = New System.Drawing.Point(3, 53)
-    Me.CheckBoxRelayData.Name = "CheckBoxRelayData"
-    Me.CheckBoxRelayData.Size = New System.Drawing.Size(78, 17)
-    Me.CheckBoxRelayData.TabIndex = 3
-    Me.CheckBoxRelayData.Text = "Relay data"
-    Me.CheckBoxRelayData.UseVisualStyleBackColor = True
     '
     'frmTestTCP
     '
