@@ -75,17 +75,22 @@
   <ItemGroup>
     <Compile Include="Capture\CaptureMessage.vb" />
     <Compile Include="Capture\CaptureSession.vb" />
+    <Compile Include="Connections\SerialReceiver.vb" />
+    <Compile Include="Connections\SerialSender.vb" />
+    <Compile Include="Connections\TCPReceiver.vb" />
+    <Compile Include="Connections\UDPReceiver.vb" />
     <Compile Include="frmRTHeadSimulator.Designer.vb">
       <DependentUpon>frmRTHeadSimulator.vb</DependentUpon>
     </Compile>
     <Compile Include="frmRTHeadSimulator.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RTHead\RTHeadProtocol.vb" />
-    <Compile Include="TCPSender.vb" />
-    <Compile Include="commManagerMin.vb" />
-    <Compile Include="commManagerNew.vb" />
-    <Compile Include="commManager.vb" />
+    <Compile Include="RTHead\RTHeadPacket.vb" />
+    <Compile Include="RTHead\RTHeadPacketFactory.vb" />
+    <Compile Include="Connections\TCPSender.vb" />
+    <Compile Include="Connections\commManagerMin.vb" />
+    <Compile Include="Connections\commManagerNew.vb" />
+    <Compile Include="Connections\commManager.vb" />
     <Compile Include="frmMLR.Designer.vb">
       <DependentUpon>frmMLR.vb</DependentUpon>
     </Compile>
@@ -122,7 +127,7 @@
     <Compile Include="UCcommManager.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UDPSender.vb" />
+    <Compile Include="Connections\UDPSender.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmMLR.resx">
