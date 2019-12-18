@@ -44,10 +44,10 @@
 
     Private _com1 As IO.Ports.SerialPort = Nothing
     Sub SendData(data() As Byte)
-
-      _com1.Write(data, 0, data.Length)
-      RaiseEvent SentData(Me, System.Text.Encoding.ASCII.GetString(data))
-
+      If Not _com1 Is Nothing Then
+        _com1.Write(data, 0, data.Length)
+        RaiseEvent SentData(Me, System.Text.Encoding.ASCII.GetString(data))
+      End If
     End Sub
   End Class
 

@@ -105,6 +105,9 @@ Public Class frmRTHeadSimulator
 
 
       Else
+        _serialSender.Disconnect()
+        _serialSender = Nothing
+
         _simulator.CancelAsync()
         _simulator = Nothing
       End If
@@ -129,7 +132,7 @@ Public Class frmRTHeadSimulator
         If index <> lastIndex Then
           lastIndex = index
           Me.SendCurrentValue()
-          'Me.DoSwing()
+          Me.DoSwing()
           aux.Add(currentTime)
         End If
         'Threading.Thread.Sleep(1)
@@ -394,6 +397,10 @@ Public Class frmRTHeadSimulator
     'make application run on higher priority
     Dim myProcess As System.Diagnostics.Process = System.Diagnostics.Process.GetCurrentProcess()
     myProcess.PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime
+
+    Me.ComboBoxComPort.DataSource = System.IO.Ports.SerialPort.GetPortNames
+    Me.ComboBoxSendCOM.DataSource = System.IO.Ports.SerialPort.GetPortNames
+
   End Sub
 
 
