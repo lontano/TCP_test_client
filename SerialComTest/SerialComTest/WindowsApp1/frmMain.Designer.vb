@@ -25,6 +25,8 @@ Partial Class frmMain
     Dim CommManager1 As SerialTest.CommManager = New SerialTest.CommManager()
     Dim CommManager2 As SerialTest.CommManager = New SerialTest.CommManager()
     Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+    Me.UCcommManagerSend = New SerialTest.UCcommManager()
+    Me.UCcommManagerReceive = New SerialTest.UCcommManager()
     Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
     Me.ButtonLoad = New System.Windows.Forms.Button()
     Me.ButtonStartStop = New System.Windows.Forms.Button()
@@ -36,8 +38,6 @@ Partial Class frmMain
     Me.NumericUpDownUDPPort = New System.Windows.Forms.NumericUpDown()
     Me.ButtonUpdateSessions = New System.Windows.Forms.Button()
     Me.OpenFileDialogSession = New System.Windows.Forms.OpenFileDialog()
-    Me.UCcommManagerSend = New SerialTest.UCcommManager()
-    Me.UCcommManagerReceive = New SerialTest.UCcommManager()
     Me.TableLayoutPanel1.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()
     CType(Me.NumericUpDownUDPPort, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,6 +61,50 @@ Partial Class frmMain
     Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
     Me.TableLayoutPanel1.Size = New System.Drawing.Size(1000, 415)
     Me.TableLayoutPanel1.TabIndex = 0
+    '
+    'UCcommManagerSend
+    '
+    CommManager1.AsyncSend = True
+    CommManager1.BaudRate = 38400
+    CommManager1.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
+    CommManager1.DataBits = 8
+    CommManager1.DisplayWindow = Nothing
+    CommManager1.ExpectedPacketSize = 0
+    CommManager1.GroupPackets = 1
+    CommManager1.Message = Nothing
+    CommManager1.Parity = System.IO.Ports.Parity.None
+    CommManager1.PortName = "COM1"
+    CommManager1.StopBits = System.IO.Ports.StopBits.One
+    CommManager1.Type = SerialTest.CommManager.MessageType.Incoming
+    Me.UCcommManagerSend.commManager = CommManager1
+    Me.UCcommManagerSend.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.UCcommManagerSend.Location = New System.Drawing.Point(2, 63)
+    Me.UCcommManagerSend.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+    Me.UCcommManagerSend.Name = "UCcommManagerSend"
+    Me.UCcommManagerSend.Size = New System.Drawing.Size(496, 349)
+    Me.UCcommManagerSend.TabIndex = 1
+    '
+    'UCcommManagerReceive
+    '
+    CommManager2.AsyncSend = True
+    CommManager2.BaudRate = 38400
+    CommManager2.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
+    CommManager2.DataBits = 8
+    CommManager2.DisplayWindow = Nothing
+    CommManager2.ExpectedPacketSize = 0
+    CommManager2.GroupPackets = 1
+    CommManager2.Message = Nothing
+    CommManager2.Parity = System.IO.Ports.Parity.None
+    CommManager2.PortName = "COM1"
+    CommManager2.StopBits = System.IO.Ports.StopBits.One
+    CommManager2.Type = SerialTest.CommManager.MessageType.Incoming
+    Me.UCcommManagerReceive.commManager = CommManager2
+    Me.UCcommManagerReceive.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.UCcommManagerReceive.Location = New System.Drawing.Point(502, 63)
+    Me.UCcommManagerReceive.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
+    Me.UCcommManagerReceive.Name = "UCcommManagerReceive"
+    Me.UCcommManagerReceive.Size = New System.Drawing.Size(496, 349)
+    Me.UCcommManagerReceive.TabIndex = 0
     '
     'TableLayoutPanel2
     '
@@ -185,50 +229,6 @@ Partial Class frmMain
     '
     Me.OpenFileDialogSession.FileName = "OpenFileDialog1"
     Me.OpenFileDialogSession.Filter = "Session|*.tss|All files|*.*"
-    '
-    'UCcommManagerSend
-    '
-    CommManager1.AsyncSend = True
-    CommManager1.BaudRate = 38400
-    CommManager1.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
-    CommManager1.DataBits = 8
-    CommManager1.DisplayWindow = Nothing
-    CommManager1.ExpectedPacketSize = 0
-    CommManager1.GroupPackets = 1
-    CommManager1.Message = Nothing
-    CommManager1.Parity = System.IO.Ports.Parity.None
-    CommManager1.PortName = "COM1"
-    CommManager1.StopBits = System.IO.Ports.StopBits.One
-    CommManager1.Type = SerialTest.CommManager.MessageType.Incoming
-    Me.UCcommManagerSend.commManager = CommManager1
-    Me.UCcommManagerSend.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.UCcommManagerSend.Location = New System.Drawing.Point(2, 63)
-    Me.UCcommManagerSend.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-    Me.UCcommManagerSend.Name = "UCcommManagerSend"
-    Me.UCcommManagerSend.Size = New System.Drawing.Size(496, 349)
-    Me.UCcommManagerSend.TabIndex = 1
-    '
-    'UCcommManagerReceive
-    '
-    CommManager2.AsyncSend = True
-    CommManager2.BaudRate = 38400
-    CommManager2.CurrentTransmissionType = SerialTest.CommManager.TransmissionType.Text
-    CommManager2.DataBits = 8
-    CommManager2.DisplayWindow = Nothing
-    CommManager2.ExpectedPacketSize = 0
-    CommManager2.GroupPackets = 1
-    CommManager2.Message = Nothing
-    CommManager2.Parity = System.IO.Ports.Parity.None
-    CommManager2.PortName = "COM1"
-    CommManager2.StopBits = System.IO.Ports.StopBits.One
-    CommManager2.Type = SerialTest.CommManager.MessageType.Incoming
-    Me.UCcommManagerReceive.commManager = CommManager2
-    Me.UCcommManagerReceive.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.UCcommManagerReceive.Location = New System.Drawing.Point(502, 63)
-    Me.UCcommManagerReceive.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
-    Me.UCcommManagerReceive.Name = "UCcommManagerReceive"
-    Me.UCcommManagerReceive.Size = New System.Drawing.Size(496, 349)
-    Me.UCcommManagerReceive.TabIndex = 0
     '
     'frmMain
     '

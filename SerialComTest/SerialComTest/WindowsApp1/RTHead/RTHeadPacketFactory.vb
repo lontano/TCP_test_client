@@ -78,7 +78,7 @@ Public Class RTHeadPacketFactory
   Public _timingMin As Double = 0
   Public _timingMax As Double = 0
 
-  Private _maxPacketsToAnalyze As Integer = 2000
+  Private _maxPacketsToAnalyze As Integer = 10000
 
   Public Sub AnalyzePackets()
     Try
@@ -276,18 +276,23 @@ Public Class RTHeadPacketFactory
         g.DrawRectangle(Pens.Green, canvasRect)
 
         Dim maxRadius As Double = Math.Min(canvasRect.Width, canvasRect.Height) / 2
+        Dim maxSize As Double = 5
 
-        Dim b As New SolidBrush(Color.FromArgb(128, Color.Green))
+        Dim b As New SolidBrush(Color.FromArgb(200, Color.Green))
+        Dim maxPacketsForCanvas As Integer = 2000
+        Dim packetsForCanvas As Integer = Math.Min(maxPacketsForCanvas, _packetsForCanvas.Count)
 
-        For i As Integer = Math.Max(0, _packetsForCanvas.Count - 500) To _packetsForCanvas.Count - 1
+
+        For i As Integer = Math.Max(_packetsForCanvas.Count - packetsForCanvas, 0) To _packetsForCanvas.Count - 1
           Dim val As Double = _packetsForCanvas(i).TimeStamp / 1000
-          Dim r As Double = maxRadius * (1 - (i / _packetsForCanvas.Count / 4))
+          Dim r As Double = maxRadius * (0.5 + 0.5 * (packetsForCanvas - (_packetsForCanvas.Count - i)) / maxPacketsForCanvas)
+          Dim s As Double = maxSize * (0.4 + 0.6 * (packetsForCanvas - (_packetsForCanvas.Count - i)) / maxPacketsForCanvas)
 
 
           x = canvasRect.Left + canvasRect.Width / 2 + Math.Cos(2 * val * Math.PI) * r
           y = canvasRect.Top + canvasRect.Height / 2 + Math.Sin(2 * val * Math.PI) * r
 
-          g.FillEllipse(b, CSng(x), CSng(y), 3, 3)
+          g.FillEllipse(b, CSng(x), CSng(y), CInt(Math.Ceiling(s)), CInt(Math.Ceiling(s)))
 
         Next
 
