@@ -202,7 +202,7 @@ Public Class frmRTHeadSimulator
     End Try
   End Sub
 
-  Private Sub CheckBoxReceiveFromUDP_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxReceiveFromUDP.CheckedChanged
+  Private Sub CheckBoxReceiveFromudp_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxReceiveFromUDP.CheckedChanged
     Try
       If Me.CheckBoxReceiveFromUDP.Checked Then
         If Not _udpReceiver Is Nothing Then
@@ -218,6 +218,36 @@ Public Class frmRTHeadSimulator
         End If
       End If
       Me.NumericUpDownUDPReceivePort.Enabled = Not Me.CheckBoxReceiveFromUDP.Checked
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+    End Try
+  End Sub
+
+  Private WithEvents _serialReceiver As Connections.SerialReceiver
+
+  Private Sub _serialReceiver_DataReceiveBytes(ByRef sender As SerialReceiver, ByRef biData() As Byte) Handles _serialReceiver.DataReceiveBytes
+    Try
+      _rtHeadPacketFactory.AddBytes(biData)
+    Catch ex As Exception
+    End Try
+  End Sub
+
+  Private Sub CheckBoxReceiveFromserial_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxReceiveFromCOMPort.CheckedChanged
+    Try
+      If Me.CheckBoxReceiveFromCOMPort.Checked Then
+        If Not _serialReceiver Is Nothing Then
+          _serialReceiver.Disconnect()
+          _serialReceiver = Nothing
+        End If
+        _serialReceiver = New SerialReceiver
+        _serialReceiver.Listen(Me.ComboBoxComPort.Text)
+      Else
+        If Not _serialReceiver Is Nothing Then
+          _serialReceiver.Disconnect()
+          _serialReceiver = Nothing
+        End If
+      End If
+      Me.ComboBoxComPort.Enabled = Not Me.CheckBoxReceiveFromCOMPort.Checked
     Catch ex As Exception
       MsgBox(ex.ToString)
     End Try

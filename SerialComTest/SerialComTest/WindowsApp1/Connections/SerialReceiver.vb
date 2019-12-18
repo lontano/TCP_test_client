@@ -28,8 +28,19 @@ Namespace Connections
     End Sub
 
     Private Sub _comPort_DataReceived(sender As Object, e As SerialDataReceivedEventArgs) Handles _comPort.DataReceived
-      Threading.Thread.Sleep(5)
-      RaiseEvent DataReceive(Me, _comPort.ReadExisting())
+      'Threading.Thread.Sleep(5)
+      'RaiseEvent DataReceive(Me, _comPort.ReadExisting())
+      Try
+        Dim dataCount As Integer = _comPort.BytesToRead
+        While dataCount > 0
+          Dim data(dataCount - 1) As Byte
+          _comPort.Read(data, 0, dataCount)
+          RaiseEvent DataReceiveBytes(Me, data)
+          dataCount = _comPort.BytesToRead
+        End While
+      Catch ex As Exception
+
+      End Try
     End Sub
   End Class
 

@@ -213,16 +213,16 @@ Public Class RTHeadPacketFactory
         yValueMin = 0
         yValueMax = 2 * RTHeadPacket.PacketTime
         'draw the "mean" line
-        value = RTHeadPacket.PacketTime
+        value = Me._timingMean
         y = GetPositionForValue(value, yValueMin, yValueMax, canvasRect.Bottom, canvasRect.Top)
         g.DrawLine(Pens.White, New Point(canvasRect.Left, y), New Point(canvasRect.Right, y))
 
         'draw the lines around the std deviation
-        value = RTHeadPacket.PacketTime + Me._timingStdDev
+        value = Me._timingMean + Me._timingStdDev
         y = GetPositionForValue(value, yValueMin, yValueMax, canvasRect.Bottom, canvasRect.Top)
         g.DrawLine(Pens.Yellow, New Point(canvasRect.Left, y), New Point(canvasRect.Right, y))
 
-        value = RTHeadPacket.PacketTime - Me._timingStdDev
+        value = Me._timingMean - Me._timingStdDev
         y = GetPositionForValue(value, yValueMin, yValueMax, canvasRect.Bottom, canvasRect.Top)
         g.DrawLine(Pens.Yellow, New Point(canvasRect.Left, y), New Point(canvasRect.Right, y))
 
@@ -275,12 +275,14 @@ Public Class RTHeadPacketFactory
         'show the rectangle where the canvas lives
         g.DrawRectangle(Pens.Green, canvasRect)
 
-        Dim r As Double = Math.Min(canvasRect.Width, canvasRect.Height) / 2
+        Dim maxRadius As Double = Math.Min(canvasRect.Width, canvasRect.Height) / 2
 
         Dim b As New SolidBrush(Color.FromArgb(128, Color.Green))
 
-        For i As Integer = Math.Max(0, _packetsForCanvas.Count - 300) To _packetsForCanvas.Count - 1
+        For i As Integer = Math.Max(0, _packetsForCanvas.Count - 500) To _packetsForCanvas.Count - 1
           Dim val As Double = _packetsForCanvas(i).TimeStamp / 1000
+          Dim r As Double = maxRadius * (1 - (i / _packetsForCanvas.Count / 4))
+
 
           x = canvasRect.Left + canvasRect.Width / 2 + Math.Cos(2 * val * Math.PI) * r
           y = canvasRect.Top + canvasRect.Height / 2 + Math.Sin(2 * val * Math.PI) * r
