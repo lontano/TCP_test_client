@@ -22,6 +22,7 @@ Partial Class frmTestSerial
   'Do not modify it using the code editor.
   <System.Diagnostics.DebuggerStepThrough()>
   Private Sub InitializeComponent()
+    Me.components = New System.ComponentModel.Container()
     Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
     Me.GroupBoxSender = New System.Windows.Forms.GroupBox()
     Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
@@ -49,8 +50,8 @@ Partial Class frmTestSerial
     Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-    Me.TimerReconnect = New System.Windows.Forms.Timer()
-    Me.TimerGUI = New System.Windows.Forms.Timer()
+    Me.TimerReconnect = New System.Windows.Forms.Timer(Me.components)
+    Me.TimerGUI = New System.Windows.Forms.Timer(Me.components)
     Me.TableLayoutPanel1.SuspendLayout()
     Me.GroupBoxSender.SuspendLayout()
     Me.TableLayoutPanel2.SuspendLayout()

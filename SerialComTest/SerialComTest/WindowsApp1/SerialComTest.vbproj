@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Capture\CaptureMessage.vb" />
     <Compile Include="Capture\CaptureSession.vb" />
+    <Compile Include="Connections\minimalCOMlistener.vb" />
     <Compile Include="Connections\SerialReceiver.vb" />
     <Compile Include="Connections\SerialSender.vb" />
     <Compile Include="Connections\TCPReceiver.vb" />

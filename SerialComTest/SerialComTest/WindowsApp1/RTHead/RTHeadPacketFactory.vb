@@ -21,9 +21,16 @@ Public Class RTHeadPacketFactory
     End Try
   End Sub
 
+  Private _firstDataArrived As Double = -1
+  Private _lastDataArrived As Double = -1
+
   Public Function AddBytes(data() As Byte) As RTHeadPacket()
     Dim listPackets As New List(Of RTHeadPacket)
     Try
+      If _processedBytes = 0 Then
+        _firstDataArrived = TimingMaster.CurrentTime
+      End If
+      _lastDataArrived = TimingMaster.CurrentTime
       _processedBytes += data.Length
       'enqueue the data 
       For Each b As Byte In data
@@ -77,6 +84,8 @@ Public Class RTHeadPacketFactory
   Public _timingStdDev As Double = 0
   Public _timingMin As Double = 0
   Public _timingMax As Double = 0
+  Public _packetsPerSecond As Double = 0
+  Public _bytesPerSecond As Double = 0
 
   Private _maxPacketsToAnalyze As Integer = 10000
 
@@ -131,7 +140,12 @@ Public Class RTHeadPacketFactory
         Next
         _timingStdDev = _timingStdDev / (packets.Count - 1)
         _timingStdDev = Math.Sqrt(_timingStdDev)
+
+        _packetsPerSecond = (1000 * packets.Count) / (packets.Last.TimeStamp - packets.First.TimeStamp)
+        _bytesPerSecond = (1000 * _processedBytes) / (packets.Last.TimeStamp - packets.First.TimeStamp)
       End If
+
+
 
     Catch ex As Exception
 

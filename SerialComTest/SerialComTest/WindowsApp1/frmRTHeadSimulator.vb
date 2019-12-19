@@ -223,9 +223,9 @@ Public Class frmRTHeadSimulator
     End Try
   End Sub
 
-  Private WithEvents _serialReceiver As Connections.SerialReceiver
+  Private WithEvents _serialReceiver As minimalCOMlistener
 
-  Private Sub _serialReceiver_DataReceiveBytes(ByRef sender As SerialReceiver, ByRef biData() As Byte) Handles _serialReceiver.DataReceiveBytes
+  Private Sub _serialReceiver_DataReceiveBytes(ByRef sender As Object, ByRef biData() As Byte) Handles _serialReceiver.DataReceiveBytes
     Try
       _rtHeadPacketFactory.AddBytes(biData)
     Catch ex As Exception
@@ -239,8 +239,8 @@ Public Class frmRTHeadSimulator
           _serialReceiver.Disconnect()
           _serialReceiver = Nothing
         End If
-        _serialReceiver = New SerialReceiver
-        _serialReceiver.Listen(Me.ComboBoxComPort.Text)
+        _serialReceiver = New minimalCOMlistener
+        _serialReceiver.Connect(Me.ComboBoxComPort.Text)
       Else
         If Not _serialReceiver Is Nothing Then
           _serialReceiver.Disconnect()
@@ -267,6 +267,7 @@ Public Class frmRTHeadSimulator
       Me.LabelPackerFactoryNonConsecutivePackets.Text = _rtHeadPacketFactory._packetsOutOfOrder
       Me.LabelPackerFactoryTimingMean.Text = Strings.Format(_rtHeadPacketFactory._timingMean, "0.00000") & " (" & Strings.Format(_rtHeadPacketFactory._timingMin, "0.0") & " to " & Strings.Format(_rtHeadPacketFactory._timingMax, "0.0") & ")"
       Me.LabelPackerFactoryTimingStdDev.Text = Strings.Format(_rtHeadPacketFactory._timingStdDev, "0.0000")
+      Me.LabelPacketFactoryPacketsPerSecond.Text = Strings.Format(_rtHeadPacketFactory._packetsPerSecond, "0.0000") & " " & Strings.Format(_rtHeadPacketFactory._bytesPerSecond, "0.0000") & " Bps"
 
       If _rtHeadPacketFactory.LastDetectedPacket Is Nothing Then
         Me.LabelPacketIndex.Text = ""

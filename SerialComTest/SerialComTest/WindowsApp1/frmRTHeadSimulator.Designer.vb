@@ -79,6 +79,8 @@ Partial Class frmRTHeadSimulator
     Me.LabelPacketTilt = New System.Windows.Forms.Label()
     Me.LabelPacketZoom = New System.Windows.Forms.Label()
     Me.LabelPacketFocus = New System.Windows.Forms.Label()
+    Me.Label17 = New System.Windows.Forms.Label()
+    Me.LabelPacketFactoryPacketsPerSecond = New System.Windows.Forms.Label()
     Me.TabControlPacketAnalyzers = New System.Windows.Forms.TabControl()
     Me.TabPagePacketList = New System.Windows.Forms.TabPage()
     Me.TableLayoutPanelPacketList = New System.Windows.Forms.TableLayoutPanel()
@@ -531,20 +533,23 @@ Partial Class frmRTHeadSimulator
     Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPackerFactoryTimingMean, 1, 4)
     Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label12, 0, 5)
     Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPackerFactoryTimingStdDev, 1, 5)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label11, 0, 7)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label13, 0, 8)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label14, 0, 9)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label15, 0, 10)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label16, 0, 11)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketIndex, 1, 7)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketPan, 1, 8)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketTilt, 1, 9)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketZoom, 1, 10)
-    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketFocus, 1, 11)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label11, 0, 8)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label13, 0, 9)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label14, 0, 10)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label15, 0, 11)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label16, 0, 12)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketIndex, 1, 8)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketPan, 1, 9)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketTilt, 1, 10)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketZoom, 1, 11)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketFocus, 1, 12)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.Label17, 0, 6)
+    Me.TableLayoutPanelPacketFactory.Controls.Add(Me.LabelPacketFactoryPacketsPerSecond, 1, 6)
     Me.TableLayoutPanelPacketFactory.Dock = System.Windows.Forms.DockStyle.Fill
     Me.TableLayoutPanelPacketFactory.Location = New System.Drawing.Point(3, 3)
     Me.TableLayoutPanelPacketFactory.Name = "TableLayoutPanelPacketFactory"
-    Me.TableLayoutPanelPacketFactory.RowCount = 12
+    Me.TableLayoutPanelPacketFactory.RowCount = 13
+    Me.TableLayoutPanelPacketFactory.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanelPacketFactory.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanelPacketFactory.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
     Me.TableLayoutPanelPacketFactory.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25.0!))
@@ -769,6 +774,26 @@ Partial Class frmRTHeadSimulator
     Me.LabelPacketFocus.Size = New System.Drawing.Size(46, 13)
     Me.LabelPacketFocus.TabIndex = 9
     Me.LabelPacketFocus.Text = "Label11"
+    '
+    'Label17
+    '
+    Me.Label17.AutoSize = True
+    Me.Label17.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.Label17.Location = New System.Drawing.Point(3, 150)
+    Me.Label17.Name = "Label17"
+    Me.Label17.Size = New System.Drawing.Size(114, 25)
+    Me.Label17.TabIndex = 10
+    Me.Label17.Text = "Packets per second"
+    '
+    'LabelPacketFactoryPacketsPerSecond
+    '
+    Me.LabelPacketFactoryPacketsPerSecond.AutoSize = True
+    Me.LabelPacketFactoryPacketsPerSecond.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.LabelPacketFactoryPacketsPerSecond.Location = New System.Drawing.Point(123, 150)
+    Me.LabelPacketFactoryPacketsPerSecond.Name = "LabelPacketFactoryPacketsPerSecond"
+    Me.LabelPacketFactoryPacketsPerSecond.Size = New System.Drawing.Size(138, 25)
+    Me.LabelPacketFactoryPacketsPerSecond.TabIndex = 11
+    Me.LabelPacketFactoryPacketsPerSecond.Text = "Label18"
     '
     'TabControlPacketAnalyzers
     '
@@ -1221,4 +1246,6 @@ Partial Class frmRTHeadSimulator
   Friend WithEvents UpdateToolStripMenuItem As ToolStripMenuItem
   Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
   Friend WithEvents ResetSessionToolStripMenuItem1 As ToolStripMenuItem
+  Friend WithEvents Label17 As Label
+  Friend WithEvents LabelPacketFactoryPacketsPerSecond As Label
 End Class
